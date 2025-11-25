@@ -2,8 +2,8 @@ package SmashTennisClub.MainPackage.UserPackage;
 
 public class Coach {
 
-    registerTraining() {}
-    registerTournament() {}
+    //registerTraining() {}
+   // registerTournament() {}
 
     void showTop5() {}
     void SeniorTop5() {} //(den viser top 5 for alle 3 discipliner = 15 spillere)

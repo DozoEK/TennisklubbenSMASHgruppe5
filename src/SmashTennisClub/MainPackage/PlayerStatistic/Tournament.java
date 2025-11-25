@@ -1,6 +1,31 @@
 package SmashTennisClub.MainPackage.PlayerStatistic;
 
+import SmashTennisClub.MainPackage.EnumLists.DisciplineType;
+
+import java.sql.Date;
+
 public class Tournament {
 
 
+    int tournamentId;
+    String tournamentName = "";
+    DisciplineType disciplineTypeForTournament;
+    Date dateOfTournament;
+
+    int memberId; //(for alle spillere)
+    String memberName;
+
+    int amountOfWonSets;
+    int tournamentPlacement;
+
+    public Tournament(int memberId, int tournamentId, String tournamentName, DisciplineType disciplineTypeForTournament, Date dateOfTournament, String memberName, int amountOfWonSets, int tournamentPlacement) {
+        this.memberId = memberId;
+        this.tournamentId = tournamentId;
+        this.tournamentName = tournamentName;
+        this.disciplineTypeForTournament = disciplineTypeForTournament;
+        this.dateOfTournament = dateOfTournament;
+        this.memberName = memberName;
+        this.amountOfWonSets = amountOfWonSets;
+        this.tournamentPlacement = tournamentPlacement;
+    }
 }
