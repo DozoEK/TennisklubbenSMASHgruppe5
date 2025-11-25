@@ -4,28 +4,26 @@ import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class Member {
 
-    int memberId;                      //bliver a utomatisk oprettet og inkrementeret i metoden for oprettelse af nye medlemmer.
-    String name;                     //skal udfyldes via en scanner, af brugeren.
+    int memberId;
+    String memberName;
     Gender genderOfMember;
-    Date dateOfBirth = null;            //skal udfyldes via en scanner, af brugeren.
-    int age;                             //“dateOfBirth”  //automatisk udregnes udfra “dateOfBirth”.
-    int phoneNumber;                     //skal udfyldes via en scanner, af brugeren.
-    Boolean competitivePlayer = false;          //skal udfyldes via en scanner, af brugeren.
-    MembershipPricelist yearlyMembershipFee;        // “metode som tjekker AGEGROUPTYPE mod en ENUM priceList”
-    Date yearlyFeeDate;                         //“todayDate + 1 year” se “todayDate” metoden.
-    Boolean activeMembership = false;  //automatisk sættes til true, når alle andre oplysninger er udfyldt.
+    LocalDate dateOfBirth = null;
+    int age;
+    int phoneNumber;
+    Boolean competitivePlayer = false;
+    MembershipPricelist yearlyMembershipFee;
+    LocalDate yearlyFeeDate;
+    Boolean activeMembership = false;
 
-
-    public Member(int memberId, String name, Gender genderOfMember, Date dateOfBirth, int age,
+    public Member(int memberId, String memberName, Gender genderOfMember, LocalDate dateOfBirth, int age,
                   int phoneNumber, Boolean competitivePlayer, MembershipPricelist yearlyMembershipFee,
-                  Date yearlyFeeDate, Boolean activeMembership) {
+                  LocalDate yearlyFeeDate, Boolean activeMembership) {
 
         this.memberId = memberId;
-        this.name = name;
+        this.memberName = memberName;
         this.genderOfMember = genderOfMember;
         this.dateOfBirth = dateOfBirth;
         this.age = age;
@@ -41,15 +39,15 @@ public class Member {
         return memberId;
     }
 
-    public String getName() {
-        return name;
+    public String getMemberName() {
+        return memberName;
     }
 
     public int getAge() {
         return age;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
@@ -69,7 +67,7 @@ public class Member {
         return yearlyMembershipFee;
     }
 
-    public Date getYearlyFeeDate() {
+    public LocalDate getYearlyFeeDate() {
         return yearlyFeeDate;
     }
 
@@ -81,7 +79,7 @@ public class Member {
     @Override
     public String toString() {
         return "Member{" + "memberId = " + memberId +
-                ", name = '" + name + '\'' +
+                ", name = '" + memberName + '\'' +
                 ", genderOfMember = " + genderOfMember +
                 ", dateOfBirth = " + dateOfBirth +
                 ", age = " + age +
