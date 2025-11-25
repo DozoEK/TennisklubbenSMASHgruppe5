@@ -1,4 +1,4 @@
-package SmashTennisClub.MainPackage;
+package SmashTennisClub.MainPackage.MembershipTypes;
 
 import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
