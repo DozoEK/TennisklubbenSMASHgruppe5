@@ -93,19 +93,4 @@ public class Member {
                 '}';
     }
 
-    public static void main(String[] args) {
-
-        ArrayList<Member> Members = new ArrayList<Member>();
-        Members.add(new Member(1, "TestName01", Gender.MALE, Date.valueOf("2023-10-20"), 21, 22222, true, MembershipPricelist.JUNIOR,
-                Date.valueOf(LocalDate.now()), true));
-        Members.add(new Member(2, "TestName02", Gender.FEMALE, Date.valueOf("2024-09-13"), 23, 11111, true,
-                MembershipPricelist.PASSIVT, Date.valueOf(LocalDate.now()), true));
-
-
-        for (Member m : Members) {
-            System.out.println(m);
-
-
-        }
-    }
 }
