@@ -50,7 +50,7 @@ public class SuperReader {
                 String[] parts = line.split(",");
                 if (parts.length == 9) {
                     Member parsedMember = parseAttributes(parts);
-                    members.add(parsedMember);
+                  //  members.add(parsedMember);
                 }
             }
         } catch (IOException e) {

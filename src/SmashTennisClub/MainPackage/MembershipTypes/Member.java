@@ -10,12 +10,12 @@ public class Member {
     int memberId;
     String memberName;
     Gender genderOfMember;
-    LocalDate dateOfBirth = null;
+    LocalDate dateOfBirth;
     int age;
     int phoneNumber;
     Boolean competitivePlayer = false;
     MembershipPricelist yearlyMembershipFee;
-    LocalDate yearlyFeeDate;
+    private final LocalDate yearlyFeeDate;
     Boolean activeMembership = false;
 
     public Member(int memberId, String memberName, Gender genderOfMember, LocalDate dateOfBirth, int age,

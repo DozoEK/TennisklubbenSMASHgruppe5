@@ -12,10 +12,10 @@ public class Main {
     public static void main(String[] args) {
 
         ArrayList<Member> Members = new ArrayList<Member>();
-        Members.add(new Member(1, "TestName01", Gender.MALE, Date.valueOf("2023-10-20"), 21, 22222, true, MembershipPricelist.JUNIOR,
-                Date.valueOf(LocalDate.now()), true));
-        Members.add(new Member(2, "TestName02", Gender.FEMALE, Date.valueOf("2024-09-13"), 23, 11111, true,
-                MembershipPricelist.PASSIVT, Date.valueOf(LocalDate.now()), true));
+        Members.add(new Member(1, "TestName01", Gender.MALE, LocalDate.of(2024, 11, 22), 21, 22222, true, MembershipPricelist.JUNIOR,
+                LocalDate.now(), true));
+        Members.add(new Member(2, "TestName02", Gender.FEMALE, LocalDate.parse("2024-09-13"), 23, 11111, true,
+                MembershipPricelist.PASSIVT, LocalDate.now(), true));
 
 
         for (Member m : Members) {
