@@ -1,4 +1,4 @@
-package SmashTennisClub.FileHandler;
+package SmashTennisClub.FileSystem;
 
 import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
@@ -19,9 +19,9 @@ public class SuperReader {
     public Member parseAttributes(String [] parts) {
         int memberId = Integer.parseInt(parts[0]);
         String memberName = parts[1];
-        Gender genderOfMember = Gender.valueOf(parts[2]);
+        int age = Integer.parseInt(parts[2]);
         LocalDate dateOfBirth = LocalDate.parse(parts[3]);
-        int age = Integer.parseInt(parts[4]);
+        Gender genderOfMember = Gender.valueOf(parts[4]);
         int phoneNumber = Integer.parseInt(parts[5]);
         Boolean competitivePlayer = Boolean.valueOf(parts[6]);
         MembershipPricelist yearlyMembershipFee = MembershipPricelist.valueOf(parts[7]);
@@ -54,4 +54,6 @@ public class SuperReader {
     public String getFileName() {
         return fileName;
     }
+
+
 }

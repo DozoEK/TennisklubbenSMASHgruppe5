@@ -1,12 +1,9 @@
-package SmashTennisClub.FileHandler;
+package SmashTennisClub.FileSystem;
 
-import SmashTennisClub.MainPackage.EnumLists.Gender;
-import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class SuperWriter {

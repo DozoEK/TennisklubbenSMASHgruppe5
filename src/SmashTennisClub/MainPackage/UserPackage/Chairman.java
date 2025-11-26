@@ -1,7 +1,7 @@
 package SmashTennisClub.MainPackage.UserPackage;
 
-import SmashTennisClub.FileHandler.SuperReader;
-import SmashTennisClub.FileHandler.SuperWriter;
+import SmashTennisClub.FileSystem.SuperReader;
+import SmashTennisClub.FileSystem.SuperWriter;
 import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
@@ -47,6 +47,8 @@ public class Chairman {
    // public deleteMember() {}
     void searchForMember() {}
   //  public editMember() {}
-    void showAllMembers() {}
+    public void printAllMembers() {
+
+    }
 
 }
