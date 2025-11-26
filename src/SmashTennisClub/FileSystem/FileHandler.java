@@ -12,14 +12,15 @@ public class FileHandler {
 
     public void printAllMembers() {
         ArrayList<Member> members = superReader.readFromFile();
-
         for (Member member : members) {
             System.out.println(member);
         }
-
     }
 
 
+    public void saveMembers(ArrayList<Member> members) {
+        SuperWriter.writeToFile(members);
+    }
 
 
 }

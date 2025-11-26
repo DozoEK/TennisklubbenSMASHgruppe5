@@ -39,8 +39,4 @@ public class SuperWriter {
             System.out.println("Error while writing to file!" + e.getMessage());
         }
     }
-
-    public void saveMembers(ArrayList<Member> members) {
-        SuperWriter.writeToFile(members);
-    }
 }

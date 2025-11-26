@@ -50,10 +50,8 @@ public class SuperReader {
         return members;
     }
 
-
     public String getFileName() {
         return fileName;
     }
-
 
 }

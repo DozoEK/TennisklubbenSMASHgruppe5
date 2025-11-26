@@ -1,5 +1,6 @@
 package SmashTennisClub.MainPackage.UserPackage;
 
+import SmashTennisClub.FileSystem.FileHandler;
 import SmashTennisClub.FileSystem.SuperReader;
 import SmashTennisClub.FileSystem.SuperWriter;
 import SmashTennisClub.MainPackage.EnumLists.Gender;
@@ -8,6 +9,7 @@ import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Chairman {
     SuperReader reader = new SuperReader();
@@ -19,7 +21,9 @@ public class Chairman {
 
 
     public void createMemberTest() {
+        FileHandler fileHandler = new FileHandler();
         ArrayList<Member> members = new ArrayList<>();
+
 
         members.add(new Member(1, "TestName01", Gender.MALE, LocalDate.of(2024, 11, 22), 21, 22222, true, MembershipPricelist.JUNIOR,
                 LocalDate.now(), true));
@@ -29,7 +33,7 @@ public class Chairman {
                 MembershipPricelist.JUNIOR, LocalDate.now(), true));
 
 
-        writer.saveMembers(members);
+        fileHandler.saveMembers(members);
     }
 
 
@@ -44,11 +48,60 @@ public class Chairman {
 
 
 
-   // public deleteMember() {}
+   public void deleteMember() {
+        FileHandler fileHandler = new FileHandler();
+       Scanner input = new Scanner(System.in);
+
+       while (true) {
+           System.out.println("--- Slet medlem ---");
+           System.out.println("Indtast medlemsID: ");
+
+           if (input.hasNextInt()) {
+               int memberIdToDelete = input.nextInt();
+               input.nextLine();
+
+
+               boolean isFound = false;
+               for (Member m : members) {
+                   if (m.getMemberId() == memberIdToDelete) {
+                       isFound = true;
+                       System.out.println("Følgende medlem vil blive slettet:");
+                       System.out.println(m);
+                       System.out.print("Er du sikker? (ja/nej): ");
+                       String confirmation = input.nextLine();
+
+                       if (confirmation.equalsIgnoreCase("ja")) {
+                           members.remove(m);
+                           System.out.println("Medlem er nu slettet!\n");
+                           fileHandler.saveMembers(members);
+                           return;
+                       } else {
+                           System.out.println("Sletning annulleret.");
+                           return;
+                       }
+                   }
+               }
+
+               if (!isFound) {
+                   System.out.println("Ingen medlemmer er fundet med følgende id: " + memberIdToDelete);
+               }
+           } else {
+               System.out.println("Ugyldigt input! Indtast et tal.");
+               input.nextLine();
+           }
+       }
+   }
+
+
+
+
     void searchForMember() {}
   //  public editMember() {}
-    public void printAllMembers() {
 
+
+    public void printAllMembers() {
+        FileHandler fileHandler = new FileHandler();
+        fileHandler.printAllMembers();
     }
 
 }

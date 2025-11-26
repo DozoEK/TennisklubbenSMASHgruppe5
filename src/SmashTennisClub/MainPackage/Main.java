@@ -18,6 +18,7 @@ public class Main {
 
        // chairman.createMemberTest();
         fileHandler.printAllMembers();
+        chairman.deleteMember();
 
 
     }
