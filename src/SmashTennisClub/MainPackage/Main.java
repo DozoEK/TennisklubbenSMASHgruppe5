@@ -3,8 +3,6 @@ package SmashTennisClub.MainPackage;
 import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
-
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 

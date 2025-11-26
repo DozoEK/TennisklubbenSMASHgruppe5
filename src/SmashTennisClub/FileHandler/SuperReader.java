@@ -12,9 +12,6 @@ import java.util.ArrayList;
 
 public class SuperReader {
 
-
-    ArrayList<String[]> members = new ArrayList<>();
-
     String fileName;
 
 
@@ -24,10 +21,9 @@ public class SuperReader {
 
 
     public static Member parseAttributes(String [] parts) {
-
         int memberId = Integer.parseInt(parts[0]);
         String memberName = parts[1];
-        Gender genderOfMember = Gender.valueOf(parts[2]); //måske skal den have beskrivelse af at det er fra en ENUM list! "Gender.valueOf"
+        Gender genderOfMember = Gender.valueOf(parts[2]);
         LocalDate dateOfBirth = LocalDate.parse(parts[3]);
         int age = Integer.parseInt(parts[4]);
         int phoneNumber = Integer.parseInt(parts[5]);
@@ -41,16 +37,15 @@ public class SuperReader {
     }
 
 
-
-
-    public ArrayList<String[]> reader() {
+    public ArrayList<Member> reader() {
+        ArrayList<Member> members = new ArrayList<>();
         try (BufferedReader bufferedReader  = new BufferedReader(new FileReader(fileName))) {
             String line;
-            while ((line = bufferedReader.readLine()) != null) { // når linjen er null så er dokumentet færdig læst
+            while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length == 9) {
                     Member parsedMember = parseAttributes(parts);
-                  //  members.add(parsedMember);
+                    members.add(parsedMember);
                 }
             }
         } catch (IOException e) {
@@ -58,6 +53,9 @@ public class SuperReader {
         }
         return members;
     }
+
+
+
 
 
 
