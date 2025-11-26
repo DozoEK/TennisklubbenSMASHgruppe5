@@ -12,15 +12,11 @@ import java.util.ArrayList;
 
 public class SuperReader {
 
-    String fileName;
+    //Path ændres i hver subclass!
+    String fileName = "CSVFilesLib/Member_Index.csv";
 
 
-//    public SuperReader(String filename) {
-//        this.fileName = setFileName(fileName);
-//    }
-
-
-    public static Member parseAttributes(String [] parts) {
+    public Member parseAttributes(String [] parts) {
         int memberId = Integer.parseInt(parts[0]);
         String memberName = parts[1];
         Gender genderOfMember = Gender.valueOf(parts[2]);
@@ -37,13 +33,13 @@ public class SuperReader {
     }
 
 
-    public ArrayList<Member> reader() {
+    public ArrayList<Member> readFromFile() {
         ArrayList<Member> members = new ArrayList<>();
         try (BufferedReader bufferedReader  = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 9) {
+                if (parts.length == 10) {
                     Member parsedMember = parseAttributes(parts);
                     members.add(parsedMember);
                 }
@@ -53,13 +49,6 @@ public class SuperReader {
         }
         return members;
     }
-
-
-
-
-
-
-    private String setFilename(String filename){return "src/FileHandler/Files/Appointments/" + filename + ".csv";}
 
 
     public String getFileName() {

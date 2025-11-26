@@ -12,13 +12,13 @@ import java.util.ArrayList;
 public class SuperWriter {
 
     //Skal måske slettes og skrives ind i de sub-klasser af REader / writer, hvor de skal bruges!!!!
-    public String memberIndex = "CSVFilesLib/Member_Index.csv";
+    public static String memberIndex = "CSVFilesLib/Member_Index.csv";
     public String tournamentIndex = "CSVFilesLib/Tournament_index.csv";
     public String trainingSession = "CSVFilesLib/Training_Session_Index.csv";
 
 
 
-        void writeToFile(ArrayList<Member> members) {
+    public static void writeToFile(ArrayList<Member> members) {
         try (FileWriter writer = new FileWriter(memberIndex)) {
             for (Member member : members) {
                 String line = String.join(",",
@@ -41,5 +41,9 @@ public class SuperWriter {
         } catch (IOException e) {
             System.out.println("Error while writing to file!" + e.getMessage());
         }
+    }
+
+    public void saveMembers(ArrayList<Member> members) {
+        SuperWriter.writeToFile(members);
     }
 }
