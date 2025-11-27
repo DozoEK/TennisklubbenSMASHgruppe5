@@ -29,12 +29,19 @@ public class TrainingSession {
     }
 
     public int getTrainingId() { return trainingId; }
-    public String getMemberName() { return memberName; }
+    public String GetMemberName() {return memberName;}
     public int getMemberId() { return memberId; }
     public DisciplineType getDisciplineTypeForTraining() { return disciplineTypeForTraining; }
     public Date getDateOfTraining() { return dateOfTraining; }
+
     public int getAmountOfWonSets() { return amountOfWonSets; }
+    public void setAmountOfWonSets(int amountOfWonSets) {
+        this.amountOfWonSets = amountOfWonSets;
+    }
     public MatchResult getTrainingResult() { return trainingResult; }
+    public void setTrainingResult(MatchResult trainingResult) {
+        this.trainingResult = trainingResult;
+    }
 
     @Override
     public String toString() {
