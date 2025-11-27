@@ -1,5 +1,7 @@
 package SmashTennisClub.FileSystem;
 
+import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
+import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberWriter;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
 import java.util.ArrayList;

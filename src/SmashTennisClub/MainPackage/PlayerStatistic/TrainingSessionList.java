@@ -23,20 +23,20 @@ public class TrainingSessionList {
         trainingSessions.clear();
     }
 
-    public void registrerResultat(int trainingId, MatchResult newResult, int amountOfWonSets) {
-        for (TrainingSession session : trainingSessions) {
-            if (session.getTrainingId() == trainingId) {
-
-                session.setTrainingResult(newResult);
-                session.setAmountOfWonSets(amountOfWonSets);
-
-                System.out.println("Resultat registreret for: " + session.getMemberName());
-                return;
-            }
-        }
-
-        System.out.println("Ingen træningssession fundet med ID: " + trainingId);
-    }
+//    public void registrerResultat(int trainingId, MatchResult newResult, int amountOfWonSets) {
+//        for (TrainingSession session : trainingSessions) {
+//            if (session.getTrainingId() == trainingId) {
+//
+//                session.setTrainingResult(newResult);
+//                session.setAmountOfWonSets(amountOfWonSets);
+//
+//                System.out.println("Resultat registreret for: " + session.getMemberName());
+//                return;
+//            }
+//        }
+//
+//        System.out.println("Ingen træningssession fundet med ID: " + trainingId);
+//    }
 
 
 }

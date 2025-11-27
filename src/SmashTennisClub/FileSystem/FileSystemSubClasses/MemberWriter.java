@@ -1,5 +1,6 @@
-package SmashTennisClub.FileSystem;
+package SmashTennisClub.FileSystem.FileSystemSubClasses;
 
+import SmashTennisClub.FileSystem.SuperWriter;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
 public class MemberWriter extends SuperWriter<Member> {

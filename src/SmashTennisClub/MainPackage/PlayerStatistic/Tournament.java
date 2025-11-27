@@ -27,7 +27,7 @@ public class Tournament {
     }
     public int getMemberId() { return memberId; }
     public String getMemberName() { return memberName; }
-    public int getTournamentId() { return tournamentId; }
+    public int getTournamentId() {return tournamentId;}
     public int getTournamentPlacement() { return tournamentPlacement; }
 
     @Override

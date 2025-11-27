@@ -1,8 +1,8 @@
 package SmashTennisClub.MainPackage.UserPackage;
 
 import SmashTennisClub.FileSystem.FileHandler;
-import SmashTennisClub.FileSystem.MemberReader;
-import SmashTennisClub.FileSystem.MemberWriter;
+import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
+import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberWriter;
 import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
