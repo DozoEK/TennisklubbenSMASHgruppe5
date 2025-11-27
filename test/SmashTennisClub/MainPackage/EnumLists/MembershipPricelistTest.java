@@ -18,5 +18,39 @@ public class MembershipPricelistTest {
         System.out.println("Test Successful!");
     }
 
+    @Test
+    @DisplayName("Senior membership should cost 1500.00 kr")
+    public void testSeniorPrice() {
+        MembershipPricelist senior = MembershipPricelist.SENIOR;
+
+        double actualPrice = senior.getPrice();
+
+        assertEquals(1500.0, actualPrice, 0.01, "Senior should cost 1500.00kr");
+
+        System.out.println("Test Successful!");
     }
 
+    @Test
+    @DisplayName("Senior membership should cost 1125.00 kr")
+    public void testPensionistPrice() {
+        MembershipPricelist pensionist = MembershipPricelist.PENSIONIST;
+
+        double actualPrice = pensionist.getPrice();
+
+        assertEquals(1125.0, actualPrice, 0.01, "Pensionist should cost 1125.00kr");
+
+        System.out.println("Test Successful!");
+    }
+
+    @Test
+    @DisplayName("Passive membership should cost 250.00 kr")
+    public void testPassivePrice() {
+        MembershipPricelist passivt = MembershipPricelist.PASSIVT;
+
+        double actualPrice = passivt.getPrice();
+
+        assertEquals(250.0, actualPrice, 0.01, "Pensionist should cost 250.00kr");
+
+        System.out.println("Test Successful!");
+    }
+}
