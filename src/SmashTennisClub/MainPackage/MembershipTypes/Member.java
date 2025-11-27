@@ -6,7 +6,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class Member {
-
     int memberId;
     String memberName;
     Gender genderOfMember;

@@ -1,8 +1,8 @@
 package SmashTennisClub.MainPackage.UserPackage;
 
 import SmashTennisClub.FileSystem.FileHandler;
-import SmashTennisClub.FileSystem.SuperReader;
-import SmashTennisClub.FileSystem.SuperWriter;
+import SmashTennisClub.FileSystem.MemberReader;
+import SmashTennisClub.FileSystem.MemberWriter;
 import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Chairman {
-    SuperReader reader = new SuperReader();
-    SuperWriter writer = new SuperWriter();
+    MemberReader reader = new MemberReader();
+    MemberWriter writer = new MemberWriter();
 
     private ArrayList<Member> members = reader.readFromFile();
 //    private int memberId = members.getLast().getMemberId() + 1;

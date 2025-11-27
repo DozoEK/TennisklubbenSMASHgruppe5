@@ -1,39 +1,26 @@
 package SmashTennisClub.FileSystem;
 
-import SmashTennisClub.MainPackage.MembershipTypes.Member;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SuperWriter {
+public abstract class SuperWriter<Placeholder> {
 
-    //Skal måske slettes og skrives ind i de sub-klasser af REader / writer, hvor de skal bruges!!!!
-    public static String memberIndex = "CSVFilesLib/Member_Index.csv";
-    public String tournamentIndex = "CSVFilesLib/Tournament_index.csv";
-    public String trainingSession = "CSVFilesLib/Training_Session_Index.csv";
+    //Path skal ændres i hver subclass!
+    protected abstract String getCSVFilePathWriter();
+
+    protected abstract String[] objectToParts(Placeholder object);
 
 
+    public void writeToFile(ArrayList<Placeholder> objects) {
+        try (FileWriter writer = new FileWriter(getCSVFilePathWriter())) {
 
-    public static void writeToFile(ArrayList<Member> members) {
-        try (FileWriter writer = new FileWriter(memberIndex)) {
-            for (Member member : members) {
-                String line = String.join(",",
-                        String.valueOf(member.getMemberId()),
-                        member.getMemberName(),
-                        Integer.toString(member.getAge()),
-                        member.getDateOfBirth().toString(),
-                        String.valueOf(member.getGenderOfMember()),
-                        String.valueOf(member.getPhoneNumber()),
-                        String.valueOf(member.getCompetitivePlayer()),
-                        String.valueOf(member.getYearlyMembershipFee()),
-                        member.getYearlyFeeDate().toString(),
-                        String.valueOf(member.getActiveMembership())
-                );
+            for (Placeholder object : objects) {
+                String[] parts = objectToParts(object);
+                String line = String.join(",", parts);
                 writer.write(line + "\n");
             }
-            System.out.println("Successfully saved to file");
-
+            System.out.println("Successfully saved to file: " + getCSVFilePathWriter());
 
         } catch (IOException e) {
             System.out.println("Error while writing to file!" + e.getMessage());
