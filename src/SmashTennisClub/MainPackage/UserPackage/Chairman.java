@@ -20,22 +20,6 @@ public class Chairman {
 
 
 
-    public void createMemberTest() {
-        FileHandler fileHandler = new FileHandler();
-        ArrayList<Member> members = new ArrayList<>();
-
-
-        members.add(new Member(1, "TestName01", Gender.MALE, LocalDate.of(2024, 11, 22), 21, 22222, true, MembershipPricelist.JUNIOR,
-                LocalDate.now(), true));
-        members.add(new Member(2, "TestName02", Gender.FEMALE, LocalDate.parse("2024-07-12"), 23, 11111, true,
-                MembershipPricelist.PASSIVT, LocalDate.now(), true));
-        members.add(new Member(3, "TestNavn03", Gender.MALE, LocalDate.parse("1999-09-13"), 12, 555555, true,
-                MembershipPricelist.JUNIOR, LocalDate.now(), true));
-
-
-        fileHandler.saveMembers(members);
-    }
-
 
 //    public createMemberTest() {
 //        ArrayList<Member> members = new ArrayList<>();
@@ -95,8 +79,45 @@ public class Chairman {
 
 
 
-    void searchForMember() {}
-  //  public editMember() {}
+    public void searchForMember() {
+        Scanner input = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("--- Søg efter medlem ---");
+            System.out.println("Indtast venligst medlems ID på personen som du ønsker at søge efter!");
+            System.out.println("Indtast medlemsID: ");
+
+            if (input.hasNextInt()) {
+                int memberIdToSearchFor = input.nextInt();
+                input.nextLine();
+
+                boolean isFound = false;
+                for (Member m : members) {
+                    if (m.getMemberId() == memberIdToSearchFor) {
+                        isFound = true;
+                        System.out.println("Følgende medlem er fundet: ");
+                        System.out.println(m);
+                    }
+
+            }
+                if (isFound == false) {
+                    System.out.println("Ingen medlemmer er fundet med følgende id: " + memberIdToSearchFor);
+                    return;
+                }
+            } else {
+                System.out.println("Ugyldigt input! Indtast et tal.");
+                input.nextLine();
+            }
+
+        }
+    }
+
+
+
+    public void editMember() {
+
+        //fileHandler.saveMembers(members);
+    }
 
 
     public void printAllMembers() {

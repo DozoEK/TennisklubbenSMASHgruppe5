@@ -6,16 +6,16 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class Member {
-    int memberId;
-    String memberName;
-    Gender genderOfMember;
-    LocalDate dateOfBirth;
-    int age;
-    int phoneNumber;
-    Boolean competitivePlayer = false;
-    MembershipPricelist yearlyMembershipFee;
+    private int memberId;
+    private String memberName;
+    private Gender genderOfMember;
+    private LocalDate dateOfBirth;
+    private int age;
+    private int phoneNumber;
+    private Boolean competitivePlayer = false;
+    private MembershipPricelist yearlyMembershipFee;
     private final LocalDate yearlyFeeDate;
-    Boolean activeMembership = false;
+    private Boolean activeMembership = false;
 
     public Member(int memberId, String memberName, Gender genderOfMember, LocalDate dateOfBirth, int age,
                   int phoneNumber, Boolean competitivePlayer, MembershipPricelist yearlyMembershipFee,

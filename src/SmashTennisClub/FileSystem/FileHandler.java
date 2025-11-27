@@ -2,6 +2,8 @@ package SmashTennisClub.FileSystem;
 
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberWriter;
+import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaWriter;
+import SmashTennisClub.MainPackage.FinanceManagement.Quota;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ public class FileHandler {
 
     MemberReader memberReader = new MemberReader();
     MemberWriter memberWriter = new MemberWriter();
+    QuotaWriter quotaWriter = new QuotaWriter();
 
 
     public void printAllMembers() {
@@ -36,4 +39,9 @@ public class FileHandler {
     public void saveMembers(ArrayList<Member> members) {
         memberWriter.writeToFile(members);
     }
+
+    public void saveQuotas(ArrayList<Quota> quotas) {
+        quotaWriter.writeToFile(quotas);
+    }
+
 }

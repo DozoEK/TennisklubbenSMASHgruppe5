@@ -27,7 +27,7 @@ public class QuotaReader extends SuperReader<Quota> {
         MembershipPricelist yearlyMembershipFee = MembershipPricelist.valueOf(parts[3]);
         boolean isPaid = Boolean.parseBoolean(parts[4]);
         LocalDate yearlyFeeDate = LocalDate.parse(parts[5]);
-        LocalDate actualDateOfPayment = LocalDate.parse(parts[6]);
+        LocalDate actualDateOfPayment = parts[6].isEmpty() ? null : LocalDate.parse(parts[6]);
 
         return new Quota(quotaId, memberId, memberName, yearlyMembershipFee,
                 isPaid, yearlyFeeDate, actualDateOfPayment);

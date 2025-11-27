@@ -1,6 +1,7 @@
 package SmashTennisClub.MainPackage.FinanceManagement;
 
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
+import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -37,7 +38,6 @@ public class Quota {
         return memberId;
     }
 
-
     public String getMemberName() {
         return memberName;
     }
@@ -59,7 +59,6 @@ public class Quota {
     }
 
     //setters
-
     public void setYearlyMembershipFee(MembershipPricelist yearlyMembershipFee) {
         this.yearlyMembershipFee = yearlyMembershipFee;
     }

@@ -4,6 +4,8 @@ import SmashTennisClub.FileSystem.SuperWriter;
 import SmashTennisClub.MainPackage.FinanceManagement.Quota;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
+import java.time.LocalDate;
+
 public class QuotaWriter extends SuperWriter<Quota> {
 
 
@@ -22,12 +24,9 @@ public class QuotaWriter extends SuperWriter<Quota> {
         parts[3] = object.getYearlyMembershipFee().toString();
         parts[4] = String.valueOf(object.getIsPaid());
         parts[5] = object.getYearlyFeeDate().toString();
-        parts[6] = object.getActualDateOfPayment().toString();
+        parts[6] = (object.getActualDateOfPayment() == null) ? "" : object.getActualDateOfPayment().toString();
 
         return parts;
-
-
-
     }
 
 }
