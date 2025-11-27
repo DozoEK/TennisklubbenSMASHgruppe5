@@ -1,22 +1,26 @@
 package SmashTennisClub.MainPackage.FinanceManagement;
 
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
-import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Quota {
-    int quotaId;
-    Member member;
-    MembershipPricelist yearlyMembershipFee;
-    Boolean isPaid;
-    Date yearlyFeeDate;
-    Date actualDateOfPayment;
+    private int quotaId;
+    private int memberId;
+    private String memberName;
+    private MembershipPricelist yearlyMembershipFee;
+    private boolean isPaid;
+    private LocalDate yearlyFeeDate;
+    private LocalDate actualDateOfPayment;
 
 
-    public Quota(Member member, int quotaId, MembershipPricelist yearlyMembershipFee, Boolean isPaid, Date yearlyFeeDate, Date actualDateOfPayment) {
-        this.member = member;
+    public Quota(int quotaId, int memberId, String memberName, MembershipPricelist yearlyMembershipFee,
+                 Boolean isPaid, LocalDate yearlyFeeDate, LocalDate actualDateOfPayment) {
+
         this.quotaId = quotaId;
+        this.memberId = memberId;
+        this.memberName = memberName;
         this.yearlyMembershipFee = yearlyMembershipFee;
         this.isPaid = isPaid;
         this.yearlyFeeDate = yearlyFeeDate;
@@ -29,23 +33,28 @@ public class Quota {
         return isPaid;
     }
 
-    public int getQuotaId() {
-        return quotaId;
+    public int getMemberId() {
+        return memberId;
     }
 
-    public Member getMember() {
-        return member;
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public int getQuotaId() {
+        return quotaId;
     }
 
     public MembershipPricelist getYearlyMembershipFee() {
         return yearlyMembershipFee;
     }
 
-    public Date getYearlyFeeDate() {
+    public LocalDate getYearlyFeeDate() {
         return yearlyFeeDate;
     }
 
-    public Date getActualDateOfPayment() {
+    public LocalDate getActualDateOfPayment() {
         return actualDateOfPayment;
     }
 
@@ -55,31 +64,38 @@ public class Quota {
         this.yearlyMembershipFee = yearlyMembershipFee;
     }
 
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
     public void setPaid(Boolean paid) {
         isPaid = paid;
     }
 
-    public void setYearlyFeeDate(Date yearlyFeeDate) {
+    public void setYearlyFeeDate(LocalDate yearlyFeeDate) {
         this.yearlyFeeDate = yearlyFeeDate;
     }
 
-    public void setActualDateOfPayment(Date actualDateOfPayment) {
+    public void setActualDateOfPayment(LocalDate actualDateOfPayment) {
         this.actualDateOfPayment = actualDateOfPayment;
     }
-
 
 
     @Override
     public String toString() {
         return "Quota{" +
                 "quotaId=" + quotaId +
-                ", member=" + member +
+                ", memberId=" + memberId +
+                ", memberName='" + memberName + '\'' +
                 ", yearlyMembershipFee=" + yearlyMembershipFee +
                 ", isPaid=" + isPaid +
                 ", yearlyFeeDate=" + yearlyFeeDate +
                 ", actualDateOfPayment=" + actualDateOfPayment +
                 '}';
     }
-
 
 }

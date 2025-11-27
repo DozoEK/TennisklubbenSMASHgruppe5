@@ -20,6 +20,19 @@ public class FileHandler {
     }
 
 
+    public Member findMemberById(int memberId) {
+        MemberReader reader = new MemberReader();
+        ArrayList<Member> members = reader.readFromFile();
+
+        for (Member m : members) {
+            if (m.getMemberId() == memberId) {
+                return m;
+            }
+        }
+        System.out.println("Medlem: " + memberId + " er ikke fundet!");
+        return null;
+    }
+
     public void saveMembers(ArrayList<Member> members) {
         memberWriter.writeToFile(members);
     }
