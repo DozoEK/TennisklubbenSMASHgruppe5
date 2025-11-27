@@ -1,12 +1,7 @@
 package SmashTennisClub.MainPackage.FinanceManagement;
 
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-
-import static SmashTennisClub.MainPackage.FinanceManagement.Quota.isPaid;
-
 
 public class QuotaController {
     private ArrayList<Quota> payments = new ArrayList<>();
@@ -21,8 +16,9 @@ public class QuotaController {
 
     public ArrayList<Quota> getUnpaidPayments() {
         ArrayList<Quota> paymentResult = new ArrayList<>();
+
         for (Quota r : payments) {
-            if (!isPaid) paymentResult.add(r);
+            if (r.getIsPaid() == false)  paymentResult.add(r);
         }
         return paymentResult;
     }
@@ -30,7 +26,7 @@ public class QuotaController {
     public ArrayList<Quota> getPaidPayments() {
         ArrayList<Quota> paymentResult = new ArrayList<>();
         for (Quota r : payments) {
-            if (isPaid) paymentResult.add(r);
+            if (r.getIsPaid() == true) paymentResult.add(r);
         }
         return paymentResult;
     }

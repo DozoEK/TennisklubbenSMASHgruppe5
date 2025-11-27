@@ -1,41 +1,85 @@
 package SmashTennisClub.MainPackage.FinanceManagement;
 
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
+import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
 import java.util.Date;
 
 public class Quota {
-    public static int getMemberId;
     int quotaId;
-    int memberId; //“medlem det omhandler”;
-    String memberName; //“medlem det omhandler”;
-    MembershipPricelist yearlyMembershipFee; //= “tages fra Member”;
-
-   static Boolean isPaid;
+    Member member;
+    MembershipPricelist yearlyMembershipFee;
+    Boolean isPaid;
     Date yearlyFeeDate;
     Date actualDateOfPayment;
 
-    public Quota(int quotaId, int memberId, String memberName, MembershipPricelist yearlyMembershipFee,
-                 Boolean isPaid, Date yearlyFeeDate, Date actualDateOfPayment) {
 
+    public Quota(Member member, int quotaId, MembershipPricelist yearlyMembershipFee, Boolean isPaid, Date yearlyFeeDate, Date actualDateOfPayment) {
+        this.member = member;
         this.quotaId = quotaId;
-        this.memberId = memberId;
-        this.memberName = memberName;
         this.yearlyMembershipFee = yearlyMembershipFee;
         this.isPaid = isPaid;
         this.yearlyFeeDate = yearlyFeeDate;
         this.actualDateOfPayment = actualDateOfPayment;
     }
 
-    public int getMemberId() {
-        return memberId;
-    }
 
-    public void setIsPaid() {
-        this.isPaid = isPaid;
-    }
-
-    public static Boolean getIsPaid() {
+    //getters
+    public Boolean getIsPaid() {
         return isPaid;
     }
+
+    public int getQuotaId() {
+        return quotaId;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public MembershipPricelist getYearlyMembershipFee() {
+        return yearlyMembershipFee;
+    }
+
+    public Date getYearlyFeeDate() {
+        return yearlyFeeDate;
+    }
+
+    public Date getActualDateOfPayment() {
+        return actualDateOfPayment;
+    }
+
+    //setters
+
+    public void setYearlyMembershipFee(MembershipPricelist yearlyMembershipFee) {
+        this.yearlyMembershipFee = yearlyMembershipFee;
+    }
+
+    public void setPaid(Boolean paid) {
+        isPaid = paid;
+    }
+
+    public void setYearlyFeeDate(Date yearlyFeeDate) {
+        this.yearlyFeeDate = yearlyFeeDate;
+    }
+
+    public void setActualDateOfPayment(Date actualDateOfPayment) {
+        this.actualDateOfPayment = actualDateOfPayment;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Quota{" +
+                "quotaId=" + quotaId +
+                ", member=" + member +
+                ", yearlyMembershipFee=" + yearlyMembershipFee +
+                ", isPaid=" + isPaid +
+                ", yearlyFeeDate=" + yearlyFeeDate +
+                ", actualDateOfPayment=" + actualDateOfPayment +
+                '}';
+    }
+
+
 }
