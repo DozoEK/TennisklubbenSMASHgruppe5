@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 public class FileHandler {
 
-    SuperWriter superwriter = new SuperWriter();
-    SuperReader superReader = new SuperReader();
+    MemberWriter superwriter = new MemberWriter();
+    MemberReader memberReader = new MemberReader();
 
 
     public void printAllMembers() {
-        ArrayList<Member> members = superReader.readFromFile();
+        ArrayList<Member> members = memberReader.readFromFile();
         for (Member member : members) {
             System.out.println(member);
         }
@@ -19,7 +19,7 @@ public class FileHandler {
 
 
     public void saveMembers(ArrayList<Member> members) {
-        SuperWriter.writeToFile(members);
+        MemberWriter.writeToFile(members);
     }
 
 
