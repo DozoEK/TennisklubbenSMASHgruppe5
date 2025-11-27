@@ -6,15 +6,12 @@ import java.sql.Date;
 
 public class Tournament {
 
-
     int tournamentId;
     String tournamentName = "";
     DisciplineType disciplineTypeForTournament;
     Date dateOfTournament;
-
     int memberId; //(for alle spillere)
     String memberName;
-
     int amountOfWonSets;
     int tournamentPlacement;
 
@@ -28,4 +25,14 @@ public class Tournament {
         this.amountOfWonSets = amountOfWonSets;
         this.tournamentPlacement = tournamentPlacement;
     }
+    public int getMemberId() { return memberId; }
+    public String getMemberName() { return memberName; }
+    public int getTournamentId() { return tournamentId; }
+    public int getTournamentPlacement() { return tournamentPlacement; }
+
+    @Override
+    public String toString() {
+        return memberName + " (" + memberId + ") - placement: " + tournamentPlacement;
+    }
+
 }
