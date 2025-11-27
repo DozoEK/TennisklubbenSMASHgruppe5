@@ -59,20 +59,36 @@ public class MemberReader {
 }
 
 
-//public class MemberWriter extends SuperWriter<Member> {
+
+//
+//public class MemberReader extends SuperReader<Member> {
 //
 //    @Override
-//    protected String getCSVFilePathWriter() {
-//        return "data/members.csv";
+//    protected String getCSVFilePath() {
+//        return "CSVFilesLib/Member_Index.csv";
 //    }
 //
 //    @Override
-//    protected String[] convertObjectToParts(Member m) {
-//        return new String[] {
-//                m.getId(),
-//                m.getName(),
-//                m.getGender().toString(),
-//                m.getJoinDate().toString()
-//        };
+//    protected int setMaxIndexLength() {
+//        return 10; // Number of columns in the Member CSV
+//    }
+//
+//    @Override
+//    protected Member parseAttributes(String[] parts) {
+//
+//        int memberId = Integer.parseInt(parts[0]);
+//        String memberName = parts[1];
+//        int age = Integer.parseInt(parts[2]);
+//        LocalDate dob = LocalDate.parse(parts[3]);
+//        Gender gender = Gender.valueOf(parts[4]);
+//        int phone = Integer.parseInt(parts[5]);
+//        boolean competitive = Boolean.parseBoolean(parts[6]);
+//        MembershipPricelist membershipFee = MembershipPricelist.valueOf(parts[7]);
+//        LocalDate yearlyFeeDate = LocalDate.parse(parts[8]);
+//        boolean active = Boolean.parseBoolean(parts[9]);
+//
+//        return new Member(memberId, memberName, gender, dob,
+//                age, phone, competitive,
+//                membershipFee, yearlyFeeDate, active);
 //    }
 //}

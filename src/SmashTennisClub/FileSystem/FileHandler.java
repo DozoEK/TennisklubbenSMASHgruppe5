@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class FileHandler {
 
-    MemberWriter superwriter = new MemberWriter();
     MemberReader memberReader = new MemberReader();
+    MemberWriter memberWriter = new MemberWriter();
 
 
     public void printAllMembers() {
@@ -19,8 +19,6 @@ public class FileHandler {
 
 
     public void saveMembers(ArrayList<Member> members) {
-        MemberWriter.writeToFile(members);
+        memberWriter.writeToFile(members);
     }
-
-
 }

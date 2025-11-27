@@ -18,5 +18,5 @@ public class MembershipPricelistTest {
         System.out.println("Test Successful!");
     }
 
-    }
+}
 

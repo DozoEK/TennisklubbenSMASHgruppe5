@@ -14,7 +14,6 @@ public abstract class SuperWriter<Placeholder> {
 
     public void writeToFile(ArrayList<Placeholder> objects) {
         try (FileWriter writer = new FileWriter(getCSVFilePathWriter())) {
-
             for (Placeholder object : objects) {
                 String[] parts = objectToParts(object);
                 String line = String.join(",", parts);
