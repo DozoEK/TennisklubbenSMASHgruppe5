@@ -5,12 +5,13 @@ import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import java.util.Date;
 
 public class Quota {
+    public static int getMemberId;
     int quotaId;
     int memberId; //“medlem det omhandler”;
     String memberName; //“medlem det omhandler”;
     MembershipPricelist yearlyMembershipFee; //= “tages fra Member”;
 
-    Boolean isPaid;
+   static Boolean isPaid;
     Date yearlyFeeDate;
     Date actualDateOfPayment;
 
@@ -26,4 +27,15 @@ public class Quota {
         this.actualDateOfPayment = actualDateOfPayment;
     }
 
+    public int getMemberId() {
+        return memberId;
+    }
+
+    public void setIsPaid() {
+        this.isPaid = isPaid;
+    }
+
+    public static Boolean getIsPaid() {
+        return isPaid;
+    }
 }
