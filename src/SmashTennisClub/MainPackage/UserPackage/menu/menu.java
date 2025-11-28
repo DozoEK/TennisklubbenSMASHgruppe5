@@ -15,18 +15,6 @@ public class menu {
         this.running = true;
     }
 
-    public void mainLoop() {
-        Scanner scanner = new Scanner(System.in);
-        while (running) {
-            displayMenu();
-            int choice = getUserChoice();
-            menuChoise(choice);
-        }
-
-
-        scanner.close();
-        System.out.println("Afslutter programmet.");
-    }
 
     private void displayMenu() {
         System.out.println("\n SMASH Klubben ´test´ menu");
