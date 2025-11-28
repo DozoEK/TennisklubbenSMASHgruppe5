@@ -25,7 +25,7 @@ public class Quota {
         this.yearlyMembershipFee = yearlyMembershipFee;
         this.isPaid = isPaid;
         this.yearlyFeeDate = yearlyFeeDate;
-        this.actualDateOfPayment = actualDateOfPayment;
+        this.actualDateOfPayment = (actualDateOfPayment != null) ? actualDateOfPayment : yearlyFeeDate;
     }
 
 
@@ -57,6 +57,8 @@ public class Quota {
     public LocalDate getActualDateOfPayment() {
         return actualDateOfPayment;
     }
+
+
 
     //setters
     public void setYearlyMembershipFee(MembershipPricelist yearlyMembershipFee) {
@@ -96,5 +98,10 @@ public class Quota {
                 ", actualDateOfPayment=" + actualDateOfPayment +
                 '}';
     }
+
+    //Quota q = new Quota(
+    //    member.getMemberId(),
+    //    member.getMemberName(),
+    //);
 
 }

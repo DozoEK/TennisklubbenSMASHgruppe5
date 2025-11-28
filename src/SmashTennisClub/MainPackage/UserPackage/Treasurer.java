@@ -1,5 +1,6 @@
 package SmashTennisClub.MainPackage.UserPackage;
 
+import SmashTennisClub.FileSystem.FileHandler;
 import SmashTennisClub.MainPackage.FinanceManagement.Quota;
 import SmashTennisClub.MainPackage.FinanceManagement.QuotaController;
 
@@ -7,8 +8,6 @@ import java.util.Scanner;
 
 public class Treasurer {
     private QuotaController controller;
-
-
 
 
 
@@ -49,5 +48,10 @@ public class Treasurer {
        }
    }
 
+
+    public void printAllQuotas() {
+        FileHandler fileHandler = new FileHandler();
+        fileHandler.printAllQuotas();
+    }
 
 }

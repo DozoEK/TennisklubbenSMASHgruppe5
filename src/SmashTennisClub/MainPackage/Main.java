@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         Chairman chairman = new Chairman();
+        Treasurer treasurer = new Treasurer();
         FileHandler fileHandler = new FileHandler();
         QuotaGenerator qg = new QuotaGenerator();
 //        Treasurer treasurer = new Treasurer();
@@ -23,11 +24,18 @@ public class Main {
 //                2025,03, 05, 2025,06,06"));
 
 
-        qg.generateQuotasFromMembers();
+        //qg.generateQuotasFromMembers();
         // chairman.createMemberTest();
 //        fileHandler.printAllMembers();
 //        chairman.deleteMember();
 //        treasurer.searchForQuota();
+
+        System.out.println("Start af test: ");
+        fileHandler.printAllQuotas();
+        //fileHandler.printAllMembers();
+        System.out.println("End of program");
+
+
 
 
     }
