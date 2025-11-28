@@ -4,6 +4,7 @@ import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.Period;
 
 public class Member {
     private int memberId;
@@ -25,7 +26,7 @@ public class Member {
         this.memberName = memberName;
         this.genderOfMember = genderOfMember;
         this.dateOfBirth = dateOfBirth;
-        this.age = age;
+        this.age = Period.between(dateOfBirth, LocalDate.now()).getYears();;
         this.phoneNumber = phoneNumber;
         this.competitivePlayer = competitivePlayer;
         this.yearlyMembershipFee = yearlyMembershipFee;
@@ -45,6 +46,11 @@ public class Member {
     public int getAge() {
         return age;
     }
+
+    public void updateAge() {
+        this.age = Period.between(this.dateOfBirth, LocalDate.now()).getYears();
+    }
+
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
