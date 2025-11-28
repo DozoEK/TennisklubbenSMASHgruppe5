@@ -85,11 +85,18 @@ public class Chairman {
         while (true) {
             System.out.println("--- Søg efter medlem ---");
             System.out.println("Indtast venligst medlems ID på personen som du ønsker at søge efter!");
+            System.out.println("(For at stoppe søgning, søg efter 0)");
             System.out.println("Indtast medlemsID: ");
 
             if (input.hasNextInt()) {
                 int memberIdToSearchFor = input.nextInt();
                 input.nextLine();
+
+                // Exit condition
+                if (memberIdToSearchFor == 0) {
+                    System.out.println("Afslutter søgning...");
+                    break;
+                }
 
                 boolean isFound = false;
                 for (Member m : members) {
@@ -97,6 +104,7 @@ public class Chairman {
                         isFound = true;
                         System.out.println("Følgende medlem er fundet: ");
                         System.out.println(m);
+                        System.out.println();
                     }
 
             }
