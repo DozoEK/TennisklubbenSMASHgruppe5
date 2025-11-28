@@ -6,8 +6,7 @@ import java.util.Scanner;
 
 public class menu {
     Chairman chairman = new Chairman();
-    Treasurer Treasurer = new Treasurer();
-
+    Treasurer treasurer = new Treasurer();
     private boolean running;
     Scanner scanner = new Scanner(System.in);
 
@@ -55,9 +54,9 @@ public class menu {
     //kalder den relevante metode ud fra brugerinput
     private void menuChoise(int choise) {
         switch (choise) {
-            case 1 -> Chairman.searchForMember();
-            case 2 -> Chairman.deleteMember();
-            case 3 -> Treasurer.showAllPaidQuotas();
+            case 1 -> chairman.searchForMember();
+            case 2 -> chairman.deleteMember();
+            case 3 -> treasurer.showAllPaidQuotas();
 //            case 4 -> ;
 //            case 5 -> ;
 //            case 6 -> ;
