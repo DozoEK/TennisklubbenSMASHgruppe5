@@ -5,6 +5,7 @@ import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberWriter;
 import SmashTennisClub.MainPackage.EnumLists.DisciplineType;
 import SmashTennisClub.MainPackage.EnumLists.Gender;
+import SmashTennisClub.MainPackage.EnumLists.MemberType;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import SmashTennisClub.MainPackage.MembershipTypes.Junior;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
@@ -25,15 +26,26 @@ public class Chairman {
 
 
 
-        public Member createAnyMember(Scanner scanner, int lastUsedMemberId) {
+        public Member createAnyMember(Scanner scanner) {
+            FileHandler fileHandler = new FileHandler();
+            MemberReader reader = new MemberReader();
+            ArrayList<Member> members = reader.readFromFile();
 
-           int memberId = lastUsedMemberId + 1;
+            int lastUsedMemberId = 0;
+            for (Member m : members) {
+                if (m.getMemberId() > lastUsedMemberId) {
+                    lastUsedMemberId = m.getMemberId();
+                }
+            }
+
+            int memberId = lastUsedMemberId + 1;
 
             System.out.println("--- Opret medlem ---");
 
             //memberName
             System.out.print("Indtast navn på medlem: ");
             String name = scanner.nextLine();
+            scanner.nextLine();
             // TODO validate name not empty
 
 
@@ -76,7 +88,7 @@ public class Chairman {
             DisciplineType discipline = null;
 
             //hvis kompetetiv =
-            if (competitive) {
+            if (competitive == true) {
                 System.out.println("Indtast diciplin type:");
                 for (DisciplineType d : DisciplineType.values()) {
                     System.out.print(d + " - ");
@@ -87,23 +99,30 @@ public class Chairman {
             }
 
 
-            // automatisk udfyld af membership type
-            MembershipPricelist membershipType;
+            // udfyld af membership pris
+            MembershipPricelist membershipFee;
             if (age < 18) {
-                membershipType = MembershipPricelist.JUNIOR;
+                membershipFee = MembershipPricelist.JUNIOR;
             } else if (age >= 65) {
-                membershipType = MembershipPricelist.PENSIONIST;
+                membershipFee = MembershipPricelist.PENSIONIST;
             } else {
-                membershipType = MembershipPricelist.SENIOR;
+                membershipFee = MembershipPricelist.SENIOR;
             }
 
-            System.out.println("Tildelt medlemstype: " + membershipType.name());
-
-
-            // automatisk udfyld af prisgruppe
-            MembershipPricelist membershipFee = membershipType;
             System.out.println("Årspris: " + membershipFee.getPrice());
 
+
+            //membershipType
+            MemberType membershipType;
+            if (competitive == true && age < 18) {
+                membershipType = MemberType.JUNIOR;
+
+            } else if (competitive == true && age > 18) {
+                membershipType = MemberType.SENIOR;
+
+            } else {
+                membershipType = MemberType.RECREATIONALPLAYER;
+            }
 
 
             //automatisk udfyld af feedate
@@ -114,31 +133,28 @@ public class Chairman {
             boolean activeMembership = true;
 
 
-
             Member member;
-
-            //hvis de ikke er kompetetive:
-            if (competitive == false) {
-                member = new RecreationalPlayer(
+            //hvis de er:
+            if (competitive == true && (age < 18)) {
+                member = new Junior(
                         memberId, name, gender, dateOfBirth, age, phoneNumber,
+                        true, membershipType, membershipFee, feeDate, discipline, activeMembership);
+            } else if (competitive == true && age > 18) {
+                member = new Senior(
+                        memberId, name, gender, dateOfBirth, age, phoneNumber,
+                        true, membershipType, membershipFee, feeDate, discipline, activeMembership);
+            } else if (competitive == false) {
+                member = new RecreationalPlayer(memberId, name, gender, dateOfBirth, age, phoneNumber,
+                        false, membershipType, membershipFee, feeDate, activeMembership);
+            } else {
+                member = new Member(memberId, name, gender, dateOfBirth, age, phoneNumber,
                         false, membershipType, membershipFee, feeDate, activeMembership);
             }
 
-            //hvis de er:
-            else {
-                if (age < 18) {
-                        member = new Junior(
-                                memberId, name, gender, dateOfBirth, age, phoneNumber,
-                                true, membershipType, membershipFee, feeDate, discipline, activeMembership);
-                } else {
-                    member = new Senior(
-                            memberId, name, gender, dateOfBirth, age, phoneNumber,
-                            true, membershipType, membershipFee, feeDate, discipline, activeMembership);
-                }
-            }
+            members.add(member);
+            fileHandler.saveMembers(members);
 
-
-            System.out.println("Følgende medlem er oprettet: ");
+            System.out.println("Følgende medlem er oprettet og gemt til CSV:");
             System.out.println(member);
 
             return member;

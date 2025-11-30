@@ -1,6 +1,7 @@
 package SmashTennisClub.MainPackage.MembershipTypes;
 
 import SmashTennisClub.MainPackage.EnumLists.Gender;
+import SmashTennisClub.MainPackage.EnumLists.MemberType;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -14,13 +15,13 @@ public class Member {
     private int age;
     private int phoneNumber;
     private Boolean competitivePlayer = false;
-    private MembershipPricelist membershipType;
+    private MemberType membershipType;
     private MembershipPricelist yearlyMembershipFee;
     private final LocalDate yearlyFeeDate;
     private Boolean activeMembership = false;
 
     public Member(int memberId, String memberName, Gender genderOfMember, LocalDate dateOfBirth, int age,
-                  int phoneNumber, Boolean competitivePlayer, MembershipPricelist membershipType, MembershipPricelist yearlyMembershipFee,
+                  int phoneNumber, Boolean competitivePlayer, MemberType membershipType, MembershipPricelist yearlyMembershipFee,
                   LocalDate yearlyFeeDate, Boolean activeMembership) {
 
         this.memberId = memberId;
@@ -69,7 +70,7 @@ public class Member {
         return competitivePlayer;
     }
 
-    public MembershipPricelist getMembershipType() {
+    public MemberType getMembershipType() {
         return membershipType;
     }
 
@@ -84,6 +85,7 @@ public class Member {
     public Boolean getActiveMembership() {
         return activeMembership;
     }
+
 
 
     @Override
@@ -102,6 +104,5 @@ public class Member {
                 ", activeMembership=" + activeMembership +
                 '}';
     }
-
 
 }

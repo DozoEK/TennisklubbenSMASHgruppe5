@@ -2,17 +2,10 @@ package SmashTennisClub.MainPackage;
 
 import SmashTennisClub.FileSystem.FileHandler;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaGenerator;
-import SmashTennisClub.MainPackage.EnumLists.Gender;
-import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
-import SmashTennisClub.MainPackage.FinanceManagement.Quota;
-import SmashTennisClub.MainPackage.MembershipTypes.Member;
 import SmashTennisClub.MainPackage.UserPackage.Chairman;
 import SmashTennisClub.MainPackage.UserPackage.Treasurer;
 import SmashTennisClub.MainPackage.UserPackage.UserHelperClass;
 
-
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -40,13 +33,14 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
 
-        while (choice != 5) {
+        while (choice != 8) {
             System.out.println("\n=== Menu ===");
             System.out.println("1. Søg efter medlem");
             System.out.println("2. Slet et medlem");
             System.out.println("3. Vis kontingenter");
             System.out.println("4. Print alle medlemmer");
-            System.out.println("5. Exit");
+            System.out.println("5. Opret nyt medlem");
+            System.out.println("6. Exit");
             System.out.print("Enter your choice: ");
 
             choice = scanner.nextInt();
@@ -66,6 +60,9 @@ public class Main {
                     uhc.printAllMembers();
                     break;
                 case 5:
+                    chairman.createAnyMember(scanner);
+                    break;
+                case 6:
                     System.out.println("Exiting...");
                     return;
 

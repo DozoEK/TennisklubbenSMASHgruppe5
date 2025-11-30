@@ -2,6 +2,7 @@ package SmashTennisClub.MainPackage.MembershipTypes;
 
 import SmashTennisClub.MainPackage.EnumLists.DisciplineType;
 import SmashTennisClub.MainPackage.EnumLists.Gender;
+import SmashTennisClub.MainPackage.EnumLists.MemberType;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 
 import java.time.LocalDate;
@@ -12,7 +13,7 @@ public class Junior extends Member {
 
     public Junior(int memberId, String name, Gender genderOfMember, LocalDate dateOfBirth,
                   int age, int phoneNumber, Boolean competitivePlayer,
-                  MembershipPricelist membershipType, MembershipPricelist yearlyMembershipFee,
+                  MemberType membershipType, MembershipPricelist yearlyMembershipFee,
                   LocalDate yearlyFeeDate, DisciplineType juniorDisciplinType, Boolean activeMembership) {
 
         super(memberId, name, genderOfMember, dateOfBirth, age, phoneNumber, competitivePlayer,
