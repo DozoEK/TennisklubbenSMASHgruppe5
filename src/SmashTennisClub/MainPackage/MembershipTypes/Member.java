@@ -14,12 +14,13 @@ public class Member {
     private int age;
     private int phoneNumber;
     private Boolean competitivePlayer = false;
+    private MembershipPricelist membershipType;
     private MembershipPricelist yearlyMembershipFee;
     private final LocalDate yearlyFeeDate;
     private Boolean activeMembership = false;
 
     public Member(int memberId, String memberName, Gender genderOfMember, LocalDate dateOfBirth, int age,
-                  int phoneNumber, Boolean competitivePlayer, MembershipPricelist yearlyMembershipFee,
+                  int phoneNumber, Boolean competitivePlayer, MembershipPricelist membershipType, MembershipPricelist yearlyMembershipFee,
                   LocalDate yearlyFeeDate, Boolean activeMembership) {
 
         this.memberId = memberId;
@@ -29,6 +30,7 @@ public class Member {
         this.age = Period.between(dateOfBirth, LocalDate.now()).getYears();;
         this.phoneNumber = phoneNumber;
         this.competitivePlayer = competitivePlayer;
+        this.membershipType = membershipType;
         this.yearlyMembershipFee = yearlyMembershipFee;
         this.yearlyFeeDate = yearlyFeeDate;
         this.activeMembership = activeMembership;
@@ -51,7 +53,6 @@ public class Member {
         this.age = Period.between(this.dateOfBirth, LocalDate.now()).getYears();
     }
 
-
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -66,6 +67,10 @@ public class Member {
 
     public Boolean getCompetitivePlayer() {
         return competitivePlayer;
+    }
+
+    public MembershipPricelist getMembershipType() {
+        return membershipType;
     }
 
     public MembershipPricelist getYearlyMembershipFee() {
@@ -83,17 +88,20 @@ public class Member {
 
     @Override
     public String toString() {
-        return "Member{" + "memberId = " + memberId +
-                ", name = '" + memberName + '\'' +
-                ", genderOfMember = " + genderOfMember +
-                ", dateOfBirth = " + dateOfBirth +
-                ", age = " + age +
-                ", phoneNumber = " + phoneNumber +
-                ", competitivePlayer = " + competitivePlayer +
-                ", yearlyMembershipFee = " + yearlyMembershipFee +
-                ", yearlyFeeDate = " + yearlyFeeDate +
-                ", activeMembership = " + activeMembership +
+        return "Member{" +
+                "memberId=" + memberId +
+                ", memberName='" + memberName + '\'' +
+                ", genderOfMember=" + genderOfMember +
+                ", dateOfBirth=" + dateOfBirth +
+                ", age=" + age +
+                ", phoneNumber=" + phoneNumber +
+                ", competitivePlayer=" + competitivePlayer +
+                ", membershipType=" + membershipType +
+                ", yearlyMembershipFee=" + yearlyMembershipFee +
+                ", yearlyFeeDate=" + yearlyFeeDate +
+                ", activeMembership=" + activeMembership +
                 '}';
     }
+
 
 }

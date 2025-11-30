@@ -39,20 +39,20 @@ public class menu {
 
     }
 
-    //kalder den relevante metode ud fra brugerinput
-    private void menuChoise(int choise) {
-        switch (choise) {
-            case 1 -> chairman.searchForMember();
-            case 2 -> chairman.deleteMember();
-            case 3 -> treasurer.showAllPaidQuotas();
-//            case 4 -> ;
-//            case 5 -> ;
-//            case 6 -> ;
-            case 0 -> {
-                running = false;
-            }
-            default -> System.out.println("Vælg mellem 0-3");
-
-        }
-    }
+//    //kalder den relevante metode ud fra brugerinput
+//    private void menuChoise(int choise) {
+//        switch (choise) {
+//            case 1 -> uch.searchForMember();
+//            case 2 -> chairman.deleteMember();
+//            case 3 -> treasurer.showAllPaidQuotas();
+////            case 4 -> ;
+////            case 5 -> ;
+////            case 6 -> ;
+//            case 0 -> {
+//                running = false;
+//            }
+//            default -> System.out.println("Vælg mellem 0-3");
+//
+//        }
+//    }
 }
