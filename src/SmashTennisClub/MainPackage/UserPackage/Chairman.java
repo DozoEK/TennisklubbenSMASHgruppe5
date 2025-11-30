@@ -7,8 +7,11 @@ import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Chairman {
@@ -16,9 +19,93 @@ public class Chairman {
     MemberWriter writer = new MemberWriter();
 
     private ArrayList<Member> members = reader.readFromFile();
-//    private int memberId = members.getLast().getMemberId() + 1;
 
 
+    //vi skal sætte den et eller andet sted så den kører hver gang vi åbner programmet!
+    public void updateAllMemberAges(ArrayList<Member> members) {
+        for (Member m : members) {
+            m.updateAge();
+        }
+    }
+
+
+
+    public void createAnyMemberType() {
+        Scanner input = new Scanner(System.in);
+
+        try {
+            //memberId
+            // kan måske bare laves til sidst! "private int memberId = members.getLast().getMemberId() + 1;"
+
+
+            //memberName
+            System.out.println("Indtast medlemmets navn: ");
+            String memberName = input.nextLine();
+            //evt. validering: "if (memberName.isEmpty()) {
+            //                System.out.println("Feltet kan ikke være tomt... Indtast medlemmets navn: ");
+            //                return;
+
+
+            //genderOfMember
+            System.out.println("Indtast kundens køn: ");
+            System.out.println("(indtast: MALE || FEMALE)");
+            String memberGender = input.nextLine();
+            //validering: skal tjekkes at den står på Enum listen!!!
+
+
+            //dateOfBirth
+            System.out.println("Indtast kundens fødselsdato: ");
+            String dateString = input.nextLine();
+            LocalDate dateOfBirth = LocalDate.parse(dateString);
+
+
+            //age
+            //skal udregnes ud fra ovenstående dato / member LocalDate dateOfBirth - LocalDate(now) = age.
+
+
+            //phoneNumber
+            boolean numberCheckFalseTrue;
+            while (numberCheckFalseTrue == false) {
+                System.out.print("Indtast kundens telefonnummer: ");
+
+                if (input.hasNextInt()) {
+                    int phoneNumber = input.nextInt();
+                    numberCheckFalseTrue = true;
+                } else {
+                    System.out.println("Indtast kun tal!");
+                }
+                input.nextLine();
+            }
+
+
+            //competitivePlayer
+            System.out.println("Indtast medlems ");
+
+            //yearlyMembershipFee
+
+            //yearlyFeeDate
+
+            //activeMembership
+
+
+
+            //konstruktør:
+            //Junior newMember = new Junior(memberId, kladfklajdfæ
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+    }
 
 
 //    public createMemberTest() {
