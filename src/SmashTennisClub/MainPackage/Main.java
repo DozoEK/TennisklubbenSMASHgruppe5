@@ -3,6 +3,7 @@ package SmashTennisClub.MainPackage;
 import SmashTennisClub.FileSystem.FileHandler;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaGenerator;
 import SmashTennisClub.MainPackage.UserPackage.Chairman;
+import SmashTennisClub.MainPackage.UserPackage.Coach;
 import SmashTennisClub.MainPackage.UserPackage.Treasurer;
 import SmashTennisClub.MainPackage.UserPackage.UserHelperClass;
 
@@ -15,6 +16,7 @@ public class Main {
         FileHandler fileHandler = new FileHandler();
         QuotaGenerator qg = new QuotaGenerator();
         UserHelperClass uhc = new UserHelperClass();
+        Coach coach = new Coach();
 //        Treasurer treasurer = new Treasurer();
 //        ArrayList<Quota> embers = new ArrayList<Quota>();
 //        embers.add(new Quota(10, 15,"lars", 1500.00,true,
@@ -33,14 +35,15 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
 
-        while (choice != 8) {
+        while (choice != 9) {
             System.out.println("\n=== Menu ===");
             System.out.println("1. Søg efter medlem");
             System.out.println("2. Slet et medlem");
             System.out.println("3. Vis kontingenter");
             System.out.println("4. Print alle medlemmer");
             System.out.println("5. Opret nyt medlem");
-            System.out.println("6. Exit");
+            System.out.println("6. Opret PlayerEntry");
+            System.out.println("7. Exit");
             System.out.print("Enter your choice: ");
 
             choice = scanner.nextInt();
@@ -64,6 +67,9 @@ public class Main {
                     chairman.createAnyMember(scanner);
                     break;
                 case 6:
+                    coach.createPlayerEntry(scanner);
+                    break;
+                case 7:
                     System.out.println("Exiting...");
                     return;
 
