@@ -2,26 +2,26 @@ package SmashTennisClub.MainPackage.MembershipTypes;
 
 import SmashTennisClub.MainPackage.EnumLists.DisciplineType;
 import SmashTennisClub.MainPackage.EnumLists.Gender;
+import SmashTennisClub.MainPackage.EnumLists.MemberType;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
-class Junior extends Member {
+public class Junior extends Member {
 
-    private DisciplineType juniorDiscplineType;
+    private final DisciplineType juniorDisciplinType;
 
     public Junior(int memberId, String name, Gender genderOfMember, LocalDate dateOfBirth,
-                              int age, int phoneNumber, Boolean competitivePlayer,
-                              MembershipPricelist yearlyMembershipFee, LocalDate yearlyFeeDate,
-                              DisciplineType juniorDiscplineType, Boolean activeMembership) {
+                  int age, int phoneNumber, Boolean competitivePlayer,
+                  MemberType membershipType, MembershipPricelist yearlyMembershipFee,
+                  LocalDate yearlyFeeDate, DisciplineType juniorDisciplinType, Boolean activeMembership) {
 
         super(memberId, name, genderOfMember, dateOfBirth, age, phoneNumber, competitivePlayer,
-                yearlyMembershipFee, yearlyFeeDate, activeMembership);
-        this.juniorDiscplineType = juniorDiscplineType;
+                membershipType, yearlyMembershipFee, yearlyFeeDate, activeMembership);
+        this.juniorDisciplinType = juniorDisciplinType;
     }
 
-    public DisciplineType getJuniorDiscplineType() {
-        return juniorDiscplineType;
+    public DisciplineType getJuniorDisciplinType() {
+        return juniorDisciplinType;
     }
 }

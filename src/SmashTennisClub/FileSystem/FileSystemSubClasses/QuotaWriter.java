@@ -2,9 +2,6 @@ package SmashTennisClub.FileSystem.FileSystemSubClasses;
 
 import SmashTennisClub.FileSystem.SuperWriter;
 import SmashTennisClub.MainPackage.FinanceManagement.Quota;
-import SmashTennisClub.MainPackage.MembershipTypes.Member;
-
-import java.time.LocalDate;
 
 public class QuotaWriter extends SuperWriter<Quota> {
 
