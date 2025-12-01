@@ -45,7 +45,6 @@ public class Chairman {
             //memberName
             System.out.print("Indtast navn på medlem: ");
             String name = scanner.nextLine();
-            scanner.nextLine();
             // TODO validate name not empty
 
 
