@@ -4,22 +4,23 @@ import SmashTennisClub.MainPackage.EnumLists.DisciplineType;
 import SmashTennisClub.MainPackage.EnumLists.MatchResult;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class TrainingSession {
 
-    int trainingId;
+    int trainingSessionId;
     DisciplineType disciplineTypeForTraining;
-    Date dateOfTraining;
-    int memberId; //(for alle spillere)
+    LocalDate dateOfTraining;
+    int memberId;
     String memberName;
     int amountOfWonSets;
     MatchResult trainingResult;
 
 
-    public TrainingSession(int trainingId, DisciplineType disciplineTypeForTraining, Date dateOfTraining,
+    public TrainingSession(int trainingSessionId, DisciplineType disciplineTypeForTraining, LocalDate dateOfTraining,
                            int memberId, String memberName, int amountOfWonSets, MatchResult trainingResult) {
 
-        this.trainingId = trainingId;
+        this.trainingSessionId = trainingSessionId;
         this.disciplineTypeForTraining = disciplineTypeForTraining;
         this.dateOfTraining = dateOfTraining;
         this.memberId = memberId;
@@ -28,11 +29,11 @@ public class TrainingSession {
         this.trainingResult = trainingResult;
     }
 
-    public int getTrainingId() { return trainingId; }
+    public int getTrainingSessionId() { return trainingSessionId; }
     public String GetMemberName() {return memberName;}
     public int getMemberId() { return memberId; }
     public DisciplineType getDisciplineTypeForTraining() { return disciplineTypeForTraining; }
-    public Date getDateOfTraining() { return dateOfTraining; }
+    public LocalDate getDateOfTraining() { return dateOfTraining; }
 
     public int getAmountOfWonSets() { return amountOfWonSets; }
     public void setAmountOfWonSets(int amountOfWonSets) {
@@ -45,7 +46,7 @@ public class TrainingSession {
 
     @Override
     public String toString() {
-        return "TrainingSession {" + "trainingId=" + trainingId + ", member=" + memberName + " (" + memberId + ")"
+        return "TrainingSession {" + "trainingId=" + trainingSessionId + ", member=" + memberName + " (" + memberId + ")"
                 + ", discipline=" + disciplineTypeForTraining + ", date=" + dateOfTraining + ", won sets=" + amountOfWonSets +
                 ", result=" + trainingResult + "}";
     }

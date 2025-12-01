@@ -24,8 +24,6 @@ public class Chairman {
     private ArrayList<Member> members = reader.readFromFile();
 
 
-
-
         public Member createAnyMember(Scanner scanner) {
             FileHandler fileHandler = new FileHandler();
             MemberReader reader = new MemberReader();
@@ -39,6 +37,7 @@ public class Chairman {
             }
 
             int memberId = lastUsedMemberId + 1;
+
 
             System.out.println("--- Opret medlem ---");
 
