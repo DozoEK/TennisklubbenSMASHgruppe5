@@ -2,7 +2,7 @@ package SmashTennisClub.MainPackage.UserPackage;
 
 public class Coach {
 
-    //registerTraining() {}
+    // registerTraining() {}
    // registerTournament() {}
 
     void showTop5() {}
