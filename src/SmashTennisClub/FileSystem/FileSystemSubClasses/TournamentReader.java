@@ -35,6 +35,5 @@ public class TournamentReader extends SuperReader<Tournament> {
                 dateOfTournament, memberName, amountOfWonSets, tournamentPlacement);
     }
 
-
-
+    
 }
