@@ -6,7 +6,6 @@ import java.time.LocalDate;
 
 public interface ValidationInterface {
 
-
  void validateName(String name) throws SmashException;
 
  LocalDate validateDate(String input) throws SmashException;
