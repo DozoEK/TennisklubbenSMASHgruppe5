@@ -1,0 +1,13 @@
+package SmashTennisClub.MainPackage.ErrorAndValidation;
+
+
+class SetText {
+    public static void main(String[] args) {
+        try {
+            throw new SmashException("Custom exeption");
+        } catch (SmashException ex) {
+            System.out.println("fanget!");
+            System.out.println(ex.getMessage());
+        }
+    }
+}

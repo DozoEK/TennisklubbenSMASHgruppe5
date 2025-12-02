@@ -10,14 +10,25 @@ import java.util.Scanner;
 
 public class Coach {
 
-    // registerTraining() {}
-   // registerTournament() {}
 
     void showTop5() {}
     void SeniorTop5() {} //(den viser top 5 for alle 3 discipliner = 15 spillere)
     void juniorTop5() {}
-    void searchForTournamentPlayer() {} //(næsten samme metode som Formanden har)
-    void showAllTournamentPlayers() {} //(næsten samme metode som Formanden har)
+    void searchForCompetetivePlayer() {} //(næsten samme metode som Formanden har)
+    void showAllCompetetivePlayers() {} //(næsten samme metode som Formanden har)
+
+
+    //TODO createMatchSession()
+    //TODO deleteMatchSession()
+    //TODO editMatchSession()
+    //TODO showAllMatchSession()
+    //TODO searchForMatchSession()
+
+    //TODO deletePlayerEntry()
+    //TODO editPlayerEntry()
+    //TODO showAllPlayerEntry()
+    //TODO searchForPlayerEntry()
+
 
 
 
