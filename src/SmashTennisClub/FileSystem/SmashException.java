@@ -1,6 +1,6 @@
 package SmashTennisClub.FileSystem;
 
- class SmashException extends Exception {
+ public class SmashException extends Exception {
     public SmashException(String message) {
         super(message);
     }
