@@ -26,5 +26,22 @@ public class Senior extends Member {
         return seniorDisciplinType;
     }
 
+    @Override
+    public String toString() {
+        return "Senior{" +
+                "memberId=" + getMemberId() +
+                ", memberName='" + getMemberName() + '\'' +
+                ", genderOfMember=" + getGenderOfMember() +
+                ", dateOfBirth=" + getDateOfBirth() +
+                ", age=" + getAge() +
+                ", phoneNumber=" + getPhoneNumber() +
+                ", competitivePlayer=" + getCompetitivePlayer() +
+                ", membershipType=" + getMembershipType() +
+                ", yearlyMembershipFee=" + getYearlyMembershipFee() +
+                ", yearlyFeeDate=" + getYearlyFeeDate() +
+                ", activeMembership=" + getActiveMembership() +
+                ", discipline=" + seniorDisciplinType +
+                '}';
+    }
 
 }

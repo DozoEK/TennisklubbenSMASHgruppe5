@@ -15,7 +15,7 @@ public class MemberWriter extends SuperWriter<Member> {
 
     @Override
     protected String[] objectToParts(Member member) {
-        String[] parts = new String[11];
+        String[] parts = new String[12];
 
         parts[0] = String.valueOf(member.getMemberId());
         parts[1] = member.getMemberName();
@@ -36,6 +36,15 @@ public class MemberWriter extends SuperWriter<Member> {
         parts[8] = member.getYearlyMembershipFee().toString();
         parts[9] = member.getYearlyFeeDate().toString();
         parts[10] = String.valueOf(member.getActiveMembership());
+
+        if (member instanceof Junior) {
+            parts[11] = ((Junior) member).getJuniorDisciplinType().toString();
+        } else if (member instanceof Senior) {
+            parts[11] = ((Senior) member).getSeniorDisciplinType().toString();
+        } else {
+            parts[11] = "";
+        }
+
         return parts;
     }
 }

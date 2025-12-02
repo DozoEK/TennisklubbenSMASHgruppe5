@@ -42,13 +42,14 @@ public class MatchSessionReader extends SuperReader<MatchSession> {
         for (int i = 0; i < playerStrings.length; i++) {
             String[] p = playerStrings[i].split(",");
 
-            int memberId = Integer.parseInt(p[0]);
-            String memberName = p[1];
-            int setsPlayed = Integer.parseInt(p[2]);
-            int setsWon = Integer.parseInt(p[3]);
-            boolean isWinner = Boolean.parseBoolean(p[4]);
+            int playerEntryId = Integer.parseInt(p[0]);
+            int memberId = Integer.parseInt(p[1]);
+            String memberName = p[2];
+            int setsPlayed = Integer.parseInt(p[3]);
+            int setsWon = Integer.parseInt(p[4]);
+            boolean isWinner = Boolean.parseBoolean(p[5]);
 
-            PlayerEntry entry = new PlayerEntry(memberId, memberName, setsPlayed, setsWon, isWinner);
+            PlayerEntry entry = new PlayerEntry(playerEntryId, memberId, memberName, setsPlayed, setsWon, isWinner);
             playerList.add(entry);
         }
 

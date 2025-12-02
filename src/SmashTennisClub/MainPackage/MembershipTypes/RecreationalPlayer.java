@@ -18,4 +18,22 @@ public class RecreationalPlayer extends Member {
                 membershipType, yearlyMembershipFee, yearlyFeeDate, activeMembership);
     }
 
+    @Override
+    public String toString() {
+        return "RecreationalPlayer{" +
+                "memberId=" + getMemberId() +
+                ", memberName='" + getMemberName() + '\'' +
+                ", genderOfMember=" + getGenderOfMember() +
+                ", dateOfBirth=" + getDateOfBirth() +
+                ", age=" + getAge() +
+                ", phoneNumber=" + getPhoneNumber() +
+                ", competitivePlayer=" + getCompetitivePlayer() +
+                ", membershipType=" + getMembershipType() +
+                ", yearlyMembershipFee=" + getYearlyMembershipFee() +
+                ", yearlyFeeDate=" + getYearlyFeeDate() +
+                ", activeMembership=" + getActiveMembership() +
+                '}';
+    }
+
+
 }

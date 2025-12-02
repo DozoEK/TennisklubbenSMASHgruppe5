@@ -21,7 +21,7 @@ public class MemberReader extends SuperReader<Member> {
 
     @Override
     protected int setMaxIndexLength() {
-        return 11;
+        return 12;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MemberReader extends SuperReader<Member> {
 
 
         DisciplineType discipline = null;
-        if (competitivePlayer && parts.length > 11 && !parts[11].isEmpty()) {
+        if (parts.length > 11 && parts[11] != null && !parts[11].trim().isEmpty()) {
             discipline = DisciplineType.valueOf(parts[11].toUpperCase());
         }
 
@@ -53,14 +53,10 @@ public class MemberReader extends SuperReader<Member> {
                     age, phoneNumber, true, MemberType.SENIOR, yearlyMembershipFee,
                     yearlyFeeDate, discipline, activeMembership);
 
-            case "RECREATIONAL" -> new RecreationalPlayer(memberId, memberName, genderOfMember, dateOfBirth,
+            case "RECREATIONALPLAYER" -> new RecreationalPlayer(memberId, memberName, genderOfMember, dateOfBirth,
                     age, phoneNumber, false, MemberType.RECREATIONALPLAYER, yearlyMembershipFee,
                     yearlyFeeDate, activeMembership);
-
-
-            default -> new Member(memberId, memberName, genderOfMember, dateOfBirth,
-                    age, phoneNumber, competitivePlayer, MemberType.DEFAULTMEMBER, yearlyMembershipFee,
-                    yearlyFeeDate, activeMembership);
+            default -> throw new IllegalStateException("Unexpected value: " + memberType);
         };
 
         return member;

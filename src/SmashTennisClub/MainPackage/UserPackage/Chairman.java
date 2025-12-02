@@ -99,9 +99,9 @@ public class Chairman {
 
             // udfyld af membership pris
             MembershipPricelist membershipFee;
-            if (age < 18) {
+            if (age <= 17) {
                 membershipFee = MembershipPricelist.JUNIOR;
-            } else if (age >= 65) {
+            } else if (age > 60) {
                 membershipFee = MembershipPricelist.PENSIONIST;
             } else {
                 membershipFee = MembershipPricelist.SENIOR;
@@ -112,10 +112,10 @@ public class Chairman {
 
             //membershipType
             MemberType membershipType;
-            if (competitive == true && age < 18) {
+            if (competitive == true && age <= 17) {
                 membershipType = MemberType.JUNIOR;
 
-            } else if (competitive == true && age > 18) {
+            } else if (competitive == true && age >= 18) {
                 membershipType = MemberType.SENIOR;
 
             } else {
@@ -166,45 +166,35 @@ public class Chairman {
     public void deleteMember() {
         FileHandler fileHandler = new FileHandler();
         Scanner input = new Scanner(System.in);
+        UserHelperClass userHelper = new UserHelperClass();
 
         while (true) {
             System.out.println("--- Slet medlem ---");
-            System.out.println("Indtast medlemsID: ");
 
-            if (input.hasNextInt()) {
-                int memberIdToDelete = input.nextInt();
-                input.nextLine();
+            Member selectedMember = userHelper.searchForMember();
 
-
-                boolean isFound = false;
-                for (Member m : members) {
-                    if (m.getMemberId() == memberIdToDelete) {
-                        isFound = true;
-                        System.out.println("Følgende medlem vil blive slettet:");
-                        System.out.println(m);
-                        System.out.print("Er du sikker? (ja/nej): ");
-                        String confirmation = input.nextLine();
-
-                        if (confirmation.equalsIgnoreCase("ja")) {
-                            members.remove(m);
-                            System.out.println("Medlem er nu slettet!\n");
-                            fileHandler.saveMembers(members);
-                            return;
-                        } else {
-                            System.out.println("Sletning annulleret.");
-                            return;
-                        }
-                    }
-                }
-
-                if (!isFound) {
-                    System.out.println("Ingen medlemmer er fundet med følgende id: " + memberIdToDelete);
-                }
-            } else {
-                System.out.println("Ugyldigt input! Indtast et tal.");
-                input.nextLine();
+            if (selectedMember == null) {
+                System.out.println("Ingen medlem valgt. Afbryder sletning af spiller.");
+                return;
             }
+
+            System.out.println("Følgende medlem er valgt: " + selectedMember);
+
+            System.out.print("Er du sikker på at medlemmet skal slettes? (ja/nej): ");
+
+            String confirmation = input.nextLine();
+            if (confirmation.equalsIgnoreCase("ja")) {
+                members.remove(selectedMember);
+                System.out.println("Medlemmet er nu slettet!\n");
+                fileHandler.saveMembers(members);
+                return;
+            } else {
+                System.out.println("Sletning annulleres!");
+                return;
+            }
+
         }
+
     }
 
 
