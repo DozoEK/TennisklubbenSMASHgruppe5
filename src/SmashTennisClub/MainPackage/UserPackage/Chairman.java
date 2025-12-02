@@ -160,6 +160,7 @@ public class Chairman {
     }
 
 
+
     public void deleteMember() {
         FileHandler fileHandler = new FileHandler();
         Scanner input = new Scanner(System.in);
@@ -179,8 +180,9 @@ public class Chairman {
 
             System.out.print("Er du sikker på at medlemmet skal slettes? (ja/nej): ");
 
-            String confirmation = input.nextLine();
-            if (confirmation.equalsIgnoreCase("ja")) {
+            String confirm = input.nextLine();
+
+            if (confirm.equalsIgnoreCase("ja")) {
                 members.remove(selectedMember);
                 System.out.println("Medlemmet er nu slettet!\n");
                 fileHandler.saveMembers(members);
