@@ -19,6 +19,7 @@ public class ValidationMethods implements ValidationInterface {
 //    public int validateMemberIdSearch (String input) throws SmashException{}
 
 
+
     @Override
     public LocalDate validateDate(String input) throws SmashException {
         try {
@@ -39,6 +40,15 @@ public class ValidationMethods implements ValidationInterface {
         return date;
     }
 
+    @Override
+    public LocalDate validateNoFutureDate(String input) throws SmashException {
+        LocalDate date = validateDate(input);
+
+        if (date.isAfter(LocalDate.now())){
+            throw new SmashException("Fejl: Datoen må ikke ligge i fremtiden!");
+        }
+        return date;
+    }
 
     @Override
     public int validatePhone(String input) throws SmashException {
