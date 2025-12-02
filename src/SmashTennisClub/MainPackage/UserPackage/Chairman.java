@@ -236,6 +236,7 @@ public class Chairman {
         //ændre køn
         System.out.println("indtast køn på medlem ('MALE' / 'FEMALE' (nuværende: " + selectedMember.getGenderOfMember() + "): ");
         Gender gender = Gender.valueOf(scanner.nextLine().toUpperCase());
+
         //Fødselsdag
         LocalDate dateOfBirth = null;
         boolean isValid = false;

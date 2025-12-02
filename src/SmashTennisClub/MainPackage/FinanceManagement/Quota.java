@@ -24,7 +24,7 @@ public class Quota {
         this.memberName = memberName;
         this.yearlyMembershipFee = yearlyMembershipFee;
         this.isPaid = isPaid;
-        this.yearlyFeeDate = yearlyFeeDate;
+        this.yearlyFeeDate = LocalDate.now().plusYears(1);
         this.actualDateOfPayment = (actualDateOfPayment != null) ? actualDateOfPayment : yearlyFeeDate;
     }
 

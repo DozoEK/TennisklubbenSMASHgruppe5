@@ -17,18 +17,6 @@ public class Main {
         QuotaGenerator qg = new QuotaGenerator();
         UserHelperClass uhc = new UserHelperClass();
         Coach coach = new Coach();
-//        Treasurer treasurer = new Treasurer();
-//        ArrayList<Quota> embers = new ArrayList<Quota>();
-//        embers.add(new Quota(10, 15,"lars", 1500.00,true,
-//                2025,03, 05, 2025,06,06"));
-
-
-        //qg.generateQuotasFromMembers();
-        // chairman.createMemberTest();
-//        fileHandler.printAllMembers();
-//        chairman.deleteMember();
-//        treasurer.searchForQuota();
-
 
 
 
@@ -44,6 +32,7 @@ public class Main {
             System.out.println("5. Opret nyt medlem");
             System.out.println("6. Opret PlayerEntry");
             System.out.println("7. Rediger medlem");
+            System.out.println("8. Create Quota");
             System.out.println("0. Exit / slut programmet");
             System.out.print("Enter your choice: ");
 
@@ -75,6 +64,9 @@ public class Main {
                     break;
                 case 7:
                     chairman.editMember();
+                    break;
+                case 8:
+                    treasurer.createQuotaForMember();
                     break;
 
                 default:
