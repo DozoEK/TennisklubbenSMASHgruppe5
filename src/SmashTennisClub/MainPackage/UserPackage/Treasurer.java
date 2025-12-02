@@ -1,6 +1,8 @@
 package SmashTennisClub.MainPackage.UserPackage;
 
 import SmashTennisClub.FileSystem.FileHandler;
+import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
+import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberWriter;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaReader;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import SmashTennisClub.MainPackage.FinanceManagement.Quota;
@@ -13,6 +15,41 @@ import java.util.Scanner;
 
 public class Treasurer {
     private QuotaController controller;
+
+
+    public void autoCreateQuotasForAllMembers() {
+        UserHelperClass userHelper = new UserHelperClass();
+        FileHandler fh = new FileHandler();
+        QuotaReader qr = new QuotaReader();
+        ArrayList<Quota> quotas = qr.readFromFile();
+        MemberReader memberReader = new MemberReader();
+        ArrayList<Member> members = memberReader.readFromFile();
+
+        int lastUsedQuotaId = 0;
+        for (Quota quota : quotas) {
+            if (quota.getQuotaId() > lastUsedQuotaId) {
+                lastUsedQuotaId = quota.getQuotaId();
+            }
+        }
+        int nextQuotaId = lastUsedQuotaId + 1;
+
+        LocalDate yearlyFeeDate = LocalDate.now().plusYears(1);
+        LocalDate actualDateOfPayment = yearlyFeeDate;
+
+        for (Member member : members) {
+            Quota quota = new Quota(nextQuotaId, member.getMemberId(), member.getMemberName(),
+                    member.getYearlyMembershipFee(), false, member.getYearlyFeeDate(), actualDateOfPayment);
+
+            quotas.add(quota);
+        }
+
+        fh.saveQuotas(quotas);
+    }
+
+
+    //TODO restance metode:
+    //hvis isPaid = false og yearlyFeeDate er i datid = isMember (NO)
+    //Brug næsten samme logik som fra "CheckForChangesInYearlyFees"
 
 
     public Quota createQuotaForMember() {
@@ -102,11 +139,25 @@ public class Treasurer {
    }
 
 
+   public void registerPaymentForMember() {
+       UserHelperClass userHelper = new UserHelperClass();
+       System.out.println("--- Register payment for single user ---");
+
+       Member selectedMember = userHelper.searchForMember();
+
+       int memberId = selectedMember.getMemberId();
+       registerPayments(memberId);
+
+   }
+
 
     public boolean registerPayments(int memberId) {
         FileHandler fh = new FileHandler();
         QuotaReader reader = new QuotaReader();
         ArrayList<Quota> quotas = reader.readFromFile();
+        MemberReader mr = new MemberReader();
+        MemberWriter mw = new MemberWriter();
+
 
         for (Quota quota : quotas) {
             if (quota.getMemberId() == memberId) {
@@ -116,6 +167,8 @@ public class Treasurer {
                 }
                 quota.setPaid(true);
                 quota.setActualDateOfPayment(LocalDate.now());
+
+
 
                 System.out.println("Betaling registret for " + quota.getMemberName());
                 System.out.println("Beløb: " + quota.getYearlyMembershipFee().getPrice() + "Kr.");

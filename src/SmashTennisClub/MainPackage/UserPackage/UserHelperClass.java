@@ -3,9 +3,14 @@ package SmashTennisClub.MainPackage.UserPackage;
 import SmashTennisClub.FileSystem.FileHandler;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberWriter;
+import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaReader;
+import SmashTennisClub.MainPackage.FinanceManagement.Quota;
+import SmashTennisClub.MainPackage.FinanceManagement.QuotaController;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class UserHelperClass {
@@ -17,7 +22,7 @@ public class UserHelperClass {
 
 
     //logik til at finde memeber id
-    private Member findMemberById(int memberId) {
+    public Member findMemberById(int memberId) {
         for (Member m : members) {
             if (m.getMemberId() == memberId) {
                 return m;
@@ -151,7 +156,7 @@ public class UserHelperClass {
                         System.out.println("Ugyldigt input. Søg igen:\n");
                     }
 
-                }else {
+                } else {
                     System.out.println("Ingen medlemmer med navnet: " + name + " er fundet.");
                 }
             }
@@ -188,16 +193,49 @@ public class UserHelperClass {
     }
 
 
-    //søg efter medlem og hav retur af medlem efter det er fundet!
-    //        Member selectedMember = userHelper.searchForMember();
-    //
-    //        if (selectedMember == null) {
-    //            System.out.println("Ingen medlem valgt. Afbryder oprettelse af spiller beretning.");
-    //            return null;
-    //        }
-    //
-    //        int memberId = selectedMember.getMemberId();
-    //        String memberName = selectedMember.getMemberName();
+    public void autoCheckAllQuotasForChangeInYearlyFeeDate() {
+        MemberReader memberReader = new MemberReader();
+        ArrayList<Member> members = memberReader.readFromFile();
 
+        for (Member member : members) {
+            checkForChangesInYearlyFeeDate(member.getMemberId());
+        }
+    }
+
+
+
+
+    public void checkForChangesInYearlyFeeDate(int memberId) {
+
+        QuotaReader qr = new QuotaReader();
+        ArrayList<Quota> quotas = qr.readFromFile();
+        QuotaController qc = new QuotaController();
+
+        ArrayList<Quota> memberQuotas = new ArrayList<>();
+        for (Quota q : quotas) {
+            if (q.getMemberId() == memberId) {
+                memberQuotas.add(q);
+            }
+        }
+
+        if (memberQuotas.isEmpty()) {
+            System.out.println("No quotas found for member " + memberId);
+            return;
+        }
+        memberQuotas.sort(Comparator.comparing(Quota::getActualDateOfPayment, Comparator.nullsFirst(Comparator.naturalOrder())).reversed());
+        Quota latest = memberQuotas.get(0);
+
+
+        if (latest.getIsPaid() && LocalDate.now().equals(latest.getActualDateOfPayment())) {
+            qc.logicForCreateQuotaForMember(memberId);
+        } else {
+            System.out.println("No new quota needed for member " + memberId);
+        }
+
+            //hvis actualPayDate er FØR i dag OG den er betalt, så er det okay!
+            //hvis actualPayDate er efter i dag er det også okay!
+            //hvis actualPayDate er i dag og den er paid = ny quota
+
+    }
 
 }

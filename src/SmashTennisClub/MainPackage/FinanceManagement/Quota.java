@@ -54,6 +54,8 @@ public class Quota {
         return yearlyFeeDate;
     }
 
+
+
     public LocalDate getActualDateOfPayment() {
         return actualDateOfPayment;
     }
@@ -79,6 +81,10 @@ public class Quota {
 
     public void setYearlyFeeDate(LocalDate yearlyFeeDate) {
         this.yearlyFeeDate = yearlyFeeDate;
+    }
+
+    public void renewYearlyFeeDate() {
+        this.yearlyFeeDate = LocalDate.now().plusYears(1);
     }
 
     public void setActualDateOfPayment(LocalDate actualDateOfPayment) {

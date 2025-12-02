@@ -17,7 +17,7 @@ public class Member {
     private Boolean competitivePlayer = false;
     private MemberType membershipType;
     private MembershipPricelist yearlyMembershipFee;
-    private final LocalDate yearlyFeeDate;
+    private LocalDate yearlyFeeDate;
     private Boolean activeMembership = false;
 
     public Member(int memberId, String memberName, Gender genderOfMember, LocalDate dateOfBirth, int age,
@@ -80,6 +80,10 @@ public class Member {
 
     public LocalDate getYearlyFeeDate() {
         return yearlyFeeDate;
+    }
+
+    public void renewYearlyFeeDate() {
+        this.yearlyFeeDate = LocalDate.now().plusYears(1);
     }
 
     public Boolean getActiveMembership() {

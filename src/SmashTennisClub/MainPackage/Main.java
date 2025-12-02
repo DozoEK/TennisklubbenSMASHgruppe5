@@ -33,6 +33,7 @@ public class Main {
             System.out.println("6. Opret PlayerEntry");
             System.out.println("7. Rediger medlem");
             System.out.println("8. Create Quota");
+            System.out.println("9. Register payment");
             System.out.println("0. Exit / slut programmet");
             System.out.print("Enter your choice: ");
 
@@ -67,6 +68,9 @@ public class Main {
                     break;
                 case 8:
                     treasurer.createQuotaForMember();
+                    break;
+                case 9:
+                    treasurer.registerPaymentForMember();
                     break;
 
                 default:
