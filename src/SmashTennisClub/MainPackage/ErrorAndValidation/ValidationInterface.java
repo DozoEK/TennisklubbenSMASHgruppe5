@@ -13,6 +13,8 @@ public interface ValidationInterface {
 
  LocalDate validateDateTime (String input) throws SmashException;
 
+ LocalDate validateNoFutureDate (String input) throws SmashException;
+
  int validatePhone(String input) throws SmashException;
 
  int validatePhoneNumberLength(String input) throws SmashException;
