@@ -1,6 +1,5 @@
 package SmashTennisClub.MainPackage.ErrorAndValidation;
 
-import SmashTennisClub.FileSystem.SmashException;
 
 import java.time.LocalDate;
 
