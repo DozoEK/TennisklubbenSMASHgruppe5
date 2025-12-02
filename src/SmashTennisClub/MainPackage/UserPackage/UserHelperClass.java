@@ -13,7 +13,7 @@ public class UserHelperClass {
     MemberReader reader = new MemberReader();
     MemberWriter writer = new MemberWriter();
 
-    private ArrayList<Member> members = reader.readFromFile();
+    private final ArrayList<Member> members = reader.readFromFile();
 
 
     //logik til at finde memeber id
@@ -36,7 +36,6 @@ public class UserHelperClass {
         }
         return null;
     }
-
 
 
     public Member searchForMember() {
@@ -81,14 +80,11 @@ public class UserHelperClass {
 
                 ArrayList<Member> matchingMembers = findMembersByPartialName(name);
 
-                if (!matchingMembers.isEmpty()) {
-                    System.out.println("\nFundne medlemmer:");
-                    for (int i = 0; i < matchingMembers.size(); i++) {
-                        System.out.println((i + 1) + ". " + matchingMembers.get(i));
-                    }
+                if (!matchingMembers.isEmpty() && matchingMembers.size() <= 1) {
+                    System.out.println("Fundet følgende medlem: ");
+                    System.out.println(matchingMembers);
+                    System.out.println("Tast '1' for at fortsætte - Tast '0' for at søge igen: ");
 
-
-                    System.out.print("\nVælg nummer (1-" + matchingMembers.size() + ") eller '0' for at søge igen: ");
 
                     if (input.hasNextInt()) {
                         int choice = input.nextInt();
@@ -118,13 +114,49 @@ public class UserHelperClass {
                         System.out.println("Ugyldigt input. Søg igen:\n");
                     }
 
-                } else {
+                } else if (!matchingMembers.isEmpty() && matchingMembers.size() >= 2) {
+
+                    System.out.println("\nFundne medlemmer:");
+                    for (int i = 0; i < matchingMembers.size(); i++) {
+                        System.out.println((i + 1) + ". " + matchingMembers.get(i));
+                    }
+                    System.out.print("\nVælg nummer (1-" + matchingMembers.size() + ") eller '0' for at søge igen: ");
+
+
+                    if (input.hasNextInt()) {
+                        int choice = input.nextInt();
+                        input.nextLine();
+
+                        if (choice > 0 && choice <= matchingMembers.size()) {
+                            Member selectedMember = matchingMembers.get(choice - 1);
+
+
+                            System.out.println("\nValgt medlem:");
+                            System.out.println(selectedMember);
+                            System.out.print("\nEr dette det korrekte medlem? (ja/nej): ");
+                            String confirmation = input.nextLine();
+
+                            if (confirmation.equalsIgnoreCase("ja")) {
+                                return selectedMember;
+                            } else {
+                                System.out.println("Søg igen:\n");
+                            }
+                        } else if (choice == 0) {
+                            System.out.println("Søg igen:\n");
+                        } else {
+                            System.out.println("Ugyldigt valg. Søg igen: \n");
+                        }
+                    } else {
+                        input.nextLine();
+                        System.out.println("Ugyldigt input. Søg igen:\n");
+                    }
+
+                }else {
                     System.out.println("Ingen medlemmer med navnet: " + name + " er fundet.");
                 }
             }
         }
     }
-
 
 
     private ArrayList<Member> findMembersByPartialName(String partialName) {
@@ -142,8 +174,7 @@ public class UserHelperClass {
     }
 
 
-
-    public void printAllMembers () {
+    public void printAllMembers() {
         FileHandler fileHandler = new FileHandler();
         fileHandler.printAllMembers();
     }
