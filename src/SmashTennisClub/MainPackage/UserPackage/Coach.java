@@ -1,28 +1,118 @@
 package SmashTennisClub.MainPackage.UserPackage;
 
 import SmashTennisClub.FileSystem.FileHandler;
+import SmashTennisClub.FileSystem.FileSystemSubClasses.MatchSessionReader;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.PlayerEntryReader;
+import SmashTennisClub.MainPackage.EnumLists.DisciplineType;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
+import SmashTennisClub.MainPackage.PlayerStatistic.MatchSession;
 import SmashTennisClub.MainPackage.PlayerStatistic.PlayerEntry;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Coach {
 
 
-    void showTop5() {}
-    void SeniorTop5() {} //(den viser top 5 for alle 3 discipliner = 15 spillere)
-    void juniorTop5() {}
-    void searchForCompetetivePlayer() {} //(næsten samme metode som Formanden har)
-    void showAllCompetetivePlayers() {} //(næsten samme metode som Formanden har)
+    //TODO void showTop5() {}
+    //TODO void SeniorTop5() {}(den viser top 5 for alle 3 discipliner = 15 spillere)
+    // TODO void juniorTop5() {}
+    // TODO void searchForCompetetivePlayer() {} (næsten samme metode som Formanden har)
+    //TODO void showAllCompetetivePlayers() {} //(næsten samme metode som Formanden har)
 
 
-    //TODO createMatchSession()
+    public MatchSession createMatchSession(Scanner scanner) {
+        FileHandler fileHandler = new FileHandler();
+        MatchSessionReader matchSessionReader = new MatchSessionReader();
+        ArrayList<MatchSession> matchSessions = matchSessionReader.readFromFile();
+        UserHelperClass userHelper = new UserHelperClass();
+
+
+        int lastUsedSessionId = 0;
+        for (MatchSession session : matchSessions) {
+            if (session.getSessionId() > lastUsedSessionId) {
+                lastUsedSessionId = session.getSessionId();
+            }
+        }
+        int sessionId = lastUsedSessionId + 1;
+
+
+        System.out.println("--- Opret match session ---");
+
+        System.out.print("Er dette en turnering? (ja/nej): ");
+        String tournamentInput = scanner.nextLine().toLowerCase();
+
+        boolean isTournament = false;
+        if (tournamentInput == "ja") {
+            isTournament = true;
+        } else if (tournamentInput == "nej") {
+            isTournament = false;
+        }
+
+
+        int tournamentPlacement = 0;
+        if (isTournament) {
+            System.out.print("Indtast medlemmets turnerings placeringen: ");
+            tournamentPlacement = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+
+        DisciplineType sessionDiscipline = null;
+
+        System.out.println("Indtast diciplin type:");
+        for (DisciplineType d : DisciplineType.values()) {
+            System.out.print(d + " - ");
+        }
+        sessionDiscipline = DisciplineType.valueOf(scanner.nextLine().toUpperCase());
+
+        int requiredPlayers = 0;
+        if (sessionDiscipline == DisciplineType.SINGLE && isTournament) {
+            requiredPlayers = 1;
+        } else if (sessionDiscipline == DisciplineType.DOUBLE || sessionDiscipline == DisciplineType.MIXED_DOUBLE) {
+            requiredPlayers = 4;
+        } else if (sessionDiscipline == DisciplineType.SINGLE && !isTournament)
+            requiredPlayers = 2;
+
+
+        System.out.print("Indtast session dato (ÅÅÅÅ-MM-DD): ");
+        String dateInput = scanner.nextLine();
+        LocalDate sessionDate = LocalDate.parse(dateInput);
+
+
+        ArrayList<PlayerEntry> playerEntries = new ArrayList<>();
+        System.out.println("\nOpret " + requiredPlayers + " antal spiller beretning(er): ");
+
+        for (int i = 0; i < requiredPlayers; i++) {
+            System.out.println("Indtast oplysninger for spiller nummer "+ (i + 1) + "ud af " + requiredPlayers + ": ");
+            PlayerEntry playerEntry = createPlayerEntry(scanner);
+
+            if (playerEntry == null) {
+                System.out.println("Fejl ved oprettelse af spiller beretning. Afbryder oprettelse af match session.");
+                return null;
+            }
+            playerEntries.add(playerEntry);
+        }
+
+
+        MatchSession matchSession = new MatchSession(sessionId, isTournament, tournamentPlacement,
+                sessionDiscipline, sessionDate, playerEntries);
+
+        matchSessions.add(matchSession);
+        fileHandler.saveMatchSessions(matchSessions);
+
+        System.out.println("\nFølgende MatchSession er oprettet og gemt til CSV: ");
+        System.out.println(matchSession);
+
+        return matchSession;
+    }
+
     //TODO deleteMatchSession()
     //TODO editMatchSession()
     //TODO showAllMatchSession()
     //TODO searchForMatchSession()
+
 
     //TODO deletePlayerEntry()
     //TODO editPlayerEntry()
@@ -30,15 +120,11 @@ public class Coach {
     //TODO searchForPlayerEntry()
 
 
-
-
-
     public PlayerEntry createPlayerEntry(Scanner scanner) {
         FileHandler fileHandler = new FileHandler();
         PlayerEntryReader playerEntryReader = new PlayerEntryReader();
         ArrayList<PlayerEntry> playerEntries = playerEntryReader.readFromFile();
         UserHelperClass userHelper = new UserHelperClass();
-
 
 
         int lastUsedPlayerEntryId = 0;
@@ -49,7 +135,6 @@ public class Coach {
         }
 
         int playerEntryId = lastUsedPlayerEntryId + 1;
-
 
 
         System.out.println("--- Opret spiller beretning ---");
@@ -78,10 +163,11 @@ public class Coach {
         }
 
         int maxWinningSets;
-            if (setsPlayed == 3) { maxWinningSets = 2;
-            } else {
-                maxWinningSets = 3;
-            }
+        if (setsPlayed == 3) {
+            maxWinningSets = 2;
+        } else {
+            maxWinningSets = 3;
+        }
 
         int setsWon = -1;
         while (setsWon < 0 || setsWon > setsPlayed) {
@@ -102,12 +188,11 @@ public class Coach {
 
 
         playerEntries.add(playerEntry);
-        fileHandler.savePlayerEntry(playerEntries);
+        fileHandler.savePlayerEntries(playerEntries);
 
         System.out.println("\nFølgende PlayerEntry er oprettet og gemt til CSV: ");
         System.out.println(playerEntry);
 
         return playerEntry;
     }
-
 }

@@ -43,7 +43,8 @@ public class Main {
             System.out.println("4. Print alle medlemmer");
             System.out.println("5. Opret nyt medlem");
             System.out.println("6. Opret PlayerEntry");
-            System.out.println("7. Exit");
+            System.out.println("7. Opret MatchSession");
+            System.out.println("0. Exit / slut programmet");
             System.out.print("Enter your choice: ");
 
             choice = scanner.nextInt();
@@ -51,6 +52,9 @@ public class Main {
 
 
             switch (choice) {
+                case 0:
+                    System.out.println("Exiting...");
+                    return;
                 case 1:
                     uhc.searchForMember();
                     break;
@@ -70,9 +74,7 @@ public class Main {
                     coach.createPlayerEntry(scanner);
                     break;
                 case 7:
-                    System.out.println("Exiting...");
-                    return;
-
+                    coach.createMatchSession(scanner);
 
                 default:
                     System.out.println("Invalid choice! Try again.");
