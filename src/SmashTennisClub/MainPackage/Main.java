@@ -43,6 +43,7 @@ public class Main {
             System.out.println("4. Print alle medlemmer");
             System.out.println("5. Opret nyt medlem");
             System.out.println("6. Opret PlayerEntry");
+            System.out.println("7. Rediger medlem");
             System.out.println("0. Exit / slut programmet");
             System.out.print("Enter your choice: ");
 
@@ -71,6 +72,9 @@ public class Main {
                     break;
                 case 6:
                     coach.createPlayerEntry(scanner);
+                    break;
+                case 7:
+                    chairman.editMember();
                     break;
 
                 default:
