@@ -14,13 +14,14 @@ public class PlayerEntryWriter extends SuperWriter<PlayerEntry> {
 
     @Override
     protected String[] objectToParts(PlayerEntry object) {
-        String[] parts = new String[5];
+        String[] parts = new String[6];
 
-        parts[0] = String.valueOf(object.getMemberId());
-        parts[1] = object.getMemberName();
-        parts[2] = String.valueOf(object.getSetsPlayed());
-        parts[3] = String.valueOf(object.getSetsWon());
-        parts[4] = String.valueOf(object.isMatchWinner());
+        parts[0] = String.valueOf(object.getPlayerEntryId());
+        parts[1] = String.valueOf(object.getMemberId());
+        parts[2] = object.getMemberName();
+        parts[3] = String.valueOf(object.getSetsPlayed());
+        parts[4] = String.valueOf(object.getSetsWon());
+        parts[5] = String.valueOf(object.isMatchWinner());
 
         return parts;
     }
