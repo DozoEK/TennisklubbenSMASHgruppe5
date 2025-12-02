@@ -14,7 +14,7 @@ public class PlayerEntryWriter extends SuperWriter<PlayerEntry> {
 
     @Override
     protected String[] objectToParts(PlayerEntry object) {
-        String[] parts = new String[7];
+        String[] parts = new String[5];
 
         parts[0] = String.valueOf(object.getMemberId());
         parts[1] = object.getMemberName();

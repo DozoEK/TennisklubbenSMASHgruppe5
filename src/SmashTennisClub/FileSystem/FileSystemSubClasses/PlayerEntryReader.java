@@ -12,7 +12,7 @@ public class PlayerEntryReader extends SuperReader<PlayerEntry> {
 
     @Override
     protected int setMaxIndexLength() {
-        return 5;
+        return 6;
     }
 
     @Override

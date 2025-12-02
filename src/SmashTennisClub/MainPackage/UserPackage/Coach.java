@@ -21,6 +21,7 @@ public class Coach {
 
 
 
+
     public PlayerEntry createPlayerEntry(Scanner scanner) {
         FileHandler fileHandler = new FileHandler();
         PlayerEntryReader playerEntryReader = new PlayerEntryReader();
