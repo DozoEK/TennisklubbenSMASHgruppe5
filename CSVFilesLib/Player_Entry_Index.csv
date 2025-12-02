@@ -1,5 +1,4 @@
-1,21,Tobias Kjeldsen,5,2,false
-2,101,Test Person,5,3,true
-3,21,Tobias Kjeldsen,3,2,true
-4,21,Tobias Kjeldsen,5,4,true
-5,17,Ida Jensen,5,1,false
+1,21,Tobias Kjeldsen,false,false,0,SINGLE,2025-11-20,3,2,true
+2,21,Tobias Kjeldsen,true,false,0,DOUBLE,2025-11-23,3,1,false
+3,17,Ida Jensen,false,true,4,SINGLE,2025-09-20,3,3,true
+4,21,Tobias Kjeldsen,false,true,5,DOUBLE,2025-11-20,9,4,false
