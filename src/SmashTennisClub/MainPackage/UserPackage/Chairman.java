@@ -15,7 +15,6 @@ import SmashTennisClub.MainPackage.MembershipTypes.Member;
 import SmashTennisClub.MainPackage.MembershipTypes.RecreationalPlayer;
 import SmashTennisClub.MainPackage.MembershipTypes.Senior;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -107,7 +106,8 @@ public class Chairman {
         int memberId = lastUsedMemberId + 1;
 
 
-        System.out.println("--- Opret medlem ---");
+        System.out.println("\n--- Opret medlem ---");
+        System.out.println();
 
             //memberName
             String name = null;
@@ -127,7 +127,7 @@ public class Chairman {
             //memberGender
             Gender gender = null;
             while (true) {
-                System.out.println("Indtast køn på medlem ('MALE' / 'FEMALE'): ");
+                System.out.print("Indtast køn på medlem ('MALE' / 'FEMALE'): ");
                 String input = scanner.nextLine().toUpperCase();
                 try {
                     gender = Gender.valueOf(input);
@@ -186,7 +186,7 @@ public class Chairman {
             //competitivePlayer
             boolean competitive = false;
             while (true) {
-                System.out.println("Er medlemmet konkurencespiller? (Indtast: true/false): ");
+                System.out.print("Er medlemmet konkurencespiller? (Indtast: true/false): ");
                 String input = scanner.nextLine();
                 try {
                     competitive = validator.validateBoolean(input);
@@ -201,7 +201,7 @@ public class Chairman {
             //hvis kompetetiv =
             if (competitive) {
                 while (true) {
-                    System.out.println("Indtast diciplin type:");
+                    System.out.print("Indtast diciplin type:");
                     for (DisciplineType d : DisciplineType.values()) {
                         System.out.print(d + " - ");
                     }
@@ -227,7 +227,6 @@ public class Chairman {
             membershipFee = MembershipPricelist.SENIOR;
         }
 
-        System.out.println("Årspris: " + membershipFee.getPrice());
 
 
         //membershipType
@@ -271,9 +270,12 @@ public class Chairman {
 
         members.add(member);
         fileHandler.saveMembers(members);
+        System.out.println();
 
         System.out.println("Følgende medlem er oprettet og gemt til CSV:");
         System.out.println(member);
+        System.out.println();
+        System.out.println("Årspris: " + membershipFee.getPrice());
 
         return member;
     }
@@ -302,6 +304,7 @@ public class Chairman {
             String confirmation = input.nextLine();
             if (confirmation.equalsIgnoreCase("ja")) {
                 members.remove(selectedMember);
+                System.out.println();
                 System.out.println("Medlemmet er nu slettet!\n");
                 fileHandler.saveMembers(members);
                 return;
@@ -315,143 +318,136 @@ public class Chairman {
     }
 
 
-    //TODO lav editMember()
     public void editMember() {
         FileHandler fileHandler = new FileHandler();
+        MemberReader reader = new MemberReader();
+        ArrayList<Member> members = reader.readFromFile();
         Scanner scanner = new Scanner(System.in);
         UserHelperClass userHelper = new UserHelperClass();
 
-        System.out.println("--- Ændre oplysninger på et medlem ---");
+        System.out.println("--- Rediger oplysninger på et medlem ---");
 
         Member selectedMember = userHelper.searchForMember();
 
         if (selectedMember == null) {
-            System.out.println("intet medlem fundet, redigering afbrudt");
+            System.out.println("Intet medlem fundet, redigering afbrudt.");
             return;
         }
 
-        System.out.println("\nvalgt medlem:");
+        System.out.println("\nValgt medlem:");
         System.out.println(selectedMember);
 
-        int memberPosition = -1;
-        for (int i = 0; i < members.size(); i++) {
-            if (members.get(i).getMemberId() == selectedMember.getMemberId()) {
-                memberPosition = i;
-                break;
+
+        boolean editing = true;
+        while (editing) {
+            System.out.println("\nVælg, hvilken information du vil ændre:");
+            System.out.println("1. Navn");
+            System.out.println("2. Køn");
+            System.out.println("3. Fødselsdato");
+            System.out.println("4. Telefonnummer");
+            System.out.println("5. Konkurrencespiller");
+            System.out.println("6. Disciplin (kun konkurrencespillere)");
+            System.out.println("7. Aktivt medlemskab");
+            System.out.println("8. Afslut redigering");
+            System.out.println();
+            System.out.print("Indtast dit valg (1-8): ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1" -> editName(selectedMember, scanner);
+                case "2" -> editGender(selectedMember, scanner);
+                case "3" -> editDateOfBirth(selectedMember, scanner);
+                case "4" -> editPhoneNumber(selectedMember, scanner);
+                case "5" -> editCompetitive(selectedMember, scanner);
+                case "6" -> editDiscipline(selectedMember, scanner);
+                case "7" -> editActiveMembership(selectedMember, scanner);
+                case "8" -> editing = false;
+                default -> System.out.println("Ugyldigt valg, prøv igen.");
+            }
+
+            recalcMembership(selectedMember);
+        }
+
+
+        fileHandler.saveMembers(members);
+        System.out.println("\nMedlemmet er blevet opdateret:");
+        System.out.println(selectedMember);
+    }
+
+    private void editName(Member member, Scanner scanner) {
+        System.out.print("Indtast nyt navn (nuværende: " + member.getMemberName() + "): ");
+        member.setMemberName(scanner.nextLine());
+    }
+
+    private void editGender(Member member, Scanner scanner) {
+        System.out.print("Indtast køn ('MALE' / 'FEMALE') (nuværende: " + member.getGenderOfMember() + "): ");
+        member.setGenderOfMember(Gender.valueOf(scanner.nextLine().toUpperCase()));
+    }
+
+    private void editDateOfBirth(Member member, Scanner scanner) {
+        boolean validDate = false;
+        while (!validDate) {
+            System.out.print("Indtast fødselsdato (YYYY-MM-DD) (nuværende: " + member.getDateOfBirth() + "): ");
+            try {
+                member.setDateOfBirth(LocalDate.parse(scanner.nextLine()));
+                member.updateAge();
+                System.out.println("Ny alder: " + member.getAge());
+                validDate = true;
+            } catch (DateTimeParseException e) {
+                System.out.println("Ugyldigt format! Brug YYYY-MM-DD.");
             }
         }
-        if (memberPosition == -1) {
-            System.out.println("kunne ikke finde medlemmet på liste");
+    }
+
+    private void editPhoneNumber(Member member, Scanner scanner) {
+        System.out.print("Indtast nyt telefonnummer (nuværende: " + member.getPhoneNumber() + "): ");
+        member.setPhoneNumber(Integer.parseInt(scanner.nextLine()));
+    }
+
+    private void editCompetitive(Member member, Scanner scanner) {
+        System.out.print("Er medlemmet konkurrencespiller? (true/false) (nuværende: " + member.getCompetitivePlayer() + "): ");
+        member.setCompetitivePlayer(Boolean.parseBoolean(scanner.nextLine()));
+    }
+
+    private void editDiscipline(Member member, Scanner scanner) {
+        if (!member.getCompetitivePlayer()) {
+            System.out.println("Medlemmet er ikke konkurrencespiller, disciplin kan ikke ændres.");
             return;
         }
 
-        int memberId = selectedMember.getMemberId();
-
-        System.out.println("---indtast de nye oplysninger---");
-
-        //ændre navn
-        System.out.println("Indtast nyt navn ( nuværende: " + selectedMember.getMemberName() + "): ");
-        String name = scanner.nextLine();
-
-        //ændre køn
-        System.out.println("indtast køn på medlem ('MALE' / 'FEMALE' (nuværende: " + selectedMember.getGenderOfMember() + "): ");
-        Gender gender = Gender.valueOf(scanner.nextLine().toUpperCase());
-
-        //Fødselsdag
-        LocalDate dateOfBirth = null;
-        boolean isValid = false;
-
-        System.out.println("registreret fødselsdag: " + selectedMember.getDateOfBirth());
-        while (!isValid) {
-            System.out.print("indtast den korrekte fødselsdag  (format: YYYY-MM-DD): ");
-            try {
-                dateOfBirth = LocalDate.parse(scanner.nextLine());
-                isValid = true;
-            } catch (DateTimeParseException e) {
-                System.out.println("Skriv det korrekte format! (YYYY-MM-DD)");
-            }
+        System.out.println("Vælg disciplin type:");
+        for (DisciplineType d : DisciplineType.values()) {
+            System.out.print(d + " - ");
         }
-        //beregner alder ud fra ny fødselsdag
-        int age = dateOfBirth.until(LocalDate.now()).getYears();
-        System.out.println("medlemmets nye registrerede alder: " + age + "år ");
+        System.out.println();
 
-        //Telefonnummer
-        System.out.print("Indtast nyt telefonnummer (nuværende: " + selectedMember.getPhoneNumber() + "): ");
-        int phoneNumber = Integer.parseInt(scanner.nextLine());
-
-        // Konkurrencespiller
-        System.out.println("Er medlemmet konkurencespiller? (true/false) (nuværende: " + selectedMember.getCompetitivePlayer() + "): ");
-        boolean competitive = Boolean.parseBoolean(scanner.nextLine());
-
-        DisciplineType discipline = null;
-
-        // Hvis konkurrencespiller, vælg disciplin
-        if (competitive == true) {
-            System.out.println("Indtast disciplin type:");
-            for (DisciplineType d : DisciplineType.values()) {
-                System.out.print(d + " - ");
-            }
-            System.out.println();
-
-            // Vis nuværende disciplin hvis det er Junior eller Senior
-            if (selectedMember instanceof Junior) {
-                System.out.println("(nuværende: " + ((Junior) selectedMember).getJuniorDisciplinType() + ")");
-            } else if (selectedMember instanceof Senior) {
-                System.out.println("(nuværende: " + ((Senior) selectedMember).getSeniorDisciplinType() + ")");
-            }
-
-            discipline = DisciplineType.valueOf(scanner.nextLine().toUpperCase());
-        }
-        // Beregn membership fee ud fra alder
-        MembershipPricelist membershipFee;
-        if (age <= 17) {
-            membershipFee = MembershipPricelist.JUNIOR;
-        } else if (age > 60) {
-            membershipFee = MembershipPricelist.PENSIONIST;
+        if (member instanceof Junior) {
+            System.out.println("(nuværende: " + ((Junior) member).getJuniorDisciplinType() + ")");
+            ((Junior) member).setJuniorDisciplinType(DisciplineType.valueOf(scanner.nextLine().toUpperCase()));
+        } else if (member instanceof Senior) {
+            System.out.println("(nuværende: " + ((Senior) member).getSeniorDisciplinType() + ")");
+            ((Senior) member).setSeniorDisciplinType(DisciplineType.valueOf(scanner.nextLine().toUpperCase()));
         } else {
-            membershipFee = MembershipPricelist.SENIOR;
+            System.out.println("Kun Junior eller Senior medlemmer har disciplin.");
         }
-
-        System.out.println("Ny årspris: " + membershipFee.getPrice());
-
-        // Beregn membership type
-        MemberType membershipType;
-        if (competitive == true && age <= 17) {
-            membershipType = MemberType.JUNIOR;
-        } else if (competitive == true && age >= 18) {
-            membershipType = MemberType.SENIOR;
-        } else {
-            membershipType = MemberType.RECREATIONALPLAYER;
-        }
-        // Behold den gamle yearlyFeeDate og activeMembership
-        LocalDate feeDate = selectedMember.getYearlyFeeDate();
-        boolean activeMembership = selectedMember.getActiveMembership();
-
-        // Step 4: Opret nyt medlem objekt med samme ID
-        Member newMember;
-
-        if (competitive == true && age < 18) {
-            newMember = new Junior(
-                    memberId, name, gender, dateOfBirth, age, phoneNumber,
-                    true, membershipType, membershipFee, feeDate, discipline, activeMembership);
-        } else if (competitive == true && age >= 18) {
-            newMember = new Senior(
-                    memberId, name, gender, dateOfBirth, age, phoneNumber,
-                    true, membershipType, membershipFee, feeDate, discipline, activeMembership);
-        } else {
-            newMember = new RecreationalPlayer(
-                    memberId, name, gender, dateOfBirth, age, phoneNumber,
-                    false, membershipType, membershipFee, feeDate, activeMembership);
-        }
-        // Step 5: Slet det gamle medlem og indsæt det nye på samme plads
-        members.remove(memberPosition);
-        members.add(memberPosition, newMember);
-
-        // Step 6: Gem til fil
-        fileHandler.saveMembers(members);
-
-        System.out.println("\nMedlemmet er blevet opdateret!");
-        System.out.println("Nyt medlem:");
-        System.out.println(newMember);
     }
+
+    private void editActiveMembership(Member member, Scanner scanner) {
+        System.out.print("Er medlemskabet aktivt? (true/false) (nuværende: " + member.getActiveMembership() + "): ");
+        member.setActiveMembership(Boolean.parseBoolean(scanner.nextLine()));
+    }
+
+    private void recalcMembership(Member member) {
+        int age = member.getAge();
+        boolean competitive = member.getCompetitivePlayer();
+
+        MembershipPricelist fee = age <= 17 ? MembershipPricelist.JUNIOR :
+                age > 60 ? MembershipPricelist.PENSIONIST : MembershipPricelist.SENIOR;
+        member.setYearlyMembershipFee(fee);
+
+        MemberType type = !competitive ? MemberType.RECREATIONALPLAYER :
+                (age <= 17 ? MemberType.JUNIOR : MemberType.SENIOR);
+        member.setMembershipType(type);
+    }
+
 }

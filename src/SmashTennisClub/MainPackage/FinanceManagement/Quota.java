@@ -24,7 +24,7 @@ public class Quota {
         this.memberName = memberName;
         this.yearlyMembershipFee = yearlyMembershipFee;
         this.isPaid = isPaid;
-        this.yearlyFeeDate = LocalDate.now().plusYears(1);
+        this.yearlyFeeDate = yearlyFeeDate;
         this.actualDateOfPayment = (actualDateOfPayment != null) ? actualDateOfPayment : yearlyFeeDate;
     }
 
@@ -94,15 +94,17 @@ public class Quota {
 
     @Override
     public String toString() {
-        return "Quota{" +
-                "quotaId=" + quotaId +
-                ", memberId=" + memberId +
-                ", memberName='" + memberName + '\'' +
-                ", yearlyMembershipFee=" + yearlyMembershipFee +
-                ", isPaid=" + isPaid +
-                ", yearlyFeeDate=" + yearlyFeeDate +
-                ", actualDateOfPayment=" + actualDateOfPayment +
-                '}';
+        return String.format(
+                "KontingentID:%-3d  |  MedlemsID:%-3d  |  Navn:%-20s  |  KontingentType:%-12s  |  Pris:%-12s  |  Betalt:%-3s  |  Forfaldsdato:%-10s  |  Betalingsdato:%-10s  |",
+                quotaId,
+                memberId,
+                memberName,
+                yearlyMembershipFee != null ? yearlyMembershipFee.name() : "-",
+                yearlyMembershipFee != null ? String.format("%.2f kr.", yearlyMembershipFee.getPrice()) : "-",
+                isPaid ? "Ja" : "Nej",
+                yearlyFeeDate != null ? yearlyFeeDate : "-",
+                actualDateOfPayment != null ? actualDateOfPayment : "-"
+        );
     }
 
     //Quota q = new Quota(

@@ -132,17 +132,22 @@ public class PlayerEntry {
     //toString
     @Override
     public String toString() {
-        return "PlayerEntry{" +
-                "playerEntryId=" + playerEntryId +
-                ", memberId=" + memberId +
-                ", memberName='" + memberName + '\'' +
-                ", isTrainingMatch=" + isTrainingMatch +
-                ", isTournamentMatch=" + isTournamentMatch +
-                ", tournamentPlacement=" + tournamentPlacement +
-                ", playerEntryDiscipline=" + playerEntryDiscipline +
-                ", playerEntryDate=" + playerEntryDate +
-                ", setsPlayed=" + setsPlayed +
-                ", setsWon=" + setsWon +
-                ", matchWinner=" + matchWinner + '}';
+        return String.format(
+                "EntryID:%-3d  |  MemberID:%-3d  |  Name:%-20s  |  TrainingMatch:%-3s  |  TournamentMatch:%-3s  |  Placement:%-3d  |  Discipline:%-15s  |  Date:%-10s  |  SetsPlayed:%-3d  |  SetsWon:%-3d  |  Winner:%-3s  |",
+                playerEntryId,
+                memberId,
+                memberName,
+                isTrainingMatch ? "Ja" : "Nej",
+                isTournamentMatch ? "Ja" : "Nej",
+                tournamentPlacement,
+                playerEntryDiscipline != null ? playerEntryDiscipline : "-",
+                playerEntryDate != null ? playerEntryDate : "-",
+                setsPlayed,
+                setsWon,
+                matchWinner ? "Ja" : "Nej"
+        );
     }
+
+
+
 }

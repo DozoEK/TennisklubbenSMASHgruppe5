@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Treasurer {
-    private QuotaController controller;
 
 
+    QuotaController qc = new QuotaController();
 
 
     public void treasurerMenu() {
@@ -33,6 +33,7 @@ public class Treasurer {
             System.out.println("6. Vis alle ubetalte kontingenter");
             System.out.println("7. Vis alle medlemmer med restancer (ubetalt)");
             System.out.println("8. Print alle kontingenter (fra CSV)");
+            System.out.println("9. Print alle forsent betalte kontingenter");
             System.out.println();
             System.out.println("('x' for afslut menu || 'exit' for afslut program)");
             System.out.print("Vælg en funktion (1-8): ");
@@ -72,6 +73,9 @@ public class Treasurer {
 
                 case "8":
                     printAllQuotas();
+                    break;
+                case "9":
+                    showAllLateUnpaidQuotas();
                     break;
 
                 case "x":
@@ -118,7 +122,6 @@ public class Treasurer {
 
             quotas.add(quota);
         }
-
         fh.saveQuotas(quotas);
     }
 
@@ -181,7 +184,7 @@ public class Treasurer {
 
     public void showAllPaidQuotas() {
         System.out.println("--- Betalte kontingenter ---");
-        for (Quota b : controller.getPaidPayments()){
+        for (Quota b : qc.getPaidPayments()){
             System.out.println(b);
         }
     }
@@ -189,7 +192,7 @@ public class Treasurer {
 
     public void showAllUnpaidQuotas() {
         System.out.println("---Ubetalte kontigent--- ");
-        for (Quota u : controller.getUnpaidPayments()){
+        for (Quota u : qc.getUnpaidPayments()){
             System.out.println(u);
         }
     }
@@ -201,7 +204,7 @@ public class Treasurer {
        scanner.nextLine();
 
        boolean isfound = false;
-       for (Quota m : controller.getAllPayments()){
+       for (Quota m : qc.getAllPayments()){
            if (m.getMemberId() == searchForMemberId) {
                System.out.println("Følgende kontingenter er fundet for medlemmet: ");
                System.out.println(m);
@@ -263,20 +266,63 @@ public class Treasurer {
         ArrayList<Quota> unpaidQuotas = qc.getUnpaidPayments();
 
         if (unpaidQuotas.isEmpty()){
-            System.out.println("ingen medlemmer mangler betaling.");
+            System.out.println("Ingen medlemmer mangler betaling.");
             return;
         }
 
         System.out.println("\n --- Medlemmer der mangler at betale ---");
+
+        System.out.printf("%-10s | %-20s |   %-10s | %-12s%n", "MemberID", "Name", "Amount", "DueDate");
+        System.out.println("---------------------------------------------------------------");
+
         for (Quota quota : unpaidQuotas) {
-            System.out.println("Medlems-ID: " + quota.getMemberId() +
-                    "\n Navn: " + quota.getMemberName() +
-                    "\n Beløb: " + quota.getYearlyMembershipFee().getPrice() + "kr"+
-                    "\n Forfalder: " + quota.getYearlyFeeDate());
+            System.out.printf(
+                    "%-10d | %-20s | %-10.2f kr | %-12s%n",
+                    quota.getMemberId(),
+                    quota.getMemberName(),
+                    quota.getYearlyMembershipFee().getPrice(),
+                    quota.getYearlyFeeDate() != null ? quota.getYearlyFeeDate() : "-"
+            );
         }
 
-        System.out.println("Total: " + unpaidQuotas.size() + "Ubetalte kontigenter.");
+        System.out.println();
+        System.out.println("Total antal ubetalte kontingenter: " + unpaidQuotas.size());
+        System.out.println("---------------------------------------------------------------");
     }
+
+
+
+    public void showAllLateUnpaidQuotas(){
+        QuotaController qc = new QuotaController();
+        ArrayList<Quota> lateUnpaidQuotas = qc.getLateUnpaidQuotas();
+
+        if (lateUnpaidQuotas.isEmpty()){
+            System.out.println("Ingen medlemmer mangler betaling.");
+            return;
+        }
+
+        System.out.println("\n --- Medlemmer i restance ---");
+
+        System.out.printf("%-10s | %-20s | %-12s | %-15s | %-15s |%n",
+                "MemberID", "Name", "Amount", "DueDate", "PaymentDate");
+        System.out.println("--------------------------------------------------------------------------------");
+
+        for (Quota quota : lateUnpaidQuotas) {
+            System.out.printf(
+                    "%-10d | %-20s | %-10.2f kr | %-15s | %-15s |%n",
+                    quota.getMemberId(),
+                    quota.getMemberName(),
+                    quota.getYearlyMembershipFee().getPrice(),
+                    quota.getYearlyFeeDate() != null ? quota.getYearlyFeeDate() : "-",
+                    quota.getActualDateOfPayment() != null ? quota.getActualDateOfPayment() : "-"
+            );
+        }
+
+        System.out.println();
+        System.out.println("Total antal ubetalte kontingenter: " + lateUnpaidQuotas.size());
+        System.out.println("--------------------------------------------------------------------------------");
+    }
+
 
 
     public void printAllQuotas() {
