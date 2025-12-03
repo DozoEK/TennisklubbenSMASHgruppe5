@@ -17,6 +17,82 @@ public class Treasurer {
     private QuotaController controller;
 
 
+
+
+    public void treasurerMenu() {
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n===== SMASH TENNIS CLUB | TREASURER MENU =====");
+            System.out.println("1. Opret kontingent for medlem");
+            System.out.println("2. Auto-opret kontingenter til alle medlemmer");
+            System.out.println("3. Registrér betaling for medlem");
+            System.out.println("4. Søg efter kontingent");
+            System.out.println("5. Vis alle betalte kontingenter");
+            System.out.println("6. Vis alle ubetalte kontingenter");
+            System.out.println("7. Vis alle medlemmer med restancer (ubetalt)");
+            System.out.println("8. Print alle kontingenter (fra CSV)");
+            System.out.println();
+            System.out.println("('x' for afslut menu || 'exit' for afslut program)");
+            System.out.print("Vælg en funktion (1-8): ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+
+                case "1":
+                    createQuotaForMember();
+                    break;
+
+                case "2":
+                    autoCreateQuotasForAllMembers();
+                    System.out.println("Kontingenter er oprettet for alle medlemmer.");
+                    break;
+
+                case "3":
+                    registerPaymentForMember();
+                    break;
+
+                case "4":
+                    searchForQuota();
+                    break;
+
+                case "5":
+                    showAllPaidQuotas();
+                    break;
+
+                case "6":
+                    showAllUnpaidQuotas();
+                    break;
+
+                case "7":
+                    showUnpaidMembers();
+                    break;
+
+                case "8":
+                    printAllQuotas();
+                    break;
+
+                case "x":
+                    System.out.println("Går tilbage til startmenu...");
+                    running = false;
+                    break;
+
+                case "exit":
+                    System.out.println("Program afsluttes...");
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Ugyldigt valg. Prøv igen.");
+            }
+        }
+    }
+
+
+
+
     public void autoCreateQuotasForAllMembers() {
         UserHelperClass userHelper = new UserHelperClass();
         FileHandler fh = new FileHandler();
@@ -155,9 +231,6 @@ public class Treasurer {
         FileHandler fh = new FileHandler();
         QuotaReader reader = new QuotaReader();
         ArrayList<Quota> quotas = reader.readFromFile();
-        MemberReader mr = new MemberReader();
-        MemberWriter mw = new MemberWriter();
-
 
         for (Quota quota : quotas) {
             if (quota.getMemberId() == memberId) {

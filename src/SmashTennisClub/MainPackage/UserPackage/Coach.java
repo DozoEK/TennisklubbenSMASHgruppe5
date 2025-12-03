@@ -18,6 +18,74 @@ import java.util.Scanner;
 public class Coach {
 ValidationInterface validator = new ValidationMethods();
 
+
+
+    public void coachMenu() {
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n===== SMASH TENNIS CLUB | COACH MENU =====");
+            System.out.println("1. Opret PlayerEntry");
+            System.out.println("2. Redigér PlayerEntry");
+            System.out.println("3. Slet PlayerEntry");
+            System.out.println("4. Vis alle PlayerEntries");
+            System.out.println("5. Søg PlayerEntry via medlem");
+            System.out.println("6. Søg PlayerEntry via ID");
+            System.out.println("7. Vis alle konkurrencespillere");
+            System.out.println();
+            System.out.println("('x' for afslut menu || 'exit' for afslut program)");
+            System.out.print("Vælg en funktion (1-7): ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+
+                case "1":
+                    createPlayerEntry(scanner);
+                    break;
+
+                case "2":
+                    editPlayerEntry();
+                    break;
+
+                case "3":
+                    deletePlayerEntry();
+                    break;
+
+                case "4":
+                    showAllPlayerEntry();
+                    break;
+
+                case "5":
+                    searchForPlayerEntryByMemberInfo();
+                    break;
+
+                case "6":
+                    searchForPlayerEntry();
+                    break;
+
+                case "7":
+                    showAllCompetetivePlayers();
+                    break;
+
+                case "x":
+                    System.out.println("Går tilbage til startmenu...");
+                    running = false;
+                    break;
+
+                case "exit":
+                    System.out.println("Program afsluttes...");
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Ugyldigt valg. Prøv igen.");
+            }
+        }
+    }
+
+
     //TODO void showTop5() {}
 
 

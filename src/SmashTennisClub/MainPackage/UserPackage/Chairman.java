@@ -29,6 +29,69 @@ public class Chairman {
     private ArrayList<Member> members = reader.readFromFile();
 
 
+
+    public void chairmanMenu() {
+        UserHelperClass uhc = new UserHelperClass();
+
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n===== SMASH TENNIS CLUB | FORMANDS MENU =====");
+            System.out.println("1. Opret medlem");
+            System.out.println("2. Slet medlem");
+            System.out.println("3. Redigér medlem");
+            System.out.println("4. Vis alle medlemmer");
+            System.out.println();
+            System.out.println("('x' for afslut menu || 'exit' for afslut program)");
+            System.out.print("Vælg en funktion (1-4): ");
+
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+
+                case "1":
+                    createAnyMember(scanner);
+                    break;
+
+                case "2":
+                    deleteMember();
+                    break;
+
+                case "3":
+                    editMember();
+                    break;
+
+                case "4":
+                    uhc.printAllMembers();
+                    break;
+
+                case "5":
+                    System.out.println("Lukker formands-menu...");
+                    running = false;
+                    break;
+
+                case "x":
+                    System.out.println("Går tilbage til startmenu...");
+                    running = false;
+                    break;
+
+                case "exit":
+                    System.out.println("Program afsluttes...");
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Ugyldigt valg. Prøv igen.");
+            }
+        }
+    }
+
+
+
+
+
     public Member createAnyMember(Scanner scanner) {
         FileHandler fileHandler = new FileHandler();
         MemberReader reader = new MemberReader();
