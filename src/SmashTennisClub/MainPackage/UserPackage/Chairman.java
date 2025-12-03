@@ -7,6 +7,9 @@ import SmashTennisClub.MainPackage.EnumLists.DisciplineType;
 import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MemberType;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
+import SmashTennisClub.MainPackage.ErrorAndValidation.SmashException;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationInterface;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationMethods;
 import SmashTennisClub.MainPackage.MembershipTypes.Junior;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 import SmashTennisClub.MainPackage.MembershipTypes.RecreationalPlayer;
@@ -21,6 +24,7 @@ import java.util.Scanner;
 public class Chairman {
     MemberReader reader = new MemberReader();
     MemberWriter writer = new MemberWriter();
+    ValidationInterface validator = new ValidationMethods();
 
     private ArrayList<Member> members = reader.readFromFile();
 
@@ -42,30 +46,57 @@ public class Chairman {
 
         System.out.println("--- Opret medlem ---");
 
-        //memberName
-        System.out.print("Indtast navn på medlem: ");
-        String name = scanner.nextLine();
-        // TODO validate name not empty
-
-
-        //memberGender
-        System.out.println("Indtast køn på medlem ('MALE' / 'FEMALE'): ");
-        Gender gender = Gender.valueOf(scanner.nextLine().toUpperCase());
-        // TODO validate enum input
-
-
-        //dateOfBirth
-        LocalDate dateOfBirth = null;
-        boolean isValid = false;
-        while (!isValid) {
-            System.out.print("Indtast medlemmets fødselsdato (Format på dato: YYYY-MM-DD): ");
-            try {
-                dateOfBirth = LocalDate.parse(scanner.nextLine());
-                isValid = true;
-            } catch (DateTimeParseException e) {
-                System.out.println("Brug korrekt format = (Format på dato: YYYY-MM-DD)!");
+            //memberName
+            String name = null;
+            while (true) {
+                System.out.print("Indtast navn på medlem: ");
+                String input = scanner.nextLine();
+                try {
+                    validator.validateName(input);
+                    name = input;
+                    break;
+                } catch (SmashException e) {
+                    System.out.println(e.getMessage());
             }
         }
+
+
+            //memberGender
+            Gender gender = null;
+            while (true) {
+                System.out.println("Indtast køn på medlem ('MALE' / 'FEMALE'): ");
+                String input = scanner.nextLine().toUpperCase();
+                try {
+                    gender = Gender.valueOf(input);
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Ugyldigt input.");
+                }
+            }
+
+
+
+            //dateOfBirth
+            LocalDate dateOfBirth = null;
+            boolean isValid = false;
+            while (!isValid) {
+                //evt lav denne trycatch i en separat metode?
+                System.out.print("Indtast medlemmets fødselsdato (Format på dato: YYYY-MM-DD): ");
+                try {
+                    String input = scanner.nextLine();
+                    dateOfBirth = LocalDate.parse(input);
+
+                    validator.validateDateTime(input);
+                    validator.validateNoFutureDate(input);
+
+                    isValid = true;
+
+                } catch (DateTimeParseException e) {
+                    System.out.println("Brug korrekt format = (Format på dato: YYYY-MM-DD)!");
+                } catch (SmashException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
 
 
         //udregner alders tamtam
@@ -73,28 +104,54 @@ public class Chairman {
         System.out.println("Medlemmets alder: " + age);
 
 
-        //medlems telefonnummer
-        System.out.print("Indtast medlemmets telefon nummer: ");
-        int phoneNumber = Integer.parseInt(scanner.nextLine());
-        // TODO validate phoneNumber length
+            //medlems telefonnummer
+            int phoneNumber = 0;
+            while (true) {
+                System.out.print("Indtast medlemmets telefon nummer: ");
+                String input = scanner.nextLine();
 
-
-        //competitivePlayer
-        System.out.println("Er medlemmet konkurencespiller? (Indtast: true/false): ");
-        boolean competitive = Boolean.parseBoolean(scanner.nextLine());
-
-        DisciplineType discipline = null;
-
-        //hvis kompetetiv =
-        if (competitive == true) {
-            System.out.println("Indtast diciplin type:");
-            for (DisciplineType d : DisciplineType.values()) {
-                System.out.print(d + " - ");
+                try {
+                    phoneNumber = validator.validatePhoneNumberLength(input);
+                    break;
+                } catch (SmashException e) {
+                    System.out.println(e.getMessage());
+                }
             }
-            System.out.println();
-            discipline = DisciplineType.valueOf(scanner.nextLine().toUpperCase());
-            // TODO validate enum input
-        }
+
+
+
+            //competitivePlayer
+            boolean competitive = false;
+            while (true) {
+                System.out.println("Er medlemmet konkurencespiller? (Indtast: true/false): ");
+                String input = scanner.nextLine();
+                try {
+                    competitive = validator.validateBoolean(input);
+                    break;
+                } catch (SmashException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            DisciplineType discipline = null;
+
+            //hvis kompetetiv =
+            if (competitive) {
+                while (true) {
+                    System.out.println("Indtast diciplin type:");
+                    for (DisciplineType d : DisciplineType.values()) {
+                        System.out.print(d + " - ");
+                    }
+                    System.out.println();
+
+                    try {
+                        discipline = DisciplineType.valueOf(scanner.nextLine().toUpperCase());
+                        break;
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("ugyldig disciplin, prøv igen");
+                    }
+                }
+            }
 
 
         // udfyld af membership pris
@@ -179,9 +236,8 @@ public class Chairman {
 
             System.out.print("Er du sikker på at medlemmet skal slettes? (ja/nej): ");
 
-            String confirm = input.nextLine();
-
-            if (confirm.equalsIgnoreCase("ja")) {
+            String confirmation = input.nextLine();
+            if (confirmation.equalsIgnoreCase("ja")) {
                 members.remove(selectedMember);
                 System.out.println("Medlemmet er nu slettet!\n");
                 fileHandler.saveMembers(members);
