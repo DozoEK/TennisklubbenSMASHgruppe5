@@ -179,7 +179,7 @@ public class Chairman {
             }
 
 
-            //automatisk udfyld af feedate
+            //automatisk udfyld af feedate.
             LocalDate feeDate = LocalDate.now().plusYears(1);
 
 
