@@ -53,12 +53,9 @@ public class FileHandler {
         quotaWriter.writeToFile(quotas);
     }
 
-    public void savePlayerEntry(ArrayList<PlayerEntry> playerEntries) {
+    public void savePlayerEntries(ArrayList<PlayerEntry> playerEntries) {
         playerEntryWriter.writeToFile(playerEntries);
-
     }
-
-
 
 
 }

@@ -17,18 +17,6 @@ public class Main {
         QuotaGenerator qg = new QuotaGenerator();
         UserHelperClass uhc = new UserHelperClass();
         Coach coach = new Coach();
-//        Treasurer treasurer = new Treasurer();
-//        ArrayList<Quota> embers = new ArrayList<Quota>();
-//        embers.add(new Quota(10, 15,"lars", 1500.00,true,
-//                2025,03, 05, 2025,06,06"));
-
-
-        //qg.generateQuotasFromMembers();
-        // chairman.createMemberTest();
-//        fileHandler.printAllMembers();
-//        chairman.deleteMember();
-//        treasurer.searchForQuota();
-
 
 
 
@@ -43,7 +31,10 @@ public class Main {
             System.out.println("4. Print alle medlemmer");
             System.out.println("5. Opret nyt medlem");
             System.out.println("6. Opret PlayerEntry");
-            System.out.println("7. Exit");
+            System.out.println("7. Rediger medlem");
+            System.out.println("8. Create Quota");
+            System.out.println("9. Register payment");
+            System.out.println("0. Exit / slut programmet");
             System.out.print("Enter your choice: ");
 
             choice = scanner.nextInt();
@@ -51,6 +42,9 @@ public class Main {
 
 
             switch (choice) {
+                case 0:
+                    System.out.println("Exiting...");
+                    return;
                 case 1:
                     uhc.searchForMember();
                     break;
@@ -70,9 +64,14 @@ public class Main {
                     coach.createPlayerEntry(scanner);
                     break;
                 case 7:
-                    System.out.println("Exiting...");
-                    return;
-
+                    chairman.editMember();
+                    break;
+                case 8:
+                    treasurer.createQuotaForMember();
+                    break;
+                case 9:
+                    treasurer.registerPaymentForMember();
+                    break;
 
                 default:
                     System.out.println("Invalid choice! Try again.");

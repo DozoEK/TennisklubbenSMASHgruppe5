@@ -18,4 +18,5 @@ public enum MembershipPricelist {
         return price;
     }
 
+
 }

@@ -3,9 +3,14 @@ package SmashTennisClub.MainPackage.UserPackage;
 import SmashTennisClub.FileSystem.FileHandler;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberWriter;
+import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaReader;
+import SmashTennisClub.MainPackage.FinanceManagement.Quota;
+import SmashTennisClub.MainPackage.FinanceManagement.QuotaController;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class UserHelperClass {
@@ -13,11 +18,11 @@ public class UserHelperClass {
     MemberReader reader = new MemberReader();
     MemberWriter writer = new MemberWriter();
 
-    private ArrayList<Member> members = reader.readFromFile();
+    private final ArrayList<Member> members = reader.readFromFile();
 
 
     //logik til at finde memeber id
-    private Member findMemberById(int memberId) {
+    public Member findMemberById(int memberId) {
         for (Member m : members) {
             if (m.getMemberId() == memberId) {
                 return m;
@@ -36,7 +41,6 @@ public class UserHelperClass {
         }
         return null;
     }
-
 
 
     public Member searchForMember() {
@@ -81,14 +85,48 @@ public class UserHelperClass {
 
                 ArrayList<Member> matchingMembers = findMembersByPartialName(name);
 
-                if (!matchingMembers.isEmpty()) {
+                if (!matchingMembers.isEmpty() && matchingMembers.size() <= 1) {
+                    System.out.println("Fundet følgende medlem: ");
+                    System.out.println(matchingMembers);
+                    System.out.println("Tast '1' for at fortsætte - Tast '0' for at søge igen: ");
+
+
+                    if (input.hasNextInt()) {
+                        int choice = input.nextInt();
+                        input.nextLine();
+
+                        if (choice > 0 && choice <= matchingMembers.size()) {
+                            Member selectedMember = matchingMembers.get(choice - 1);
+
+
+                            System.out.println("\nValgt medlem:");
+                            System.out.println(selectedMember);
+                            System.out.print("\nEr dette det korrekte medlem? (ja/nej): ");
+                            String confirmation = input.nextLine();
+
+                            if (confirmation.equalsIgnoreCase("ja")) {
+                                return selectedMember;
+                            } else {
+                                System.out.println("Søg igen:\n");
+                            }
+                        } else if (choice == 0) {
+                            System.out.println("Søg igen:\n");
+                        } else {
+                            System.out.println("Ugyldigt valg. Søg igen: \n");
+                        }
+                    } else {
+                        input.nextLine();
+                        System.out.println("Ugyldigt input. Søg igen:\n");
+                    }
+
+                } else if (!matchingMembers.isEmpty() && matchingMembers.size() >= 2) {
+
                     System.out.println("\nFundne medlemmer:");
                     for (int i = 0; i < matchingMembers.size(); i++) {
                         System.out.println((i + 1) + ". " + matchingMembers.get(i));
                     }
-
-
                     System.out.print("\nVælg nummer (1-" + matchingMembers.size() + ") eller '0' for at søge igen: ");
+
 
                     if (input.hasNextInt()) {
                         int choice = input.nextInt();
@@ -126,7 +164,6 @@ public class UserHelperClass {
     }
 
 
-
     private ArrayList<Member> findMembersByPartialName(String partialName) {
         ArrayList<Member> matchingMembers = new ArrayList<>();
         String searchedName = partialName.toLowerCase();
@@ -142,8 +179,7 @@ public class UserHelperClass {
     }
 
 
-
-    public void printAllMembers () {
+    public void printAllMembers() {
         FileHandler fileHandler = new FileHandler();
         fileHandler.printAllMembers();
     }
@@ -157,16 +193,49 @@ public class UserHelperClass {
     }
 
 
-    //søg efter medlem og hav retur af medlem efter det er fundet!
-    //        Member selectedMember = userHelper.searchForMember();
-    //
-    //        if (selectedMember == null) {
-    //            System.out.println("Ingen medlem valgt. Afbryder oprettelse af spiller beretning.");
-    //            return null;
-    //        }
-    //
-    //        int memberId = selectedMember.getMemberId();
-    //        String memberName = selectedMember.getMemberName();
+    public void autoCheckAllQuotasForChangeInYearlyFeeDate() {
+        MemberReader memberReader = new MemberReader();
+        ArrayList<Member> members = memberReader.readFromFile();
 
+        for (Member member : members) {
+            checkForChangesInYearlyFeeDate(member.getMemberId());
+        }
+    }
+
+
+
+
+    public void checkForChangesInYearlyFeeDate(int memberId) {
+
+        QuotaReader qr = new QuotaReader();
+        ArrayList<Quota> quotas = qr.readFromFile();
+        QuotaController qc = new QuotaController();
+
+        ArrayList<Quota> memberQuotas = new ArrayList<>();
+        for (Quota q : quotas) {
+            if (q.getMemberId() == memberId) {
+                memberQuotas.add(q);
+            }
+        }
+
+        if (memberQuotas.isEmpty()) {
+            System.out.println("No quotas found for member " + memberId);
+            return;
+        }
+        memberQuotas.sort(Comparator.comparing(Quota::getActualDateOfPayment, Comparator.nullsFirst(Comparator.naturalOrder())).reversed());
+        Quota latest = memberQuotas.get(0);
+
+
+        if (latest.getIsPaid() && LocalDate.now().equals(latest.getActualDateOfPayment())) {
+            qc.logicForCreateQuotaForMember(memberId);
+        } else {
+            System.out.println("No new quota needed for member " + memberId);
+        }
+
+            //hvis actualPayDate er FØR i dag OG den er betalt, så er det okay!
+            //hvis actualPayDate er efter i dag er det også okay!
+            //hvis actualPayDate er i dag og den er paid = ny quota
+
+    }
 
 }
