@@ -58,7 +58,6 @@ public class Chairman {
         LocalDate dateOfBirth = null;
         boolean isValid = false;
         while (!isValid) {
-            //evt lav denne trycatch i en separat metode?
             System.out.print("Indtast medlemmets fødselsdato (Format på dato: YYYY-MM-DD): ");
             try {
                 dateOfBirth = LocalDate.parse(scanner.nextLine());

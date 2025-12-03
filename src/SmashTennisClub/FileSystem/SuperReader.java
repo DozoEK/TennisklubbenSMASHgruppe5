@@ -50,8 +50,4 @@ public abstract class SuperReader<Placeholder> {
         return objects;
     }
 
-    public String getCompleteFileName() {
-        return getCSVFilePathReader();
-    }
-
 }

@@ -2,6 +2,7 @@ package SmashTennisClub.MainPackage;
 
 import SmashTennisClub.FileSystem.FileHandler;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaGenerator;
+import SmashTennisClub.MainPackage.PlayerStatistic.CompetitivePlayerHelper;
 import SmashTennisClub.MainPackage.UserPackage.Chairman;
 import SmashTennisClub.MainPackage.UserPackage.Coach;
 import SmashTennisClub.MainPackage.UserPackage.Treasurer;
@@ -17,6 +18,7 @@ public class Main {
         QuotaGenerator qg = new QuotaGenerator();
         UserHelperClass uhc = new UserHelperClass();
         Coach coach = new Coach();
+        CompetitivePlayerHelper cph = new CompetitivePlayerHelper();
 
 
 
@@ -34,6 +36,11 @@ public class Main {
             System.out.println("7. Rediger medlem");
             System.out.println("8. Create Quota");
             System.out.println("9. Register payment");
+            System.out.println("10. CompetitivePlayerHelper - create player stats");
+            System.out.println("11. updateSetsStatisticsFromPlayerEntries");
+            System.out.println("12. calculateSetWinRates()");
+            System.out.println("13. updateTournamentStatistics");
+            System.out.println("14. showTop5All");
             System.out.println("0. Exit / slut programmet");
             System.out.print("Enter your choice: ");
 
@@ -71,6 +78,21 @@ public class Main {
                     break;
                 case 9:
                     treasurer.registerPaymentForMember();
+                    break;
+                case 10:
+                    cph.createStatsFromCompetitiveMembers();
+                    break;
+                case 11:
+                    cph.updateSetsStatisticsFromPlayerEntries();
+                    break;
+                case 12:
+                    cph.calculateSetWinRates();
+                    break;
+                case 13:
+                    cph.updateTournamentStatistics();
+                    break;
+                case 14:
+                    cph.showTop5All();
                     break;
 
                 default:

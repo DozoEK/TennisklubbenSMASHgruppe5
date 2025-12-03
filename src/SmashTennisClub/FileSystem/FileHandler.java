@@ -3,6 +3,7 @@ package SmashTennisClub.FileSystem;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.*;
 import SmashTennisClub.MainPackage.FinanceManagement.Quota;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
+import SmashTennisClub.MainPackage.PlayerStatistic.CompetitivePlayerStats;
 import SmashTennisClub.MainPackage.PlayerStatistic.PlayerEntry;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ public class FileHandler {
     QuotaWriter quotaWriter = new QuotaWriter();
     QuotaReader quotaReader = new QuotaReader();
     PlayerEntryWriter playerEntryWriter = new PlayerEntryWriter();
+    CompetitivePlayerStatsWriter cpsw = new CompetitivePlayerStatsWriter();
+    CompetitivePlayerStatsReader cpsr = new CompetitivePlayerStatsReader();
 
 
     public void printAllMembers() {
@@ -31,18 +34,13 @@ public class FileHandler {
     }
 
 
-    public Member findMemberById(int memberId) {
-        MemberReader reader = new MemberReader();
-        ArrayList<Member> members = reader.readFromFile();
-
-        for (Member m : members) {
-            if (m.getMemberId() == memberId) {
-                return m;
-            }
+    public void printAllStats() {
+        ArrayList<CompetitivePlayerStats> stats = cpsr.readFromFile();
+        for (CompetitivePlayerStats stat : stats) {
+            System.out.println(stat);
         }
-        System.out.println("Medlem: " + memberId + " er ikke fundet!");
-        return null;
     }
+
 
 
     public void saveMembers(ArrayList<Member> members) {
@@ -55,6 +53,10 @@ public class FileHandler {
 
     public void savePlayerEntries(ArrayList<PlayerEntry> playerEntries) {
         playerEntryWriter.writeToFile(playerEntries);
+    }
+
+    public void saveCompetitivePlayerStatsWriter(ArrayList<CompetitivePlayerStats> stats) {
+        cpsw.writeToFile(stats);
     }
 
 
