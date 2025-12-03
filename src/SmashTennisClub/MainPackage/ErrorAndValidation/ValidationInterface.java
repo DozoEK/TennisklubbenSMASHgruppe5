@@ -20,8 +20,16 @@ public interface ValidationInterface {
  int validatePhoneNumberLength(String input) throws SmashException;
 
  boolean validateBoolean(String input) throws SmashException;
+ boolean validateYesOrNo(String input) throws SmashException;
 
  int validateAge(String input) throws SmashException;
+
+ int validateInt (String input) throws SmashException;
+
+ int validateSetCount(String input) throws SmashException;
+ int validateWonSets (String input, int totalSets) throws SmashException;
+
+
 
 
 
