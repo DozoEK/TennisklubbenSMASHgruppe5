@@ -12,91 +12,46 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Chairman chairman = new Chairman();
-        Treasurer treasurer = new Treasurer();
-        FileHandler fileHandler = new FileHandler();
-        QuotaGenerator qg = new QuotaGenerator();
-        UserHelperClass uhc = new UserHelperClass();
-        Coach coach = new Coach();
-        CompetitivePlayerHelper cph = new CompetitivePlayerHelper();
-
-
-
         Scanner scanner = new Scanner(System.in);
-        int choice = 0;
+        boolean running = true;
 
-        while (choice != 9) {
-            System.out.println("\n=== Menu ===");
-            System.out.println("1. Søg efter medlem");
-            System.out.println("2. Slet et medlem");
-            System.out.println("3. Vis kontingenter");
-            System.out.println("4. Print alle medlemmer");
-            System.out.println("5. Opret nyt medlem");
-            System.out.println("6. Opret PlayerEntry");
-            System.out.println("7. Rediger medlem");
-            System.out.println("8. Create Quota");
-            System.out.println("9. Register payment");
-            System.out.println("10. CompetitivePlayerHelper - create player stats");
-            System.out.println("11. updateSetsStatisticsFromPlayerEntries");
-            System.out.println("12. calculateSetWinRates()");
-            System.out.println("13. updateTournamentStatistics");
-            System.out.println("14. showTop5All");
-            System.out.println("0. Exit / slut programmet");
-            System.out.print("Enter your choice: ");
+        Chairman chairman = new Chairman();
+        Coach coach = new Coach();
+        Treasurer treasurer = new Treasurer();
 
-            choice = scanner.nextInt();
-            scanner.nextLine();
+        while (running) {
+            System.out.println("\n===== SMASH TENNIS CLUB | BRUGER MENU =====");
+            System.out.println("1. Log ind som Formand (Chairman)");
+            System.out.println("2. Log ind som Coach (Coach)");
+            System.out.println("3. Log ind som Kasserer (Treasurer)");
+            System.out.println("0. Afslut program");
+            System.out.print("Vælg en rolle (0-3): ");
 
+            String choice = scanner.nextLine();
 
             switch (choice) {
-                case 0:
-                    System.out.println("Exiting...");
-                    return;
-                case 1:
-                    uhc.searchForMember();
+                case "1":
+                    System.out.println("\n--- Logger ind som Formand ---");
+                    chairman.chairmanMenu();
                     break;
-                case 2:
-                    chairman.deleteMember();
+
+                case "2":
+                    System.out.println("\n--- Logger ind som Coach ---");
+                    coach.coachMenu();
                     break;
-                case 3:
-                    treasurer.printAllQuotas();
+
+                case "3":
+                    System.out.println("\n--- Logger ind som Kasserer ---");
+                    treasurer.treasurerMenu();
                     break;
-                case 4:
-                    uhc.printAllMembers();
-                    break;
-                case 5:
-                    chairman.createAnyMember(scanner);
-                    break;
-                case 6:
-                    coach.createPlayerEntry(scanner);
-                    break;
-                case 7:
-                    chairman.editMember();
-                    break;
-                case 8:
-                    treasurer.createQuotaForMember();
-                    break;
-                case 9:
-                    treasurer.registerPaymentForMember();
-                    break;
-                case 10:
-                    cph.createStatsFromCompetitiveMembers();
-                    break;
-                case 11:
-                    cph.updateSetsStatisticsFromPlayerEntries();
-                    break;
-                case 12:
-                    cph.calculateSetWinRates();
-                    break;
-                case 13:
-                    cph.updateTournamentStatistics();
-                    break;
-                case 14:
-                    cph.showTop5All();
+
+                case "0":
+                    System.out.println("Program afsluttes...");
+                    running = false;
                     break;
 
                 default:
-                    System.out.println("Invalid choice! Try again.");
+                    System.out.println("Ugyldigt valg. Prøv igen.");
             }
         }
 

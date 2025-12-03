@@ -94,19 +94,22 @@ public class Member {
 
     @Override
     public String toString() {
-        return "Member{" +
-                "memberId=" + memberId +
-                ", memberName='" + memberName + '\'' +
-                ", genderOfMember=" + genderOfMember +
-                ", dateOfBirth=" + dateOfBirth +
-                ", age=" + age +
-                ", phoneNumber=" + phoneNumber +
-                ", competitivePlayer=" + competitivePlayer +
-                ", membershipType=" + membershipType +
-                ", yearlyMembershipFee=" + yearlyMembershipFee +
-                ", yearlyFeeDate=" + yearlyFeeDate +
-                ", activeMembership=" + activeMembership +
-                '}';
+        return String.format(
+                "ID:%-3d  |  Navn:%-20s  |  Køn:%-6s  |  Født:%-10s  |  Alder:%-3d  |  Tlf:%-8s  |  Konkurrence:%-3s  |  Type:%-19s  |  Kontingent:%-10s  |  Forfald:%-10s  |  Aktiv:%-3s  |",
+                memberId,
+                memberName,
+                genderOfMember,
+                dateOfBirth,
+                age,
+                phoneNumber,
+                competitivePlayer ? "Ja" : "Nej",
+                membershipType,
+                yearlyMembershipFee,
+                yearlyFeeDate,
+                activeMembership ? "Ja" : "Nej"
+        );
     }
+
+
 
 }
