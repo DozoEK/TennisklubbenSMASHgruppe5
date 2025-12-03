@@ -5,6 +5,9 @@ import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.PlayerEntryReader;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.PlayerEntryWriter;
 import SmashTennisClub.MainPackage.EnumLists.DisciplineType;
+import SmashTennisClub.MainPackage.ErrorAndValidation.SmashException;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationInterface;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationMethods;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 import SmashTennisClub.MainPackage.PlayerStatistic.PlayerEntry;
 
@@ -13,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Coach {
-
+ValidationInterface validator = new ValidationMethods();
 
     //TODO void showTop5() {}
 
@@ -297,6 +300,7 @@ public class Coach {
 
 
     public PlayerEntry createPlayerEntry(Scanner scanner) {
+        ValidationInterface validator = new ValidationMethods();
         FileHandler fileHandler = new FileHandler();
         PlayerEntryReader playerEntryReader = new PlayerEntryReader();
         ArrayList<PlayerEntry> playerEntries = playerEntryReader.readFromFile();
@@ -326,21 +330,32 @@ public class Coach {
         int memberId = selectedMember.getMemberId();
         String memberName = selectedMember.getMemberName();
 
-
-        System.out.print("Er dette en turnering? (ja/nej): ");
-        String tournamentInput = scanner.nextLine().toLowerCase();
-
-        boolean isTournament = tournamentInput.equals("ja");
-        boolean isTrainingMatch = tournamentInput.equals("nej");
+        boolean isTournament;
+        while (true) {
+            System.out.print("Er dette en turnering? (ja/nej): ");
+            try {
+                isTournament = validator.validateYesOrNo(scanner.nextLine());
+                break;
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        boolean isTrainingMatch = !isTournament;
 
 
         boolean matchWinner = false;
         int tournamentPlacement = 0;
-        if (isTournament == true) {
-            System.out.print("Indtast medlemmets turnerings placeringen: ");
-            tournamentPlacement = scanner.nextInt();
-            scanner.nextLine();
-            matchWinner = (tournamentPlacement == 1);
+        if (isTournament) {
+            while (true) {
+                System.out.println("Indtast medlemmets turnerings placeringen: ");
+                try{
+                    tournamentPlacement = validator.validateInt(scanner.nextLine());
+                    matchWinner = (tournamentPlacement == 1);
+                    break;
+                } catch (SmashException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
 
 

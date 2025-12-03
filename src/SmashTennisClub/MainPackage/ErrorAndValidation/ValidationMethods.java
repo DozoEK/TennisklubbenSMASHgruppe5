@@ -30,6 +30,48 @@ public class ValidationMethods implements ValidationInterface {
     }
 
     @Override
+    public boolean validateYesOrNo(String input) throws SmashException {
+        input = input.toLowerCase();
+        if(input.equals("ja")|| input.equals("j")|| input.equals("yes") || input.equals("true"))
+            return true;
+        if (input.equals("nej")|| input.equals("n")|| input.equals("no") || input.equals("false"))
+            return false;
+
+        throw new SmashException("Svar venligst ja eller nej.");
+    }
+
+    @Override
+    public int validateInt(String input) throws SmashException {
+        try{
+            return Integer.parseInt(input);
+        }catch (NumberFormatException e) {
+            throw new SmashException("Input skal være et tal!");
+        }
+    }
+
+    @Override
+    public int validateSetCount(String input) throws SmashException {
+        int sets = validateInt(input);
+        if (sets !=3 && sets !=5){
+            throw new SmashException("Antal af sets skal være 3 eller 5!");
+        }
+    return sets;
+    }
+
+    @Override
+    public int validateWonSets(String input, int totalSets) throws SmashException {
+        int won = validateInt(input);
+
+        if (won < 0) {
+            throw new SmashException("Vundne sæt kan ikke 0 eller negativt tal.");
+        }
+        if (won > totalSets) {
+            throw new SmashException("Vundne sæt kan ikke overstige spillet antal sæt!");
+        }
+    return won;
+    }
+
+    @Override
     public LocalDate validateDateTime(String input) throws SmashException {
         LocalDate date = validateDate(input);
 
