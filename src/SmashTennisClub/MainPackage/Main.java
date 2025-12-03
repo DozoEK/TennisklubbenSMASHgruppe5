@@ -15,7 +15,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        UserHelperClass uhc = new UserHelperClass();
         MemberReader reader = new MemberReader();
         ArrayList<Member> members = reader.readFromFile();
 
@@ -24,9 +23,10 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
-        Chairman chairman = new Chairman();
-        Coach coach = new Coach();
-        Treasurer treasurer = new Treasurer();
+        Chairman chairman = new Chairman(members);
+        Coach coach = new Coach(members);
+        Treasurer treasurer = new Treasurer(members);
+        UserHelperClass uhc = new UserHelperClass(members);
 
         uhc.updateAllMemberAges(members);
         uhc.autoCheckAllQuotasForChangeInYearlyFeeDate();

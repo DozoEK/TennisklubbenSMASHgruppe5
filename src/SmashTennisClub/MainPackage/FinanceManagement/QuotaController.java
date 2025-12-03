@@ -11,9 +11,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class QuotaController {
+
+
+    private ArrayList<Member> members;
+
+    public QuotaController(ArrayList<Member> members) {
+        this.members = members;
+    }
+
     QuotaReader reader = new QuotaReader();
     ArrayList<Quota> quotas = reader.readFromFile();
-
 
 
     public ArrayList<Quota> getAllPayments() {
@@ -55,7 +62,7 @@ public class QuotaController {
     public Quota logicForCreateQuotaForMember(int memberId) {
         FileHandler fh = new FileHandler();
         QuotaReader qr = new QuotaReader();
-        UserHelperClass uhc = new UserHelperClass();
+        UserHelperClass uhc = new UserHelperClass(members);
         ArrayList<Quota> quotas = qr.readFromFile();
 
         int lastUsedQuotaId = 0;

@@ -15,8 +15,13 @@ import java.util.Scanner;
 
 public class Treasurer {
 
+    private ArrayList<Member> members;
 
-    QuotaController qc = new QuotaController();
+    public Treasurer(ArrayList<Member> members) {
+        this.members = members;
+    }
+
+    QuotaController qc = new QuotaController(members);
 
 
     public void treasurerMenu() {
@@ -98,7 +103,6 @@ public class Treasurer {
 
 
     public void autoCreateQuotasForAllMembers() {
-        UserHelperClass userHelper = new UserHelperClass();
         FileHandler fh = new FileHandler();
         QuotaReader qr = new QuotaReader();
         ArrayList<Quota> quotas = qr.readFromFile();
@@ -132,7 +136,7 @@ public class Treasurer {
 
 
     public Quota createQuotaForMember() {
-        UserHelperClass userHelper = new UserHelperClass();
+        UserHelperClass userHelper = new UserHelperClass(members);
         FileHandler fh = new FileHandler();
         QuotaReader qr = new QuotaReader();
         ArrayList<Quota> quotas = qr.readFromFile();
@@ -219,7 +223,7 @@ public class Treasurer {
 
 
    public void registerPaymentForMember() {
-       UserHelperClass userHelper = new UserHelperClass();
+       UserHelperClass userHelper = new UserHelperClass(members);
        System.out.println("--- Register payment for single user ---");
 
        Member selectedMember = userHelper.searchForMember();
@@ -262,7 +266,7 @@ public class Treasurer {
 
 
     public void showUnpaidMembers(){
-        QuotaController qc = new QuotaController();
+        QuotaController qc = new QuotaController(members);
         ArrayList<Quota> unpaidQuotas = qc.getUnpaidPayments();
 
         if (unpaidQuotas.isEmpty()){
@@ -293,7 +297,7 @@ public class Treasurer {
 
 
     public void showAllLateUnpaidQuotas(){
-        QuotaController qc = new QuotaController();
+        QuotaController qc = new QuotaController(members);
         ArrayList<Quota> lateUnpaidQuotas = qc.getLateUnpaidQuotas();
 
         if (lateUnpaidQuotas.isEmpty()){

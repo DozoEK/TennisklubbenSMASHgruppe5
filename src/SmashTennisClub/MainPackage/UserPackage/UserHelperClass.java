@@ -14,11 +14,11 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class UserHelperClass {
+    private ArrayList<Member> members;
 
-    MemberReader reader = new MemberReader();
-    MemberWriter writer = new MemberWriter();
-
-    private final ArrayList<Member> members = reader.readFromFile();
+    public UserHelperClass(ArrayList<Member> members) {
+        this.members = members;
+    }
 
 
     //logik til at finde memeber id
@@ -89,7 +89,8 @@ public class UserHelperClass {
                 if (!matchingMembers.isEmpty() && matchingMembers.size() <= 1) {
                     System.out.println("Følgende medlem fundet: ");
                     System.out.print(matchingMembers);
-                    System.out.print("Tast '1' for at fortsætte med valgte medlem  -  Tast '0' for at søge igen: ");
+                    System.out.println();
+                    System.out.println("Tast '1' for at fortsætte med valgte medlem  -  Tast '0' for at søge igen: ");
 
 
                     if (input.hasNextInt()) {
@@ -208,7 +209,7 @@ public class UserHelperClass {
     public void checkForChangesInYearlyFeeDate(int memberId) {
         QuotaReader qr = new QuotaReader();
         ArrayList<Quota> quotas = qr.readFromFile();
-        QuotaController qc = new QuotaController();
+        QuotaController qc = new QuotaController(members);
 
         ArrayList<Quota> memberQuotas = new ArrayList<>();
         for (Quota q : quotas) {

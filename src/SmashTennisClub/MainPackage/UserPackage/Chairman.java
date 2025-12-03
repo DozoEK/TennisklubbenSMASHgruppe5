@@ -21,16 +21,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Chairman {
-    MemberReader reader = new MemberReader();
-    MemberWriter writer = new MemberWriter();
     ValidationInterface validator = new ValidationMethods();
 
-    private ArrayList<Member> members = reader.readFromFile();
+    private ArrayList<Member> members;
+
+    public Chairman(ArrayList<Member> members) {
+        this.members = members;
+    }
 
 
 
     public void chairmanMenu() {
-        UserHelperClass uhc = new UserHelperClass();
+        UserHelperClass uhc = new UserHelperClass(members);
 
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -93,8 +95,6 @@ public class Chairman {
 
     public Member createAnyMember(Scanner scanner) {
         FileHandler fileHandler = new FileHandler();
-        MemberReader reader = new MemberReader();
-        ArrayList<Member> members = reader.readFromFile();
 
         int lastUsedMemberId = 0;
         for (Member m : members) {
@@ -285,7 +285,7 @@ public class Chairman {
     public void deleteMember() {
         FileHandler fileHandler = new FileHandler();
         Scanner input = new Scanner(System.in);
-        UserHelperClass userHelper = new UserHelperClass();
+        UserHelperClass userHelper = new UserHelperClass(members);
 
         while (true) {
             System.out.println("--- Slet medlem ---");
@@ -320,10 +320,8 @@ public class Chairman {
 
     public void editMember() {
         FileHandler fileHandler = new FileHandler();
-        MemberReader reader = new MemberReader();
-        ArrayList<Member> members = reader.readFromFile();
         Scanner scanner = new Scanner(System.in);
-        UserHelperClass userHelper = new UserHelperClass();
+        UserHelperClass userHelper = new UserHelperClass(members);
 
         System.out.println("--- Rediger oplysninger på et medlem ---");
 
@@ -366,9 +364,8 @@ public class Chairman {
             }
 
             recalcMembership(selectedMember);
+
         }
-
-
         fileHandler.saveMembers(members);
         System.out.println("\nMedlemmet er blevet opdateret:");
         System.out.println(selectedMember);
