@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Treasurer {
-
-    ValidationInterface validator = new ValidationMethods();
     private ArrayList<Member> members;
-    QuotaController qc = new QuotaController(members);
 
     public Treasurer(ArrayList<Member> members) {
         this.members = members;
     }
+
+    QuotaController qc = new QuotaController(members);
+    ValidationInterface validator = new ValidationMethods();
 
     public void treasurerMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -148,7 +148,6 @@ public class Treasurer {
 
             Member selectedMember = userHelper.searchForMember();
 
-
             if (selectedMember == null) {
                 System.out.println("Ingen medlem valgt. Prøv igen.");
                 continue;
@@ -225,7 +224,6 @@ public class Treasurer {
 
         int memberId = selectedMember.getMemberId();
         registerPayments(memberId);
-
     }
 
 

@@ -7,6 +7,9 @@ import SmashTennisClub.FileSystem.FileSystemSubClasses.PlayerEntryReader;
 import SmashTennisClub.MainPackage.EnumLists.DisciplineType;
 import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MemberType;
+import SmashTennisClub.MainPackage.ErrorAndValidation.SmashException;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationInterface;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationMethods;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ public class CompetitivePlayerHelper {
     private final CompetitivePlayerStatsWriter cpsw = new CompetitivePlayerStatsWriter();
     private final CompetitivePlayerStatsReader cpsr = new CompetitivePlayerStatsReader();
     private final PlayerEntryReader per = new PlayerEntryReader();
+    ValidationInterface validator = new ValidationMethods();
 
 
     public void createStatsFromCompetitiveMembers() {
@@ -179,7 +183,8 @@ public class CompetitivePlayerHelper {
         ArrayList<CompetitivePlayerStats> cpsAll = cpsr.readFromFile();
         Scanner scanner = new Scanner(System.in);
 
-        // Vælg kategori
+        String categoryChoice;
+
         System.out.println();
         System.out.println("Vælg kategori:");
         System.out.println("1. Senior Male");
@@ -187,30 +192,40 @@ public class CompetitivePlayerHelper {
         System.out.println("3. Junior Male");
         System.out.println("4. Junior Female");
         System.out.print("Indtast valg (1-4): ");
-        int categoryChoice = scanner.nextInt();
-        scanner.nextLine();
 
-        MemberType type;
-        Gender gender;
-        String title;
+
+        categoryChoice = scanner.nextLine().trim();
+
+        try {
+            validator.validateLettersOrNumbersOnly(categoryChoice);
+        }
+        catch (SmashException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+
+        MemberType type = null;
+        Gender gender = null;
+        String title = null;
 
         switch (categoryChoice) {
-            case 1 -> {
+            case "1" -> {
                 type = MemberType.SENIOR;
                 gender = Gender.MALE;
                 title = "SENIOR HERRE";
             }
-            case 2 -> {
+            case "2" -> {
                 type = MemberType.SENIOR;
                 gender = Gender.FEMALE;
                 title = "SENIOR KVINDE";
             }
-            case 3 -> {
+            case "3" -> {
                 type = MemberType.JUNIOR;
                 gender = Gender.MALE;
                 title = "JUNIOR DRENG";
             }
-            case 4 -> {
+            case "4" -> {
                 type = MemberType.JUNIOR;
                 gender = Gender.FEMALE;
                 title = "JUNIOR PIGE";
@@ -221,18 +236,32 @@ public class CompetitivePlayerHelper {
             }
         }
 
+        int disciplineChoice = -1;
 
-        System.out.println("\nVælg disciplin:");
-        for (DisciplineType d : DisciplineType.values()) {
-            System.out.println(d.ordinal() + 1 + ". " + d);
-        }
-        System.out.print("Indtast valg (1-" + DisciplineType.values().length + "): ");
-        int disciplineChoice = scanner.nextInt();
-        scanner.nextLine();
+        while (true) {
+            System.out.println("\nVælg disciplin:");
 
-        if (disciplineChoice < 1 || disciplineChoice > DisciplineType.values().length) {
-            System.out.println("Ugyldigt valg. Afslutter.");
-            return;
+            DisciplineType[] allDisciplines = DisciplineType.values();
+
+            for (int i = 0; i < allDisciplines.length; i++) {
+                System.out.println((i + 1) + ". " + allDisciplines[i]);
+            }
+
+            System.out.print("Indtast valg (1-" + allDisciplines.length + "): ");
+            String input = scanner.nextLine().trim();
+
+            try {
+                disciplineChoice = validator.validateInt(input);
+
+                if (disciplineChoice >= 1 && disciplineChoice <= allDisciplines.length) {
+                    break;
+                } else {
+                    System.out.println("Ugyldigt valg. Prøv igen.");
+                }
+            }
+            catch (SmashException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         DisciplineType selectedDiscipline = DisciplineType.values()[disciplineChoice - 1];

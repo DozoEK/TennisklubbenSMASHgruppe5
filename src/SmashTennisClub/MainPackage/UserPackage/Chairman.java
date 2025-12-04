@@ -283,6 +283,7 @@ public class Chairman {
         FileHandler fileHandler = new FileHandler();
         Scanner input = new Scanner(System.in);
         UserHelperClass userHelper = new UserHelperClass(members);
+        ValidationInterface validator = new ValidationMethods();
 
         while (true) {
             System.out.println("--- Slet medlem ---");
@@ -296,22 +297,26 @@ public class Chairman {
 
             System.out.println("Følgende medlem er valgt: " + selectedMember);
 
-            System.out.print("Er du sikker på at medlemmet skal slettes? (ja/nej): ");
+            while (true) {
+                System.out.print("Er du sikker på at medlemmet skal slettes? (ja/nej): ");
+                String confirmationInput = input.nextLine();
 
-            String confirmation = input.nextLine();
-            if (confirmation.equalsIgnoreCase("ja")) {
-                members.remove(selectedMember);
-                System.out.println();
-                System.out.println("Medlemmet er nu slettet!\n");
-                fileHandler.saveMembers(members);
-                return;
-            } else {
-                System.out.println("Sletning annulleres!");
-                return;
+                try {
+                    boolean confirmation = validator.validateYesOrNo(confirmationInput);
+
+                    if (confirmation) {
+                        members.remove(selectedMember);
+                        System.out.println("\nMedlemmet er nu slettet!\n");
+                        fileHandler.saveMembers(members);
+                    } else {
+                        System.out.println("Sletning annulleres!");
+                    }
+                    return;
+                } catch (SmashException e) {
+                    System.out.println(e.getMessage());
+                }
             }
-
         }
-
     }
 
 
@@ -346,7 +351,16 @@ public class Chairman {
             System.out.println("8. Afslut redigering");
             System.out.println();
             System.out.print("Indtast dit valg (1-8): ");
-            String choice = scanner.nextLine();
+
+
+            String choice = scanner.nextLine().trim();
+
+            try {
+                validator.validateLettersOrNumbersOnly(choice);
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
 
             switch (choice) {
                 case "1" -> editName(selectedMember, scanner);
@@ -457,19 +471,46 @@ public class Chairman {
         System.out.println();
 
         if (member instanceof Junior) {
-            System.out.println("(nuværende: " + ((Junior) member).getJuniorDisciplinType() + ")");
-            ((Junior) member).setJuniorDisciplinType(DisciplineType.valueOf(scanner.nextLine().toUpperCase()));
+            Junior junior = (Junior) member;
+            System.out.println("(nuværende: " + junior.getJuniorDisciplinType() + ")");
+
+            while (true) {
+                System.out.print("Indtast ny disciplin: ");
+                String input = scanner.nextLine().toUpperCase();
+                try {
+                    DisciplineType discipline = DisciplineType.valueOf(input);
+                    junior.setJuniorDisciplinType(discipline);
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Ugyldig disciplin! Prøv igen.");
+                }
+            }
+
         } else if (member instanceof Senior) {
-            System.out.println("(nuværende: " + ((Senior) member).getSeniorDisciplinType() + ")");
-            ((Senior) member).setSeniorDisciplinType(DisciplineType.valueOf(scanner.nextLine().toUpperCase()));
+            Senior senior = (Senior) member;
+            System.out.println("(nuværende: " + senior.getSeniorDisciplinType() + ")");
+
+            while (true) {
+                System.out.print("Indtast ny disciplin: ");
+                String input = scanner.nextLine().toUpperCase();
+                try {
+                    DisciplineType discipline = DisciplineType.valueOf(input);
+                    senior.setSeniorDisciplinType(discipline);
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Ugyldig disciplin! Prøv igen.");
+                }
+            }
+
         } else {
             System.out.println("Kun Junior eller Senior medlemmer har disciplin.");
         }
     }
 
+
     private void editActiveMembership(Member member, Scanner scanner) {
         while (true) {
-            System.out.print("Er medlemskabet aktivt?  (nuværende: " + member.getActiveMembership() + "): ");
+            System.out.print("Vil du ændre status på medlemskab?  (nuværende: " + member.getActiveMembership() + "): ");
 
             String input = scanner.nextLine();
             try {
