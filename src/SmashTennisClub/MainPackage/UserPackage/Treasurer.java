@@ -5,6 +5,9 @@ import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberWriter;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaReader;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
+import SmashTennisClub.MainPackage.ErrorAndValidation.SmashException;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationInterface;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationMethods;
 import SmashTennisClub.MainPackage.FinanceManagement.Quota;
 import SmashTennisClub.MainPackage.FinanceManagement.QuotaController;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
@@ -20,6 +23,7 @@ public class Treasurer {
     public Treasurer(ArrayList<Member> members) {
         this.members = members;
     }
+    ValidationInterface validator = new ValidationMethods();
 
     QuotaController qc = new QuotaController(members);
 
@@ -185,14 +189,23 @@ public class Treasurer {
    public void searchForQuota() {
         Scanner scanner = new Scanner (System.in);
        System.out.println("Indtast venligst MemberId: ");
-       int searchForMemberId = scanner.nextInt();
-       scanner.nextLine();
+       int searchForMemberId;
+      while(true) {
+          try {
+              searchForMemberId = validator.validateInt(scanner.nextLine());
+              break;
+          } catch (SmashException e) {
+              System.out.println(e.getMessage());
+              System.out.print("Prøv igen: ");
+          }
+      }
 
        boolean isfound = false;
-       for (Quota m : qc.getAllPayments()){
-           if (m.getMemberId() == searchForMemberId) {
+
+       for (Quota q : qc.getAllPayments()){
+           if (q.getMemberId() == searchForMemberId) {
                System.out.println("Følgende kontingenter er fundet for medlemmet: ");
-               System.out.println(m);
+               System.out.println(q);
                isfound = true;
 
            }
