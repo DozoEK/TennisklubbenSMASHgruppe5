@@ -41,12 +41,14 @@ ValidationInterface validator = new ValidationMethods();
             System.out.println("\n===== SMASH TENNIS CLUB | COACH MENU =====");
             System.out.println("1. Vis alle konkurrencespillere");
             System.out.println("2. Top 5 spillere");
+            System.out.println();
             System.out.println("3. Vis alle Kampregistreringer");
             System.out.println("4. Søg Kampregistrering (via medlems ID / medlems navn)");
             System.out.println("5. Søg Kampregistrering (via Kampregistrerings-ID)");
             System.out.println("6. Opret Kampregistrering");
             System.out.println("7. Redigér Kampregistrering");
             System.out.println("8. Slet Kampregistrering");
+            System.out.println();
             System.out.println("9. Opret spiller statistik (for medlem)");
             System.out.println();
             System.out.println("('x' for afslut menu || 'exit' for afslut program)");
@@ -61,7 +63,7 @@ ValidationInterface validator = new ValidationMethods();
                     break;
 
                 case "2":
-                    cph.showTop5All();
+                    cph.showTop5AllByDiscipline();
                     break;
 
                 case "3":

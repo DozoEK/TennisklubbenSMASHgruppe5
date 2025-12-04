@@ -10,6 +10,7 @@ import SmashTennisClub.MainPackage.EnumLists.MemberType;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static SmashTennisClub.MainPackage.EnumLists.DisciplineType.SINGLE;
 
@@ -181,33 +182,95 @@ public class CompetitivePlayerHelper {
 
 
 
-    public void showTop5All() {
-        ArrayList<CompetitivePlayerStats> cpsAll = cpsr.readFromFile();
 
-        printCategory("SENIOR MALE", cpsAll, MemberType.SENIOR, Gender.MALE);
-        printCategory("SENIOR FEMALE", cpsAll, MemberType.SENIOR, Gender.FEMALE);
-        printCategory("JUNIOR MALE", cpsAll, MemberType.JUNIOR, Gender.MALE);
-        printCategory("JUNIOR FEMALE", cpsAll, MemberType.JUNIOR, Gender.FEMALE);
+    public void showTop5AllByDiscipline() {
+        ArrayList<CompetitivePlayerStats> cpsAll = cpsr.readFromFile();
+        Scanner scanner = new Scanner(System.in);
+
+        // Vælg kategori
+        System.out.println();
+        System.out.println("Vælg kategori:");
+        System.out.println("1. Senior Male");
+        System.out.println("2. Senior Female");
+        System.out.println("3. Junior Male");
+        System.out.println("4. Junior Female");
+        System.out.print("Indtast valg (1-4): ");
+        int categoryChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        MemberType type;
+        Gender gender;
+        String title;
+
+        switch (categoryChoice) {
+            case 1 -> { type = MemberType.SENIOR; gender = Gender.MALE; title = "SENIOR HERRE"; }
+            case 2 -> { type = MemberType.SENIOR; gender = Gender.FEMALE; title = "SENIOR KVINDE"; }
+            case 3 -> { type = MemberType.JUNIOR; gender = Gender.MALE; title = "JUNIOR DRENG"; }
+            case 4 -> { type = MemberType.JUNIOR; gender = Gender.FEMALE; title = "JUNIOR PIGE"; }
+            default -> {
+                System.out.println("Ugyldigt valg. Afslutter.");
+                return;
+            }
+        }
+
+
+        System.out.println("\nVælg disciplin:");
+        for (DisciplineType d : DisciplineType.values()) {
+            System.out.println(d.ordinal() + 1 + ". " + d);
+        }
+        System.out.print("Indtast valg (1-" + DisciplineType.values().length + "): ");
+        int disciplineChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (disciplineChoice < 1 || disciplineChoice > DisciplineType.values().length) {
+            System.out.println("Ugyldigt valg. Afslutter.");
+            return;
+        }
+
+        DisciplineType selectedDiscipline = DisciplineType.values()[disciplineChoice - 1];
+
+        printTop5ByCategoryAndDiscipline(title, cpsAll, type, gender, selectedDiscipline);
     }
 
 
-    private void printCategory(String title, ArrayList<CompetitivePlayerStats> all, MemberType type, Gender gender) {
+    private void printTop5ByCategoryAndDiscipline(String title, ArrayList<CompetitivePlayerStats> all,
+                                                  MemberType type, Gender gender, DisciplineType discipline) {
         ArrayList<CompetitivePlayerStats> filtered = new ArrayList<>();
 
         for (CompetitivePlayerStats s : all) {
-            if (s.getMemberType() == type && s.getGender() == gender) {
+            if (s.getMemberType() == type &&
+                    s.getGender() == gender &&
+                    s.getDisciplineType() == discipline) {
                 filtered.add(s);
             }
         }
 
         filtered.sort((a, b) -> Double.compare(b.getSetWinRate(), a.getSetWinRate()));
 
-        System.out.println("\n===== TOP 5 " + title + " =====");
+        System.out.println("\n===== TOP 5 " + title + " - " + discipline + " =====");
 
-        for (int i = 0; i < Math.min(5, filtered.size()); i++) {
-            System.out.println((i + 1) + ". " + filtered.get(i).getMemberName() +
-                    " - Set winrate: " + filtered.get(i).getSetWinRate() + "%" + "  -  " +
-                    "Gennemsnitlig turneringsplacering: " + filtered.get(i).getAvgTournamentPlacement());
+        // Header
+        System.out.printf("%-5s | %-20s | %-12s | %-25s%n", "Plads", "Navn", "Set Winrate", "Gennemsnitlig Turneringsplacering");
+        System.out.println("--------------------------------------------------------------------------");
+
+        for (int i = 0; i < 5; i++) {
+            if (i < filtered.size()) {
+                CompetitivePlayerStats player = filtered.get(i);
+                System.out.printf("%-5d | %-20s | %-12.2f | %-25.2f%n",
+                        (i + 1),
+                        player.getMemberName(),
+                        player.getSetWinRate(),
+                        player.getAvgTournamentPlacement());
+            } else {
+                System.out.printf("%-5d | %-20s | %-12s | %-25s%n",
+                        (i + 1),
+                        "-",
+                        "-",
+                        "-");
+            }
         }
+
+        System.out.println("--------------------------------------------------------------------------");
     }
+
 }
