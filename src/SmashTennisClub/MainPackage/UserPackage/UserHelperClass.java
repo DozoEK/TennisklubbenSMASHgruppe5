@@ -31,7 +31,7 @@ public class UserHelperClass {
         return null;
     }
 
-
+    
     //logik til at finde member via navn
     private Member findMemberByName(String memberName) {
         for (Member m : members) {

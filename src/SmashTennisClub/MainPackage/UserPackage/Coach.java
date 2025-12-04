@@ -9,6 +9,7 @@ import SmashTennisClub.MainPackage.ErrorAndValidation.SmashException;
 import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationInterface;
 import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationMethods;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
+import SmashTennisClub.MainPackage.PlayerStatistic.CompetitivePlayerHelper;
 import SmashTennisClub.MainPackage.PlayerStatistic.PlayerEntry;
 
 import java.time.LocalDate;
@@ -27,8 +28,14 @@ ValidationInterface validator = new ValidationMethods();
 
 
     public void coachMenu() {
+
+        CompetitivePlayerHelper cph = new CompetitivePlayerHelper();
+        UserHelperClass uhc = new UserHelperClass(this.members);
+
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
+
+        cph.updateAllCompetitiveStats();
 
         while (running) {
             System.out.println("\n===== SMASH TENNIS CLUB | COACH MENU =====");
@@ -39,6 +46,8 @@ ValidationInterface validator = new ValidationMethods();
             System.out.println("5. Søg PlayerEntry via medlem");
             System.out.println("6. Søg PlayerEntry via ID");
             System.out.println("7. Vis alle konkurrencespillere");
+            System.out.println("8. cph.showTop5All();");
+            System.out.println("9. createStatsForSingleCompetitiveMember");
             System.out.println();
             System.out.println("('x' for afslut menu || 'exit' for afslut program)");
             System.out.print("Vælg en funktion (1-7): ");
@@ -73,6 +82,17 @@ ValidationInterface validator = new ValidationMethods();
 
                 case "7":
                     showAllCompetetivePlayers();
+                    break;
+
+                case "8":
+                    cph.showTop5All();
+                    break;
+
+                case "9":
+                    Member member = uhc.searchForMember();
+                    if (member != null) {
+                        cph.createStatsForSingleCompetitiveMember(member);
+                    }
                     break;
 
                 case "x":
