@@ -152,14 +152,22 @@ ValidationInterface validator = new ValidationMethods();
         }
 
         System.out.println("Entry til sletning: " + foundEntry);
-        System.out.print("Er du sikker på at du vil slette denne? (ja/nej): ");
 
-        String confirm = input.nextLine();
+        boolean confirmDelete;
 
-        if (confirm.equalsIgnoreCase("ja")) {
+        while (true) {
+            System.out.print("Er du sikker på at du vil slette denne? (ja/nej): ");
+            try {
+                confirmDelete = validator.validateYesOrNo(input.nextLine());
+                break;
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        if (confirmDelete) {
             playerEntries.remove(foundEntry);
-            System.out.println("Entry er nu slettet!\n");
             pew.writeToFile(playerEntries);
+            System.out.println("Entry er nu slettet!\n");
         } else {
             System.out.println("Sletning afbrudt.");
         }
@@ -215,22 +223,28 @@ ValidationInterface validator = new ValidationMethods();
                         } else {
                             System.out.println("Den nuværende kamp type er: Træningskamp");
                         }
+                        boolean changeType;
 
-                        System.out.print("Ønsker du at ændre kamptypen? (ja/nej): ");
-                        String input = scanner.nextLine().toLowerCase();
+                        while (true) {
+                            System.out.print("Ønsker du at ændre kamptypen? (ja/nej): ");
+                            try {
+                                changeType = validator.validateYesOrNo(scanner.nextLine());
+                                break;
+                            } catch (SmashException e) {
+                                System.out.println(e.getMessage());
+                            }
+                        }
 
-                        if (input.equals("ja")) {
-                            boolean isTournament = !playerEntryToEdit.isTournamentMatch();
-                            boolean isTrainingMatch = !playerEntryToEdit.isTrainingMatch();
+                        if (changeType) {
+                            boolean newIsTournament = !playerEntryToEdit.isTournamentMatch();
+                            boolean newIsTraining = !playerEntryToEdit.isTrainingMatch();
 
-                            playerEntryToEdit.setTournamentMatch(isTournament);
-                            playerEntryToEdit.setTrainingMatch(isTrainingMatch);
+                            playerEntryToEdit.setTournamentMatch(newIsTournament);
+                            playerEntryToEdit.setTrainingMatch(newIsTraining);
 
                             System.out.println("Kamptypen er nu ændret.");
-                        } else if (input.equals("nej")) {
-                            System.out.println("Kamptypen forbliver uændret.");
                         } else {
-                            System.out.println("Ugyldigt input. Kamptypen forbliver uændret.");
+                            System.out.println("Kamptypen forbliver uændret.");
                         }
                     }
                     case 2 -> {
@@ -435,58 +449,80 @@ ValidationInterface validator = new ValidationMethods();
 
 
         DisciplineType playerEntryDiscipline = null;
+      while (true) {
+          System.out.println("Indtast diciplin type:");
+          for (DisciplineType d : DisciplineType.values()) {
+              System.out.print(d + " - ");
+          }
+          System.out.println();
+          try{
+              playerEntryDiscipline = DisciplineType.valueOf(scanner.nextLine().toUpperCase());
+              break;
+          } catch (IllegalArgumentException e) {
+              System.out.println("Ugyldig diciplin type!");
+          }
+      }
 
-        System.out.println("Indtast diciplin type:");
-        for (DisciplineType d : DisciplineType.values()) {
-            System.out.print(d + " - ");
-        }
-        playerEntryDiscipline = DisciplineType.valueOf(scanner.nextLine().toUpperCase());
-
-
-        System.out.print("Indtast session dato (ÅÅÅÅ-MM-DD): ");
-        String dateInput = scanner.nextLine();
-        LocalDate playerEntryDate = LocalDate.parse(dateInput);
+      LocalDate playerEntryDate;
+      while(true) {
+          System.out.print("Indtast session dato (ÅÅÅÅ-MM-DD): ");
+          try {
+              playerEntryDate = validator.validateNoFutureDate(scanner.nextLine());
+              break;
+          } catch (SmashException e) {
+              System.out.println(e.getMessage());
+          }
+      }
 
 
         int setsPlayed = 0;
-        if (isTournament == true) {
-            System.out.println("Indtast antal spillede sæt: ");
-            setsPlayed = scanner.nextInt();
-            scanner.nextLine();
-        } else while (setsPlayed != 3 && setsPlayed != 5) {
-            System.out.print("Indtast antal spillede sæt (3 eller 5): ");
-            setsPlayed = scanner.nextInt();
-            scanner.nextLine();
+      if (!isTournament)
+       while (true) {
+          System.out.println("Indtast antal spillede sæt: ");
+          try {
+              setsPlayed = validator.validateSetCount(scanner.nextLine());
+              break;
+          } catch (SmashException e) {
+              System.out.println(e.getMessage());
+          }
+      }
 
-            if (setsPlayed != 3 && setsPlayed != 5) {
-                System.out.println("Antal sæt skal være enten 3 eller 5!");
-            }
-        }
+      int setsWon = 0;
+      while(true){
+          System.out.println("Indtast hvor mange sæt spilleren har vundet:  ");
+          try{
+              setsWon = validator.validateWonSets(scanner.nextLine(),setsPlayed);
+              break;
+          } catch (SmashException e) {
+              System.out.println(e.getMessage());
+          }
+      }
 
 
-        int maxWinningSets;
-        if (setsPlayed == 3) {
-            maxWinningSets = 2;
-        } else {
-            maxWinningSets = 3;
-        }
 
-        int setsWon = -1;
-        if (isTournament == true) {
-            System.out.println("Indtast hvor mange sæt spilleren har vundet: ");
-            setsWon = scanner.nextInt();
-            scanner.nextLine();
-
-        } else while (setsWon < 0 || setsWon > maxWinningSets) {
-            System.out.print("Indtast antal vundne sæt: ");
-            setsWon = scanner.nextInt();
-            scanner.nextLine();
-
-            if (setsWon < 0 || setsWon > maxWinningSets) {
-                System.out.println("Antal vundne sæt kan ikke være negativt eller større end spillede sæt!");
-            }
-            matchWinner = setsWon >= maxWinningSets;
-        }
+//        int maxWinningSets;
+//        if (setsPlayed == 3) {
+//            maxWinningSets = 2;
+//        } else {
+//            maxWinningSets = 3;
+//        }
+//
+//        int setsWon = -1;
+//        if (isTournament == true) {
+//            System.out.println("Indtast hvor mange sæt spilleren har vundet: ");
+//            setsWon = scanner.nextInt();
+//            scanner.nextLine();
+//
+//        } else while (setsWon < 0 || setsWon > maxWinningSets) {
+//            System.out.print("Indtast antal vundne sæt: ");
+//            setsWon = scanner.nextInt();
+//            scanner.nextLine();
+//
+//            if (setsWon < 0 || setsWon > maxWinningSets) {
+//                System.out.println("Antal vundne sæt kan ikke være negativt eller større end spillede sæt!");
+//            }
+//            matchWinner = setsWon >= maxWinningSets;
+//        }
 
 
 
