@@ -41,87 +41,85 @@ public class PlayerEntry {
         return playerEntryId;
     }
 
-    public int getMemberId() {
-        return memberId;
-    }
-
-    public String getMemberName() {
-        return memberName;
-    }
-
-    public boolean isTrainingMatch() {
-        return isTrainingMatch;
-    }
-
-    public boolean isTournamentMatch() {
-        return isTournamentMatch;
-    }
-
-    public int getTournamentPlacement() {
-        return tournamentPlacement;
-    }
-
-    public DisciplineType getPlayerEntryDiscipline() {
-        return playerEntryDiscipline;
-    }
-
-    public LocalDate getPlayerEntryDate() {
-        return playerEntryDate;
-    }
-
-    public int getSetsPlayed() {
-        return setsPlayed;
-    }
-
-    public int getSetsWon() {
-        return setsWon;
-    }
-
-    public boolean isMatchWinner() {
-        return matchWinner;
-    }
-
-
-
     //setters
     public void setPlayerEntryId(int playerEntryId) {
         this.playerEntryId = playerEntryId;
+    }
+
+    public int getMemberId() {
+        return memberId;
     }
 
     public void setMemberId(int memberId) {
         this.memberId = memberId;
     }
 
+    public String getMemberName() {
+        return memberName;
+    }
+
     public void setMemberName(String memberName) {
         this.memberName = memberName;
+    }
+
+    public boolean isTrainingMatch() {
+        return isTrainingMatch;
     }
 
     public void setTrainingMatch(boolean trainingMatch) {
         isTrainingMatch = trainingMatch;
     }
 
+    public boolean isTournamentMatch() {
+        return isTournamentMatch;
+    }
+
     public void setTournamentMatch(boolean tournamentMatch) {
         isTournamentMatch = tournamentMatch;
+    }
+
+    public int getTournamentPlacement() {
+        return tournamentPlacement;
     }
 
     public void setTournamentPlacement(int tournamentPlacement) {
         this.tournamentPlacement = tournamentPlacement;
     }
 
+    public DisciplineType getPlayerEntryDiscipline() {
+        return playerEntryDiscipline;
+    }
+
     public void setPlayerEntryDiscipline(DisciplineType playerEntryDiscipline) {
         this.playerEntryDiscipline = playerEntryDiscipline;
+    }
+
+    public LocalDate getPlayerEntryDate() {
+        return playerEntryDate;
     }
 
     public void setPlayerEntryDate(LocalDate playerEntryDate) {
         this.playerEntryDate = playerEntryDate;
     }
 
+    public int getSetsPlayed() {
+        return setsPlayed;
+    }
+
     public void setSetsPlayed(int setsPlayed) {
         this.setsPlayed = setsPlayed;
     }
 
+    public int getSetsWon() {
+        return setsWon;
+    }
+
     public void setSetsWon(int setsWon) {
         this.setsWon = setsWon;
+    }
+
+    public boolean isMatchWinner() {
+        return matchWinner;
     }
 
     public void setMatchWinner(boolean matchWinner) {
@@ -147,7 +145,6 @@ public class PlayerEntry {
                 matchWinner ? "Ja" : "Nej"
         );
     }
-
 
 
 }

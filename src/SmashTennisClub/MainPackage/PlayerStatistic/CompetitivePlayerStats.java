@@ -38,55 +38,97 @@ public class CompetitivePlayerStats {
     }
 
 
-
     //getters
     public int getMemberId() {
         return memberId;
+    }
+
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 
     public String getMemberName() {
         return memberName;
     }
 
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
     public Gender getGender() {
         return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public MemberType getMemberType() {
         return memberType;
     }
 
+    public void setMemberType(MemberType memberType) {
+        this.memberType = memberType;
+    }
+
     public DisciplineType getDisciplineType() {
         return disciplineType;
+    }
+
+    public void setDisciplineType(DisciplineType disciplineType) {
+        this.disciplineType = disciplineType;
     }
 
     public int getTotalSetsPlayed() {
         return totalSetsPlayed;
     }
 
+
+    //Setters
+
+    public void setTotalSetsPlayed(int totalSetsPlayed) {
+        this.totalSetsPlayed = totalSetsPlayed;
+    }
+
     public int getTotalSetsWon() {
         return totalSetsWon;
+    }
+
+    public void setTotalSetsWon(int totalSetsWon) {
+        this.totalSetsWon = totalSetsWon;
     }
 
     public int getTournamentCount() {
         return tournamentCount;
     }
 
+    public void setTournamentCount(int tournamentCount) {
+        this.tournamentCount = tournamentCount;
+    }
+
     public int getTournamentWins() {
         return tournamentWins;
+    }
+
+    public void setTournamentWins(int tournamentWins) {
+        this.tournamentWins = tournamentWins;
     }
 
     public double getSetWinRate() {
         return setWinRate;
     }
 
+    public void setSetWinRate(double setWinRate) {
+        this.setWinRate = setWinRate;
+    }
+
     public double getAvgTournamentPlacement() {
         return avgTournamentPlacement;
     }
 
-
-
-    //Setters
+    public void setAvgTournamentPlacement(double avgTournamentPlacement) {
+        this.avgTournamentPlacement = avgTournamentPlacement;
+    }
 
     public void addSets(int played, int won) {
         this.totalSetsPlayed += played;
@@ -99,52 +141,6 @@ public class CompetitivePlayerStats {
             this.tournamentWins++;
         }
     }
-
-    public void setMemberId(int memberId) {
-        this.memberId = memberId;
-    }
-
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public void setMemberType(MemberType memberType) {
-        this.memberType = memberType;
-    }
-
-    public void setDisciplineType(DisciplineType disciplineType) {
-        this.disciplineType = disciplineType;
-    }
-
-    public void setTotalSetsPlayed(int totalSetsPlayed) {
-        this.totalSetsPlayed = totalSetsPlayed;
-    }
-
-    public void setTotalSetsWon(int totalSetsWon) {
-        this.totalSetsWon = totalSetsWon;
-    }
-
-    public void setTournamentCount(int tournamentCount) {
-        this.tournamentCount = tournamentCount;
-    }
-
-    public void setTournamentWins(int tournamentWins) {
-        this.tournamentWins = tournamentWins;
-    }
-
-    public void setSetWinRate(double setWinRate) {
-        this.setWinRate = setWinRate;
-    }
-
-    public void setAvgTournamentPlacement(double avgTournamentPlacement) {
-        this.avgTournamentPlacement = avgTournamentPlacement;
-    }
-
-
 
     //toString
     @Override

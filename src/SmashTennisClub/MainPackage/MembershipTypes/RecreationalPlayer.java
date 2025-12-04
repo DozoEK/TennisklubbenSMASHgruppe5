@@ -4,7 +4,6 @@ import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MemberType;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class RecreationalPlayer extends Member {
@@ -35,8 +34,6 @@ public class RecreationalPlayer extends Member {
                 getActiveMembership() ? "Yes" : "No"
         );
     }
-
-
 
 
 }

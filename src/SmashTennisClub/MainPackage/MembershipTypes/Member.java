@@ -3,7 +3,7 @@ package SmashTennisClub.MainPackage.MembershipTypes;
 import SmashTennisClub.MainPackage.EnumLists.Gender;
 import SmashTennisClub.MainPackage.EnumLists.MemberType;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
-import java.sql.Date;
+
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -28,7 +28,7 @@ public class Member {
         this.memberName = memberName;
         this.genderOfMember = genderOfMember;
         this.dateOfBirth = dateOfBirth;
-        this.age = Period.between(dateOfBirth, LocalDate.now()).getYears();;
+        this.age = Period.between(dateOfBirth, LocalDate.now()).getYears();
         this.phoneNumber = phoneNumber;
         this.competitivePlayer = competitivePlayer;
         this.membershipType = membershipType;
@@ -42,12 +42,25 @@ public class Member {
         return memberId;
     }
 
+    //Setters
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
+    }
+
     public String getMemberName() {
         return memberName;
     }
 
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
     public int getAge() {
         return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public void updateAge() {
@@ -58,28 +71,56 @@ public class Member {
         return dateOfBirth;
     }
 
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public Gender getGenderOfMember() {
         return genderOfMember;
+    }
+
+    public void setGenderOfMember(Gender genderOfMember) {
+        this.genderOfMember = genderOfMember;
     }
 
     public int getPhoneNumber() {
         return phoneNumber;
     }
 
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public Boolean getCompetitivePlayer() {
         return competitivePlayer;
+    }
+
+    public void setCompetitivePlayer(Boolean competitivePlayer) {
+        this.competitivePlayer = competitivePlayer;
     }
 
     public MemberType getMembershipType() {
         return membershipType;
     }
 
+    public void setMembershipType(MemberType membershipType) {
+        this.membershipType = membershipType;
+    }
+
     public MembershipPricelist getYearlyMembershipFee() {
         return yearlyMembershipFee;
     }
 
+    public void setYearlyMembershipFee(MembershipPricelist yearlyMembershipFee) {
+        this.yearlyMembershipFee = yearlyMembershipFee;
+    }
+
     public LocalDate getYearlyFeeDate() {
         return yearlyFeeDate;
+    }
+
+    public void setYearlyFeeDate(LocalDate yearlyFeeDate) {
+        this.yearlyFeeDate = yearlyFeeDate;
     }
 
     public void renewYearlyFeeDate() {
@@ -88,47 +129,6 @@ public class Member {
 
     public Boolean getActiveMembership() {
         return activeMembership;
-    }
-
-    //Setters
-    public void setMemberId(int memberId) {
-        this.memberId = memberId;
-    }
-
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
-    }
-
-    public void setGenderOfMember(Gender genderOfMember) {
-        this.genderOfMember = genderOfMember;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setCompetitivePlayer(Boolean competitivePlayer) {
-        this.competitivePlayer = competitivePlayer;
-    }
-
-    public void setMembershipType(MemberType membershipType) {
-        this.membershipType = membershipType;
-    }
-
-    public void setYearlyMembershipFee(MembershipPricelist yearlyMembershipFee) {
-        this.yearlyMembershipFee = yearlyMembershipFee;
-    }
-
-    public void setYearlyFeeDate(LocalDate yearlyFeeDate) {
-        this.yearlyFeeDate = yearlyFeeDate;
     }
 
     public void setActiveMembership(Boolean activeMembership) {
@@ -152,8 +152,6 @@ public class Member {
                 activeMembership ? "Yes" : "No"
         );
     }
-
-
 
 
 }

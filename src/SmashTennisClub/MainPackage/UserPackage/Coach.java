@@ -18,16 +18,12 @@ import java.util.Scanner;
 
 public class Coach {
     ValidationInterface validator = new ValidationMethods();
-
-    private ArrayList<Member> members;
-
+    PlayerEntryReader playerEntryReader = new PlayerEntryReader();
+    ArrayList<PlayerEntry> playerEntries = playerEntryReader.readFromFile();
+    private final ArrayList<Member> members;
     public Coach(ArrayList<Member> members) {
         this.members = members;
     }
-
-    PlayerEntryReader playerEntryReader = new PlayerEntryReader();
-    ArrayList<PlayerEntry> playerEntries = playerEntryReader.readFromFile();
-
 
     public void coachMenu() {
 
@@ -58,6 +54,13 @@ public class Coach {
             System.out.print("Vælg en funktion (1-10): ");
 
             String choice = scanner.nextLine().trim();
+
+            try {
+                validator.validateLettersOrNumbersOnly(choice);
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
 
             switch (choice) {
 
@@ -306,11 +309,7 @@ public class Coach {
                     playerEntryToEdit.setTournamentPlacement(placement);
 
                     if (playerEntryToEdit.isTournamentMatch()) {
-                        if (placement == 1) {
-                            playerEntryToEdit.setMatchWinner(true);
-                        } else {
-                            playerEntryToEdit.setMatchWinner(false);
-                        }
+                        playerEntryToEdit.setMatchWinner(placement == 1);
                     }
                 }
                 case 5 -> {
@@ -484,7 +483,7 @@ public class Coach {
         int setsPlayed = 0;
         while (true) {
             System.out.println("Indtast antal spillede sæt: ");
-            if (isTournament == true) {
+            if (isTournament) {
                 try {
                     setsPlayed = validator.validateSetCountTournament(scanner.nextLine());
                     break;
@@ -502,30 +501,29 @@ public class Coach {
         }
 
 
-            int setsWon = 0;
-            while (true) {
-                System.out.println("Indtast hvor mange sæt spilleren har vundet:  ");
-                try {
-                    setsWon = validator.validateWonSets(scanner.nextLine(), setsPlayed);
-                    break;
-                } catch (SmashException e) {
-                    System.out.println(e.getMessage());
-                }
+        int setsWon = 0;
+        while (true) {
+            System.out.println("Indtast hvor mange sæt spilleren har vundet:  ");
+            try {
+                setsWon = validator.validateWonSets(scanner.nextLine(), setsPlayed);
+                break;
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
             }
+        }
 
 
-            PlayerEntry playerEntry = new PlayerEntry(playerEntryId, memberId, memberName, isTrainingMatch, isTournament,
-                    tournamentPlacement, playerEntryDiscipline, playerEntryDate, setsPlayed, setsWon, matchWinner);
+        PlayerEntry playerEntry = new PlayerEntry(playerEntryId, memberId, memberName, isTrainingMatch, isTournament,
+                tournamentPlacement, playerEntryDiscipline, playerEntryDate, setsPlayed, setsWon, matchWinner);
 
 
-            playerEntries.add(playerEntry);
-            fileHandler.savePlayerEntries(playerEntries);
+        playerEntries.add(playerEntry);
+        fileHandler.savePlayerEntries(playerEntries);
 
-            System.out.println("\nFølgende PlayerEntry er oprettet og gemt til CSV: ");
-            System.out.println(playerEntry);
+        System.out.println("\nFølgende PlayerEntry er oprettet og gemt til CSV: ");
+        System.out.println(playerEntry);
 
-            return playerEntry;
-
+        return playerEntry;
 
 
     }

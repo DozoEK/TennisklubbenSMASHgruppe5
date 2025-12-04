@@ -7,17 +7,27 @@ public class ValidationMethods implements ValidationInterface {
 
     @Override
     public void validateName(String name) throws SmashException {
-        if (name.isEmpty()){
-         throw new SmashException("navnet må ikke være tomt.");
+        if (name.isEmpty()) {
+            throw new SmashException("navnet må ikke være tomt.");
         }
-        if (!name.matches("[a-z A-ZæøåÆØÅ ]+")){
+        if (!name.matches("[a-z A-ZæøåÆØÅ ]+")) {
             throw new SmashException("Navnet må kun indeholde bogstaver!");
         }
     }
 
+    @Override
+    public void validateLettersOrNumbersOnly(String input) throws SmashException {
+        if (input.isEmpty()) {
+            throw new SmashException("Søgning må ikke være tom.");
+        }
+        if (!input.matches("[a-z A-ZæøåÆØÅ0-9 ]+")) {
+            throw new SmashException("Navnet må kun indeholde bogstaver!");
+        }
+    }
+
+
 //    @Override
 //    public int validateMemberIdSearch (String input) throws SmashException{}
-
 
 
     @Override
@@ -32,9 +42,9 @@ public class ValidationMethods implements ValidationInterface {
     @Override
     public boolean validateYesOrNo(String input) throws SmashException {
         input = input.toLowerCase();
-        if(input.equals("ja")|| input.equals("j")|| input.equals("yes") || input.equals("true"))
+        if (input.equals("ja") || input.equals("j") || input.equals("yes") || input.equals("true"))
             return true;
-        if (input.equals("nej")|| input.equals("n")|| input.equals("no") || input.equals("false"))
+        if (input.equals("nej") || input.equals("n") || input.equals("no") || input.equals("false"))
             return false;
 
         throw new SmashException("Svar venligst ja eller nej.");
@@ -42,9 +52,9 @@ public class ValidationMethods implements ValidationInterface {
 
     @Override
     public int validateInt(String input) throws SmashException {
-        try{
+        try {
             return Integer.parseInt(input);
-        }catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new SmashException("Input skal være et tal!");
         }
     }
@@ -63,10 +73,10 @@ public class ValidationMethods implements ValidationInterface {
     @Override
     public int validateSetCount(String input) throws SmashException {
         int sets = validateInt(input);
-        if (sets !=3 && sets !=5){
+        if (sets != 3 && sets != 5) {
             throw new SmashException("Antal af sets skal være 3 eller 5!");
         }
-    return sets;
+        return sets;
     }
 
     @Override
@@ -79,7 +89,7 @@ public class ValidationMethods implements ValidationInterface {
         if (won > totalSets) {
             throw new SmashException("Vundne sæt kan ikke overstige spillet antal sæt!");
         }
-    return won;
+        return won;
     }
 
     @Override
@@ -87,7 +97,7 @@ public class ValidationMethods implements ValidationInterface {
         LocalDate date = validateDate(input);
 
         LocalDate hundredYearsMax = LocalDate.now().minusYears(100);
-        if (date.isBefore(hundredYearsMax)){
+        if (date.isBefore(hundredYearsMax)) {
             throw new SmashException("Datoen kan max være 100 år gammel");
         }
         return date;
@@ -97,7 +107,7 @@ public class ValidationMethods implements ValidationInterface {
     public LocalDate validateNoFutureDate(String input) throws SmashException {
         LocalDate date = validateDate(input);
 
-        if (date.isAfter(LocalDate.now())){
+        if (date.isAfter(LocalDate.now())) {
             throw new SmashException("Fejl: Datoen må ikke ligge i fremtiden!");
         }
         return date;
@@ -105,7 +115,7 @@ public class ValidationMethods implements ValidationInterface {
 
     @Override
     public int validatePhone(String input) throws SmashException {
-        if (!input.matches("[0-9]+")){
+        if (!input.matches("[0-9]+")) {
             throw new SmashException("Telefonnummer må kun bestå af tal!");
         }
         return Integer.parseInt(input);
@@ -133,11 +143,11 @@ public class ValidationMethods implements ValidationInterface {
     public int validateAge(String input) throws SmashException {
         try {
             int age = Integer.parseInt(input);
-            if (age <1 || age > 120){
+            if (age < 1 || age > 120) {
                 throw new SmashException("Alderen skal være mellem 1 og 120 år");
             }
             return age;
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new SmashException("Alder skal være et tal.");
         }
     }

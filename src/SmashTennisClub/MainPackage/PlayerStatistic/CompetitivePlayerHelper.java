@@ -17,11 +17,10 @@ import static SmashTennisClub.MainPackage.EnumLists.DisciplineType.SINGLE;
 public class CompetitivePlayerHelper {
 
 
-    private MemberReader mr = new MemberReader();
-    private CompetitivePlayerStatsWriter cpsw = new CompetitivePlayerStatsWriter();
-    private CompetitivePlayerStatsReader cpsr = new CompetitivePlayerStatsReader();
-    private PlayerEntryReader per = new PlayerEntryReader();
-
+    private final MemberReader mr = new MemberReader();
+    private final CompetitivePlayerStatsWriter cpsw = new CompetitivePlayerStatsWriter();
+    private final CompetitivePlayerStatsReader cpsr = new CompetitivePlayerStatsReader();
+    private final PlayerEntryReader per = new PlayerEntryReader();
 
 
     public void createStatsFromCompetitiveMembers() {
@@ -46,7 +45,6 @@ public class CompetitivePlayerHelper {
     }
 
 
-
     public void createStatsForSingleCompetitiveMember(Member member) {
         if (!member.getCompetitivePlayer()) {
             System.out.println("Medlemmet " + member.getMemberName() + " er ikke en konkurrencespiller. Stats oprettes ikke.");
@@ -64,7 +62,7 @@ public class CompetitivePlayerHelper {
             }
         }
 
-        if (exists == true) {
+        if (exists) {
             System.out.println("Stats for medlem " + member.getMemberName() + " findes allerede.");
             return;
         }
@@ -89,7 +87,6 @@ public class CompetitivePlayerHelper {
     }
 
 
-
     public void updateAllCompetitiveStats() {
         ArrayList<CompetitivePlayerStats> statsList = cpsr.readFromFile();
         ArrayList<PlayerEntry> playerEntries = per.readFromFile();
@@ -100,8 +97,6 @@ public class CompetitivePlayerHelper {
 
         cpsw.writeToFile(statsList);
     }
-
-
 
 
     public void updateSinglePlayerStats(CompetitivePlayerStats stats, ArrayList<PlayerEntry> playerEntries) {
@@ -180,9 +175,6 @@ public class CompetitivePlayerHelper {
     }
 
 
-
-
-
     public void showTop5AllByDiscipline() {
         ArrayList<CompetitivePlayerStats> cpsAll = cpsr.readFromFile();
         Scanner scanner = new Scanner(System.in);
@@ -203,10 +195,26 @@ public class CompetitivePlayerHelper {
         String title;
 
         switch (categoryChoice) {
-            case 1 -> { type = MemberType.SENIOR; gender = Gender.MALE; title = "SENIOR HERRE"; }
-            case 2 -> { type = MemberType.SENIOR; gender = Gender.FEMALE; title = "SENIOR KVINDE"; }
-            case 3 -> { type = MemberType.JUNIOR; gender = Gender.MALE; title = "JUNIOR DRENG"; }
-            case 4 -> { type = MemberType.JUNIOR; gender = Gender.FEMALE; title = "JUNIOR PIGE"; }
+            case 1 -> {
+                type = MemberType.SENIOR;
+                gender = Gender.MALE;
+                title = "SENIOR HERRE";
+            }
+            case 2 -> {
+                type = MemberType.SENIOR;
+                gender = Gender.FEMALE;
+                title = "SENIOR KVINDE";
+            }
+            case 3 -> {
+                type = MemberType.JUNIOR;
+                gender = Gender.MALE;
+                title = "JUNIOR DRENG";
+            }
+            case 4 -> {
+                type = MemberType.JUNIOR;
+                gender = Gender.FEMALE;
+                title = "JUNIOR PIGE";
+            }
             default -> {
                 System.out.println("Ugyldigt valg. Afslutter.");
                 return;
@@ -274,8 +282,7 @@ public class CompetitivePlayerHelper {
     }
 
 
-
-   public void printAllCompetitivePlayerStats() {
+    public void printAllCompetitivePlayerStats() {
         ArrayList<CompetitivePlayerStats> statsList = cpsr.readFromFile();
 
         if (statsList.isEmpty()) {

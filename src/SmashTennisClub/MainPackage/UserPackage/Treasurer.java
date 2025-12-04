@@ -2,7 +2,6 @@ package SmashTennisClub.MainPackage.UserPackage;
 
 import SmashTennisClub.FileSystem.FileHandler;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
-import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberWriter;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaReader;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import SmashTennisClub.MainPackage.ErrorAndValidation.SmashException;
@@ -18,15 +17,13 @@ import java.util.Scanner;
 
 public class Treasurer {
 
+    ValidationInterface validator = new ValidationMethods();
     private ArrayList<Member> members;
+    QuotaController qc = new QuotaController(members);
 
     public Treasurer(ArrayList<Member> members) {
         this.members = members;
     }
-    ValidationInterface validator = new ValidationMethods();
-
-    QuotaController qc = new QuotaController(members);
-
 
     public void treasurerMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -46,7 +43,14 @@ public class Treasurer {
             System.out.println("('x' for afslut menu || 'exit' for afslut program)");
             System.out.print("Vælg en funktion (1-8): ");
 
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().trim();
+
+            try {
+                validator.validateLettersOrNumbersOnly(choice);
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
 
             switch (choice) {
 
@@ -96,8 +100,7 @@ public class Treasurer {
     }
 
 
-
-
+    //BRUGES KUN TIL OPRETTELSE AF NY CSV FIL TIL QUOTAS!!!!
     public void autoCreateQuotasForAllMembers() {
         FileHandler fh = new FileHandler();
         QuotaReader qr = new QuotaReader();
@@ -176,56 +179,54 @@ public class Treasurer {
     }
 
 
-
     public void showAllPaidQuotas() {
         System.out.println("--- Betalte kontingenter ---");
-        for (Quota b : qc.getPaidPayments()){
+        for (Quota b : qc.getPaidPayments()) {
             System.out.println(b);
         }
     }
 
 
+    public void searchForQuota() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Indtast venligst MemberId: ");
+        int searchForMemberId;
+        while (true) {
+            try {
+                searchForMemberId = validator.validateInt(scanner.nextLine());
+                break;
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+                System.out.print("Prøv igen: ");
+            }
+        }
 
-   public void searchForQuota() {
-        Scanner scanner = new Scanner (System.in);
-       System.out.println("Indtast venligst MemberId: ");
-       int searchForMemberId;
-      while(true) {
-          try {
-              searchForMemberId = validator.validateInt(scanner.nextLine());
-              break;
-          } catch (SmashException e) {
-              System.out.println(e.getMessage());
-              System.out.print("Prøv igen: ");
-          }
-      }
+        boolean isfound = false;
 
-       boolean isfound = false;
+        for (Quota q : qc.getAllPayments()) {
+            if (q.getMemberId() == searchForMemberId) {
+                System.out.println("Følgende kontingenter er fundet for medlemmet: ");
+                System.out.println(q);
+                isfound = true;
 
-       for (Quota q : qc.getAllPayments()){
-           if (q.getMemberId() == searchForMemberId) {
-               System.out.println("Følgende kontingenter er fundet for medlemmet: ");
-               System.out.println(q);
-               isfound = true;
-
-           }
-       }
-       if(!isfound){
-           System.out.println("ingen betaling fundet for dette medlem!");
-       }
-   }
+            }
+        }
+        if (!isfound) {
+            System.out.println("ingen betaling fundet for dette medlem!");
+        }
+    }
 
 
-   public void registerPaymentForMember() {
-       UserHelperClass userHelper = new UserHelperClass(members);
-       System.out.println("--- Register payment for single user ---");
+    public void registerPaymentForMember() {
+        UserHelperClass userHelper = new UserHelperClass(members);
+        System.out.println("--- Register payment for single user ---");
 
-       Member selectedMember = userHelper.searchForMember();
+        Member selectedMember = userHelper.searchForMember();
 
-       int memberId = selectedMember.getMemberId();
-       registerPayments(memberId);
+        int memberId = selectedMember.getMemberId();
+        registerPayments(memberId);
 
-   }
+    }
 
 
     public boolean registerPayments(int memberId) {
@@ -235,13 +236,12 @@ public class Treasurer {
 
         for (Quota quota : quotas) {
             if (quota.getMemberId() == memberId) {
-                if (quota.getIsPaid()){
+                if (quota.getIsPaid()) {
                     System.out.println("Medlemmet har allerede betalt for følgende regning: " + quota);
                     return false;
                 }
                 quota.setPaid(true);
                 quota.setActualDateOfPayment(LocalDate.now());
-
 
 
                 System.out.println("Betaling registret for " + quota.getMemberName());
@@ -259,11 +259,11 @@ public class Treasurer {
     }
 
 
-    public void showUnpaidMembers(){
+    public void showUnpaidMembers() {
         QuotaController qc = new QuotaController(members);
         ArrayList<Quota> unpaidQuotas = qc.getUnpaidPayments();
 
-        if (unpaidQuotas.isEmpty()){
+        if (unpaidQuotas.isEmpty()) {
             System.out.println("Ingen medlemmer mangler betaling.");
             return;
         }
@@ -301,12 +301,11 @@ public class Treasurer {
     }
 
 
-
-    public void showAllLateUnpaidQuotas(){
+    public void showAllLateUnpaidQuotas() {
         QuotaController qc = new QuotaController(members);
         ArrayList<Quota> lateUnpaidQuotas = qc.getLateUnpaidQuotas();
 
-        if (lateUnpaidQuotas.isEmpty()){
+        if (lateUnpaidQuotas.isEmpty()) {
             System.out.println("Ingen medlemmer mangler betaling.");
             return;
         }
@@ -338,7 +337,6 @@ public class Treasurer {
         System.out.printf("Total beløb: %.2f kr%n", totalAmount);
         System.out.println("--------------------------------------------------------------------------------");
     }
-
 
 
     public void printAllQuotas() {

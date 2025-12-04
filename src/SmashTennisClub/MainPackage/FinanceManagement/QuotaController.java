@@ -14,8 +14,8 @@ public class QuotaController {
 
     LocalDate today = LocalDate.now();
 
-    private ArrayList<Member> members;
-    private ArrayList<Quota> quotas;
+    private final ArrayList<Member> members;
+    private final ArrayList<Quota> quotas;
 
     public QuotaController(ArrayList<Member> members) {
         this.members = members;

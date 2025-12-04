@@ -4,5 +4,5 @@ public enum MemberType {
     JUNIOR,
     SENIOR,
     RECREATIONALPLAYER,
-    DEFAULTMEMBER;
+    DEFAULTMEMBER
 }

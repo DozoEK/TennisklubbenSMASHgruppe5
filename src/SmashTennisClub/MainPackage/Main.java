@@ -1,23 +1,23 @@
 package SmashTennisClub.MainPackage;
 
-import SmashTennisClub.FileSystem.FileHandler;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
-import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaGenerator;
+import SmashTennisClub.MainPackage.ErrorAndValidation.SmashException;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationInterface;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationMethods;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
-import SmashTennisClub.MainPackage.PlayerStatistic.CompetitivePlayerHelper;
 import SmashTennisClub.MainPackage.UserPackage.Chairman;
 import SmashTennisClub.MainPackage.UserPackage.Coach;
 import SmashTennisClub.MainPackage.UserPackage.Treasurer;
 import SmashTennisClub.MainPackage.UserPackage.UserHelperClass;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         MemberReader reader = new MemberReader();
         ArrayList<Member> members = reader.readFromFile();
-
+        ValidationInterface validator = new ValidationMethods();
 
 
         Scanner scanner = new Scanner(System.in);
@@ -40,7 +40,15 @@ public class Main {
             System.out.println("0. Afslut program");
             System.out.print("Vælg en rolle (0-3): ");
 
-            String choice = scanner.nextLine();
+
+            String choice = scanner.nextLine().trim();
+
+            try {
+                validator.validateLettersOrNumbersOnly(choice);
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
 
             switch (choice) {
                 case "1":

@@ -50,10 +50,4 @@ public class Junior extends Member {
     }
 
 
-
-
-
-
-
-
 }

@@ -32,7 +32,6 @@ public class Senior extends Member {
     }
 
 
-
     @Override
     public String toString() {
         return String.format(
@@ -51,10 +50,6 @@ public class Senior extends Member {
                 seniorDisciplinType
         );
     }
-
-
-
-
 
 
 }

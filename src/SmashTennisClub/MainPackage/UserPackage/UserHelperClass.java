@@ -1,9 +1,9 @@
 package SmashTennisClub.MainPackage.UserPackage;
 
 import SmashTennisClub.FileSystem.FileHandler;
-import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
-import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberWriter;
-import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaReader;
+import SmashTennisClub.MainPackage.ErrorAndValidation.SmashException;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationInterface;
+import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationMethods;
 import SmashTennisClub.MainPackage.FinanceManagement.Quota;
 import SmashTennisClub.MainPackage.FinanceManagement.QuotaController;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
@@ -14,8 +14,8 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class UserHelperClass {
-    private ArrayList<Member> members;
-    private QuotaController qc;
+    private final ArrayList<Member> members;
+    private final QuotaController qc;
 
     public UserHelperClass(ArrayList<Member> members) {
         this.members = members;
@@ -48,105 +48,109 @@ public class UserHelperClass {
     public Member searchForMember() {
         Scanner input = new Scanner(System.in);
 
+        ValidationInterface validator = new ValidationMethods();
+
         while (true) {
             System.out.println();
             System.out.print("Søg efter medlems ID eller navn (skriv 'exit' for at afslutte!): ");
+            String multiInput = input.nextLine();
 
-            if (input.hasNextInt()) {
-                int memberId = input.nextInt();
-                input.nextLine();
+            if (multiInput.equalsIgnoreCase("exit")) {
+                System.out.println("Afslutter søgning...");
+                return null;
+            }
 
-                Member fundetMember = findMemberById(memberId);
-
-                if (fundetMember != null) {
-                    System.out.println("\nMedlem fundet:");
-                    System.out.println(fundetMember);
-
-                    System.out.print("\nEr dette det korrekte medlem? (ja/nej): ");
-                    String confirmation = input.nextLine();
-
-                    if (confirmation.equalsIgnoreCase("ja")) {
-                        return fundetMember;
-                    } else {
-                        System.out.println("Søg igen.\n");
-                    }
-                } else {
-                    System.out.println("Ingen medlemmer fundet med ID: " + memberId);
-                }
-
-            } else {
-                String name = input.nextLine();
-
-                if (name.equalsIgnoreCase("exit")) {
-                    System.out.println("Afslutter søgning...");
-                    return null;
-                }
-
-                ArrayList<Member> matchingMembers = findMembersByPartialName(name);
-
-                if (matchingMembers.isEmpty()) {
-                    System.out.println("Ingen medlemmer med navnet: " + name + " er fundet.");
-                    continue;
-                }
+            try {
+                validator.validateLettersOrNumbersOnly(multiInput);
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
 
 
-                if (matchingMembers.size() == 1) {
-                    Member selectedMember = matchingMembers.get(0);
-                    System.out.println("\nFølgende medlem fundet:");
-                    System.out.println(selectedMember);
+                if (multiInput.matches("\\d+")) {
+                    int memberId = Integer.parseInt(multiInput);
+                    Member fundetMember = findMemberById(memberId);
+                    if (fundetMember != null) {
+                        System.out.println("\nMedlem fundet:");
+                        System.out.println(fundetMember);
 
-                    System.out.print("\nEr dette det korrekte medlem? (ja/nej): ");
-                    String confirmation = input.nextLine();
-
-                    if (confirmation.equalsIgnoreCase("ja")) {
-                        return selectedMember;
-                    } else {
-                        System.out.println("Søg igen.\n");
-                        continue;
-                    }
-                }
-
-                while (true) {
-                    System.out.println("\nFundne medlemmer:");
-                    for (int i = 0; i < matchingMembers.size(); i++) {
-                        System.out.println((i + 1) + ". " + matchingMembers.get(i));
-                    }
-                    System.out.print("\nVælg nummer (1-" + matchingMembers.size() + ") eller '0' for at søge igen: ");
-
-                    if (input.hasNextInt()) {
-                        int choice = input.nextInt();
-                        input.nextLine();
-
-                        if (choice == 0) {
-                            System.out.println("Søg igen.\n");
-                            break;
-
-                        } else if (choice > 0 && choice <= matchingMembers.size()) {
-                            Member selectedMember = matchingMembers.get(choice - 1);
-
-                            System.out.println("\nValgt medlem:");
-                            System.out.println(selectedMember);
-
-                            System.out.print("\nEr dette det korrekte medlem? (ja/nej): ");
-                            String confirmation = input.nextLine();
-
-                            if (confirmation.equalsIgnoreCase("ja")) {
-                                return selectedMember;
-                            } else {
-                                System.out.println("Søg igen.\n");
-                                break;
-                            }
+                        System.out.print("\nEr dette det korrekte medlem? (ja/nej): ");
+                        String confirmation = input.nextLine();
+                        if (confirmation.equalsIgnoreCase("ja")) {
+                            return fundetMember;
                         } else {
-                            System.out.println("Ugyldigt valg. Prøv igen.\n");
+                            System.out.println("Søg igen.\n");
                         }
                     } else {
-                        input.nextLine();
-                        System.out.println("Ugyldigt input. Prøv igen.\n");
+                        System.out.println("Ingen medlemmer fundet med ID: " + memberId);
+                    }
+
+                } else {
+                    ArrayList<Member> matchingMembers = findMembersByPartialName(multiInput);
+                    if (matchingMembers.isEmpty()) {
+                        System.out.println("Ingen medlemmer med navnet: " + multiInput + " er fundet.");
+                        continue;
+                    }
+
+                    if (matchingMembers.size() == 1) {
+                        Member selectedMember = matchingMembers.get(0);
+                        System.out.println("\nFølgende medlem fundet:");
+                        System.out.println(selectedMember);
+
+                        System.out.print("\nEr dette det korrekte medlem? (ja/nej): ");
+                        String confirmation = input.nextLine();
+
+                        if (confirmation.equalsIgnoreCase("ja")) {
+                            return selectedMember;
+                        } else {
+                            System.out.println("Søg igen.\n");
+                            continue;
+                        }
+                    }
+
+                    while (true) {
+                        System.out.println("\nFundne medlemmer:");
+                        for (int i = 0; i < matchingMembers.size(); i++) {
+                            System.out.println((i + 1) + ". " + matchingMembers.get(i));
+                        }
+                        System.out.print("\nVælg nummer (1-" + matchingMembers.size() + ") eller '0' for at søge igen: ");
+
+                        if (input.hasNextInt()) {
+                            int choice = input.nextInt();
+                            input.nextLine();
+
+                            if (choice == 0) {
+                                System.out.println("Søg igen.\n");
+                                break;
+
+                            } else if (choice > 0 && choice <= matchingMembers.size()) {
+                                Member selectedMember = matchingMembers.get(choice - 1);
+
+                                System.out.println("\nValgt medlem:");
+                                System.out.println(selectedMember);
+
+                                System.out.print("\nEr dette det korrekte medlem? (ja/nej): ");
+                                String confirmation = input.nextLine();
+
+                                if (confirmation.equalsIgnoreCase("ja")) {
+                                    return selectedMember;
+                                } else {
+                                    System.out.println("Søg igen.\n");
+                                    break;
+                                }
+                            } else {
+                                System.out.println("Ugyldigt valg. Prøv igen.\n");
+                            }
+                        } else {
+                            input.nextLine();
+                            System.out.println("Ugyldigt input. Prøv igen.\n");
+                        }
                     }
                 }
             }
         }
-    }
+
 
 
 

@@ -1,13 +1,11 @@
 package SmashTennisClub.MainPackage.FinanceManagement;
 
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
-import SmashTennisClub.MainPackage.MembershipTypes.Member;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Quota {
-    private int quotaId;
+    private final int quotaId;
     private int memberId;
     private String memberName;
     private MembershipPricelist yearlyMembershipFee;
@@ -38,8 +36,16 @@ public class Quota {
         return memberId;
     }
 
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
+    }
+
     public String getMemberName() {
         return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 
     public int getQuotaId() {
@@ -50,47 +56,34 @@ public class Quota {
         return yearlyMembershipFee;
     }
 
-    public LocalDate getYearlyFeeDate() {
-        return yearlyFeeDate;
-    }
-
-
-
-    public LocalDate getActualDateOfPayment() {
-        return actualDateOfPayment;
-    }
-
-
-
     //setters
     public void setYearlyMembershipFee(MembershipPricelist yearlyMembershipFee) {
         this.yearlyMembershipFee = yearlyMembershipFee;
     }
 
-    public void setMemberId(int memberId) {
-        this.memberId = memberId;
-    }
-
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
-    }
-
-    public void setPaid(Boolean paid) {
-        isPaid = paid;
+    public LocalDate getYearlyFeeDate() {
+        return yearlyFeeDate;
     }
 
     public void setYearlyFeeDate(LocalDate yearlyFeeDate) {
         this.yearlyFeeDate = yearlyFeeDate;
     }
 
-    public void renewYearlyFeeDate() {
-        this.yearlyFeeDate = LocalDate.now().plusYears(1);
+    public LocalDate getActualDateOfPayment() {
+        return actualDateOfPayment;
     }
 
     public void setActualDateOfPayment(LocalDate actualDateOfPayment) {
         this.actualDateOfPayment = actualDateOfPayment;
     }
 
+    public void setPaid(Boolean paid) {
+        isPaid = paid;
+    }
+
+    public void renewYearlyFeeDate() {
+        this.yearlyFeeDate = LocalDate.now().plusYears(1);
+    }
 
     @Override
     public String toString() {
