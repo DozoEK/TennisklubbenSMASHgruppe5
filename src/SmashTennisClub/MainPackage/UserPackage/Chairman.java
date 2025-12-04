@@ -189,7 +189,7 @@ public class Chairman {
                 System.out.print("Er medlemmet konkurencespiller? (Indtast: true/false): ");
                 String input = scanner.nextLine();
                 try {
-                    competitive = validator.validateBoolean(input);
+                    competitive = validator.validateYesOrNo(input);
                     break;
                 } catch (SmashException e) {
                     System.out.println(e.getMessage());
