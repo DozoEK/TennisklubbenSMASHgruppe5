@@ -2,7 +2,6 @@ package SmashTennisClub.MainPackage.FinanceManagement;
 
 
 import SmashTennisClub.FileSystem.FileHandler;
-import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaReader;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;
@@ -12,6 +11,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class QuotaController {
+
+
+    private ArrayList<Member> members;
+
+    public QuotaController(ArrayList<Member> members) {
+        this.members = members;
+    }
+
     QuotaReader reader = new QuotaReader();
     ArrayList<Quota> quotas = reader.readFromFile();
 
@@ -28,6 +35,21 @@ public class QuotaController {
         return paymentResult;
     }
 
+    public ArrayList<Quota> getLateUnpaidQuotas() {
+        ArrayList<Quota> lateUnpaidQuotas = new ArrayList<>();
+        QuotaReader reader = new QuotaReader();
+        ArrayList<Quota> quotas = reader.readFromFile();
+
+
+        LocalDate today = LocalDate.now();
+        for (Quota quota : quotas) {
+            if (quota.getIsPaid() == false && quota.getActualDateOfPayment().isBefore(today) && (quota.getYearlyFeeDate() != quota.getActualDateOfPayment()))
+                lateUnpaidQuotas.add(quota);
+        }
+        return lateUnpaidQuotas;
+    }
+
+
     public ArrayList<Quota> getPaidPayments() {
         ArrayList<Quota> paymentResult = new ArrayList<>();
         for (Quota quota : quotas) {
@@ -40,7 +62,7 @@ public class QuotaController {
     public Quota logicForCreateQuotaForMember(int memberId) {
         FileHandler fh = new FileHandler();
         QuotaReader qr = new QuotaReader();
-        UserHelperClass uhc = new UserHelperClass();
+        UserHelperClass uhc = new UserHelperClass(members);
         ArrayList<Quota> quotas = qr.readFromFile();
 
         int lastUsedQuotaId = 0;
@@ -74,32 +96,5 @@ public class QuotaController {
         return quota;
     }
 
-
-
-
-//    public void updateYearlyFeeDateOnMember() {
-//    FileHandler fh = new FileHandler();
-//    MemberReader mr = new MemberReader();
-//    QuotaReader reader = new QuotaReader();
-//    ArrayList<Quota> quotas = reader.readFromFile();
-//
-//
-//
-//            quota.setPaid(true);
-//            quota.setYearlyFeeDate(LocalDate.now());
-//
-//            System.out.println("Betaling registret for " + quota.getMemberName());
-//            System.out.println("Beløb: " + quota.getYearlyMembershipFee().getPrice() + "Kr.");
-//            System.out.println("Dato: " + LocalDate.now());
-//            System.out.println(quota);
-//
-//            quotas.add(quota);
-//            fh.saveQuotas(quotas);
-//            return true;
-//        }
-//    }
-//        System.out.println("kontingent for Medlem er ikke fundet!" + memberId);
-//        return false;
-//}
 
 }

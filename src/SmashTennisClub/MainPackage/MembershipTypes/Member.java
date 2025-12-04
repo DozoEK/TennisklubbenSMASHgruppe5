@@ -90,25 +90,69 @@ public class Member {
         return activeMembership;
     }
 
+    //Setters
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
+    }
 
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public void setGenderOfMember(Gender genderOfMember) {
+        this.genderOfMember = genderOfMember;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setCompetitivePlayer(Boolean competitivePlayer) {
+        this.competitivePlayer = competitivePlayer;
+    }
+
+    public void setMembershipType(MemberType membershipType) {
+        this.membershipType = membershipType;
+    }
+
+    public void setYearlyMembershipFee(MembershipPricelist yearlyMembershipFee) {
+        this.yearlyMembershipFee = yearlyMembershipFee;
+    }
+
+    public void setYearlyFeeDate(LocalDate yearlyFeeDate) {
+        this.yearlyFeeDate = yearlyFeeDate;
+    }
+
+    public void setActiveMembership(Boolean activeMembership) {
+        this.activeMembership = activeMembership;
+    }
 
     @Override
     public String toString() {
         return String.format(
-                "ID:%-3d  |  Navn:%-20s  |  Køn:%-6s  |  Født:%-10s  |  Alder:%-3d  |  Tlf:%-8s  |  Konkurrence:%-3s  |  Type:%-19s  |  Kontingent:%-10s  |  Forfald:%-10s  |  Aktiv:%-3s  |",
+                "MemberID:%-3d  |  Name:%-20s  |  Gender:%-6s  |  DOB:%-10s  |  Age:%-3d  |  Phone:%-8s  |  Competitive:%-3s  |  Type:%-19s  |  Membership:%-10s  |  DueDate:%-10s  |  Active:%-3s  |",
                 memberId,
                 memberName,
                 genderOfMember,
                 dateOfBirth,
                 age,
                 phoneNumber,
-                competitivePlayer ? "Ja" : "Nej",
+                competitivePlayer ? "Yes" : "No",
                 membershipType,
-                yearlyMembershipFee,
-                yearlyFeeDate,
-                activeMembership ? "Ja" : "Nej"
+                yearlyMembershipFee != null ? yearlyMembershipFee.name() : "-",
+                yearlyFeeDate != null ? yearlyFeeDate : "-",
+                activeMembership ? "Yes" : "No"
         );
     }
+
 
 
 

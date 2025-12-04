@@ -18,6 +18,12 @@ import java.util.Scanner;
 public class Coach {
 ValidationInterface validator = new ValidationMethods();
 
+    private ArrayList<Member> members;
+
+    public Coach(ArrayList<Member> members) {
+        this.members = members;
+    }
+
 
 
     public void coachMenu() {
@@ -125,7 +131,7 @@ ValidationInterface validator = new ValidationMethods();
     public void deletePlayerEntry() {
         PlayerEntryReader per = new PlayerEntryReader();
         PlayerEntryWriter pew = new PlayerEntryWriter();
-        UserHelperClass userHelper = new UserHelperClass();
+        UserHelperClass userHelper = new UserHelperClass(members);
         Scanner input = new Scanner(System.in);
         ArrayList<PlayerEntry> playerEntries = per.readFromFile();
 
@@ -330,7 +336,7 @@ ValidationInterface validator = new ValidationMethods();
     public void searchForPlayerEntryByMemberInfo() {
         FileHandler fileHandler = new FileHandler();
         Scanner input = new Scanner(System.in);
-        UserHelperClass userHelper = new UserHelperClass();
+        UserHelperClass userHelper = new UserHelperClass(members);
         PlayerEntryReader per = new PlayerEntryReader();
         ArrayList<PlayerEntry> playerEntries = per.readFromFile();
 
@@ -386,7 +392,7 @@ ValidationInterface validator = new ValidationMethods();
         FileHandler fileHandler = new FileHandler();
         PlayerEntryReader playerEntryReader = new PlayerEntryReader();
         ArrayList<PlayerEntry> playerEntries = playerEntryReader.readFromFile();
-        UserHelperClass userHelper = new UserHelperClass();
+        UserHelperClass userHelper = new UserHelperClass(members);
 
 
         int lastUsedPlayerEntryId = 0;

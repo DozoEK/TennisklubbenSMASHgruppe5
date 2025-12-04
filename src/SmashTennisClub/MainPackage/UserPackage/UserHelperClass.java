@@ -14,11 +14,11 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class UserHelperClass {
+    private ArrayList<Member> members;
 
-    MemberReader reader = new MemberReader();
-    MemberWriter writer = new MemberWriter();
-
-    private final ArrayList<Member> members = reader.readFromFile();
+    public UserHelperClass(ArrayList<Member> members) {
+        this.members = members;
+    }
 
 
     //logik til at finde memeber id
@@ -47,9 +47,8 @@ public class UserHelperClass {
         Scanner input = new Scanner(System.in);
 
         while (true) {
-            System.out.println("--- Søg efter medlem ---");
-            System.out.println("Indtast medlems ID eller navn: ");
-            System.out.println("(skriv 'exit' for at afslutte!)");
+            System.out.println();
+            System.out.print("Søg efter medlems ID eller navn, på ønskede medlem (skriv 'exit' for at afslutte!): ");
 
             if (input.hasNextInt()) {
                 int memberId = input.nextInt();
@@ -61,13 +60,15 @@ public class UserHelperClass {
                     System.out.println(fundetMember);
 
 
-                    System.out.print("\nEr dette det rigtige medlem? (ja/nej): ");
+                    System.out.println();
+                    System.out.print("Er dette det rigtige medlem? (ja/nej): ");
                     String confirmation = input.nextLine();
 
                     if (confirmation.equalsIgnoreCase("ja")) {
                         return fundetMember;
                     } else {
-                        System.out.println("Søg igen:\n");
+                        System.out.println();
+                        System.out.print("Søg igen: ");
                     }
 
                 } else {
@@ -86,9 +87,10 @@ public class UserHelperClass {
                 ArrayList<Member> matchingMembers = findMembersByPartialName(name);
 
                 if (!matchingMembers.isEmpty() && matchingMembers.size() <= 1) {
-                    System.out.println("Fundet følgende medlem: ");
-                    System.out.println(matchingMembers);
-                    System.out.println("Tast '1' for at fortsætte - Tast '0' for at søge igen: ");
+                    System.out.println("Følgende medlem fundet: ");
+                    System.out.print(matchingMembers);
+                    System.out.println();
+                    System.out.println("Tast '1' for at fortsætte med valgte medlem  -  Tast '0' for at søge igen: ");
 
 
                     if (input.hasNextInt()) {
@@ -100,7 +102,7 @@ public class UserHelperClass {
 
 
                             System.out.println("\nValgt medlem:");
-                            System.out.println(selectedMember);
+                            System.out.print(selectedMember);
                             System.out.print("\nEr dette det korrekte medlem? (ja/nej): ");
                             String confirmation = input.nextLine();
 
@@ -138,7 +140,7 @@ public class UserHelperClass {
 
                             System.out.println("\nValgt medlem:");
                             System.out.println(selectedMember);
-                            System.out.print("\nEr dette det korrekte medlem? (ja/nej): ");
+                            System.out.print("\nEr dette det korrekte medlem ('ja' - 'nej') ?: ");
                             String confirmation = input.nextLine();
 
                             if (confirmation.equalsIgnoreCase("ja")) {
@@ -200,16 +202,14 @@ public class UserHelperClass {
         for (Member member : members) {
             checkForChangesInYearlyFeeDate(member.getMemberId());
         }
+        System.out.println("(No new quota needed for any members)");
     }
 
 
-
-
     public void checkForChangesInYearlyFeeDate(int memberId) {
-
         QuotaReader qr = new QuotaReader();
         ArrayList<Quota> quotas = qr.readFromFile();
-        QuotaController qc = new QuotaController();
+        QuotaController qc = new QuotaController(members);
 
         ArrayList<Quota> memberQuotas = new ArrayList<>();
         for (Quota q : quotas) {
@@ -228,14 +228,8 @@ public class UserHelperClass {
 
         if (latest.getIsPaid() && LocalDate.now().equals(latest.getActualDateOfPayment())) {
             qc.logicForCreateQuotaForMember(memberId);
-        } else {
-            System.out.println("No new quota needed for member " + memberId);
+
         }
 
-            //hvis actualPayDate er FØR i dag OG den er betalt, så er det okay!
-            //hvis actualPayDate er efter i dag er det også okay!
-            //hvis actualPayDate er i dag og den er paid = ny quota
-
     }
-
 }
