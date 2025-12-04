@@ -4,7 +4,7 @@ import SmashTennisClub.FileSystem.FileHandler;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
 import SmashTennisClub.FileSystem.FileSystemSubClasses.QuotaReader;
 import SmashTennisClub.MainPackage.EnumLists.MembershipPricelist;
-import SmashTennisClub.MainPackage.ErrorAndValidation.SmashException;
+import SmashTennisClub.MainPackage.ErrorAndValidation.CustomExceptions.SmashException;
 import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationInterface;
 import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationMethods;
 import SmashTennisClub.MainPackage.FinanceManagement.Quota;

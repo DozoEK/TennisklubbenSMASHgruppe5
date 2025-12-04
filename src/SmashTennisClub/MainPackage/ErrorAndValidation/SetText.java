@@ -1,6 +1,8 @@
 package SmashTennisClub.MainPackage.ErrorAndValidation;
 
 
+import SmashTennisClub.MainPackage.ErrorAndValidation.CustomExceptions.SmashException;
+
 class SetText {
     public static void main(String[] args) {
         try {

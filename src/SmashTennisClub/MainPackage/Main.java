@@ -1,7 +1,7 @@
 package SmashTennisClub.MainPackage;
 
 import SmashTennisClub.FileSystem.FileSystemSubClasses.MemberReader;
-import SmashTennisClub.MainPackage.ErrorAndValidation.SmashException;
+import SmashTennisClub.MainPackage.ErrorAndValidation.CustomExceptions.SmashException;
 import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationInterface;
 import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationMethods;
 import SmashTennisClub.MainPackage.MembershipTypes.Member;

@@ -1,6 +1,8 @@
 package SmashTennisClub.MainPackage.ErrorAndValidation;
 
 
+import SmashTennisClub.MainPackage.ErrorAndValidation.CustomExceptions.SmashException;
+
 import java.time.LocalDate;
 
 public interface ValidationInterface {

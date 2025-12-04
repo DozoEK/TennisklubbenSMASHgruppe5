@@ -1,7 +1,7 @@
 package SmashTennisClub.MainPackage.UserPackage;
 
 import SmashTennisClub.FileSystem.FileHandler;
-import SmashTennisClub.MainPackage.ErrorAndValidation.SmashException;
+import SmashTennisClub.MainPackage.ErrorAndValidation.CustomExceptions.SmashException;
 import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationInterface;
 import SmashTennisClub.MainPackage.ErrorAndValidation.ValidationMethods;
 import SmashTennisClub.MainPackage.FinanceManagement.Quota;
