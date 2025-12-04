@@ -39,53 +39,53 @@ ValidationInterface validator = new ValidationMethods();
 
         while (running) {
             System.out.println("\n===== SMASH TENNIS CLUB | COACH MENU =====");
-            System.out.println("1. Opret PlayerEntry");
-            System.out.println("2. Redigér PlayerEntry");
-            System.out.println("3. Slet PlayerEntry");
-            System.out.println("4. Vis alle PlayerEntries");
-            System.out.println("5. Søg PlayerEntry via medlem");
-            System.out.println("6. Søg PlayerEntry via ID");
-            System.out.println("7. Vis alle konkurrencespillere");
-            System.out.println("8. cph.showTop5All();");
-            System.out.println("9. createStatsForSingleCompetitiveMember");
+            System.out.println("1. Vis alle konkurrencespillere");
+            System.out.println("2. Top 5 spillere");
+            System.out.println("3. Vis alle Kampregistreringer");
+            System.out.println("4. Søg Kampregistrering (via medlems ID / medlems navn)");
+            System.out.println("5. Søg Kampregistrering (via Kampregistrerings-ID)");
+            System.out.println("6. Opret Kampregistrering");
+            System.out.println("7. Redigér Kampregistrering");
+            System.out.println("8. Slet Kampregistrering");
+            System.out.println("9. Opret spiller statistik (for medlem)");
             System.out.println();
             System.out.println("('x' for afslut menu || 'exit' for afslut program)");
-            System.out.print("Vælg en funktion (1-7): ");
+            System.out.print("Vælg en funktion (1-9): ");
 
             String choice = scanner.nextLine();
 
             switch (choice) {
 
                 case "1":
-                    createPlayerEntry(scanner);
-                    break;
-
-                case "2":
-                    editPlayerEntry();
-                    break;
-
-                case "3":
-                    deletePlayerEntry();
-                    break;
-
-                case "4":
-                    showAllPlayerEntry();
-                    break;
-
-                case "5":
-                    searchForPlayerEntryByMemberInfo();
-                    break;
-
-                case "6":
-                    searchForPlayerEntry();
-                    break;
-
-                case "7":
                     showAllCompetetivePlayers();
                     break;
 
-                case "8":
+                case "2":
                     cph.showTop5All();
+                    break;
+
+                case "3":
+                    showAllPlayerEntry();
+                    break;
+
+                case "4":
+                    searchForPlayerEntryByMemberInfo();
+                    break;
+
+                case "5":
+                    searchForPlayerEntry();
+                    break;
+
+                case "6":
+                    createPlayerEntry(scanner);
+                    break;
+
+                case "7":
+                    editPlayerEntry();
+                    break;
+
+                case "8":
+                    deletePlayerEntry();
                     break;
 
                 case "9":
@@ -111,13 +111,6 @@ ValidationInterface validator = new ValidationMethods();
         }
     }
 
-
-    //TODO void showTop5() {}
-
-
-
-    //TODO void SeniorTop5() {}(den viser top 5 for alle 3 discipliner = 15 spillere)
-    // TODO void juniorTop5() {}
 
 
 

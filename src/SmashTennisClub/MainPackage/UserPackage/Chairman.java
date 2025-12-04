@@ -39,13 +39,14 @@ public class Chairman {
 
         while (running) {
             System.out.println("\n===== SMASH TENNIS CLUB | FORMANDS MENU =====");
-            System.out.println("1. Opret medlem");
-            System.out.println("2. Slet medlem");
-            System.out.println("3. Redigér medlem");
-            System.out.println("4. Vis alle medlemmer");
+            System.out.println("1. Søg efter medlem");
+            System.out.println("2. Vis alle medlemmer");
+            System.out.println("3. Opret medlem");
+            System.out.println("4. Redigér medlem");
+            System.out.println("5. Slet medlem");
             System.out.println();
             System.out.println("('x' for afslut menu || 'exit' for afslut program)");
-            System.out.print("Vælg en funktion (1-4): ");
+            System.out.print("Vælg en funktion (1-5): ");
 
 
             String choice = scanner.nextLine();
@@ -53,24 +54,23 @@ public class Chairman {
             switch (choice) {
 
                 case "1":
-                    createAnyMember(scanner);
+                    uhc.searchForMember();
                     break;
 
                 case "2":
-                    deleteMember();
-                    break;
-
-                case "3":
-                    editMember();
-                    break;
-
-                case "4":
                     uhc.printAllMembers();
                     break;
 
+                case "3":
+                    createAnyMember(scanner);
+                    break;
+
+                case "4":
+                    editMember();
+                    break;
+
                 case "5":
-                    System.out.println("Lukker formands-menu...");
-                    running = false;
+                    deleteMember();
                     break;
 
                 case "x":

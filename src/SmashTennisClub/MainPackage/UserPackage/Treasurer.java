@@ -30,15 +30,14 @@ public class Treasurer {
 
         while (running) {
             System.out.println("\n===== SMASH TENNIS CLUB | TREASURER MENU =====");
-            System.out.println("1. Opret kontingent for medlem");
-            System.out.println("2. Auto-opret kontingenter til alle medlemmer");
-            System.out.println("3. Registrér betaling for medlem");
-            System.out.println("4. Søg efter kontingent");
-            System.out.println("5. Vis alle betalte kontingenter");
-            System.out.println("6. Vis alle ubetalte kontingenter");
-            System.out.println("7. Vis alle medlemmer med restancer (ubetalt)");
-            System.out.println("8. Print alle kontingenter (fra CSV)");
-            System.out.println("9. Print alle forsent betalte kontingenter");
+            System.out.println("1. Vis alle kontingenter");
+            System.out.println("2. Vis alle betalte kontingenter");
+            System.out.println("3. Vis alle ubetalte kontingenter");
+            System.out.println("4. Vis restancer");
+            System.out.println("5. Søg efter kontingent");
+            System.out.println();
+            System.out.println("6. Opret kontingent for medlem");
+            System.out.println("7. Registrér betaling for medlem");
             System.out.println();
             System.out.println("('x' for afslut menu || 'exit' for afslut program)");
             System.out.print("Vælg en funktion (1-8): ");
@@ -48,40 +47,33 @@ public class Treasurer {
             switch (choice) {
 
                 case "1":
-                    createQuotaForMember();
+                    printAllQuotas();
                     break;
 
                 case "2":
-                    autoCreateQuotasForAllMembers();
-                    System.out.println("Kontingenter er oprettet for alle medlemmer.");
-                    break;
-
-                case "3":
-                    registerPaymentForMember();
-                    break;
-
-                case "4":
-                    searchForQuota();
-                    break;
-
-                case "5":
                     showAllPaidQuotas();
                     break;
 
-                case "6":
-                    showAllUnpaidQuotas();
-                    break;
-
-                case "7":
+                case "3":
                     showUnpaidMembers();
                     break;
 
-                case "8":
-                    printAllQuotas();
-                    break;
-                case "9":
+                case "4":
                     showAllLateUnpaidQuotas();
                     break;
+
+                case "5":
+                    searchForQuota();
+                    break;
+
+                case "6":
+                    createQuotaForMember();
+                    break;
+
+                case "7":
+                    registerPaymentForMember();
+                    break;
+
 
                 case "x":
                     System.out.println("Går tilbage til startmenu...");
@@ -128,11 +120,6 @@ public class Treasurer {
         }
         fh.saveQuotas(quotas);
     }
-
-
-    //TODO restance metode:
-    //hvis isPaid = false og yearlyFeeDate er i datid = isMember (NO)
-    //Brug næsten samme logik som fra "CheckForChangesInYearlyFees"
 
 
     public Quota createQuotaForMember() {
@@ -194,12 +181,6 @@ public class Treasurer {
     }
 
 
-    public void showAllUnpaidQuotas() {
-        System.out.println("---Ubetalte kontigent--- ");
-        for (Quota u : qc.getUnpaidPayments()){
-            System.out.println(u);
-        }
-    }
 
    public void searchForQuota() {
         Scanner scanner = new Scanner (System.in);
