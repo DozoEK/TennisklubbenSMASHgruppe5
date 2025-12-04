@@ -371,14 +371,34 @@ public class Chairman {
         System.out.println(selectedMember);
     }
 
+
     private void editName(Member member, Scanner scanner) {
-        System.out.print("Indtast nyt navn (nuværende: " + member.getMemberName() + "): ");
-        member.setMemberName(scanner.nextLine());
+        while (true) {
+            System.out.print("Indtast nyt navn (nuværende: " + member.getMemberName() + "): ");
+            String input = scanner.nextLine();
+            try {
+                validator.validateName(input);
+                member.setMemberName(input);
+                break;
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
     }
 
     private void editGender(Member member, Scanner scanner) {
-        System.out.print("Indtast køn ('MALE' / 'FEMALE') (nuværende: " + member.getGenderOfMember() + "): ");
-        member.setGenderOfMember(Gender.valueOf(scanner.nextLine().toUpperCase()));
+        while (true) {
+            System.out.print("Indtast køn ('MALE' / 'FEMALE') (nuværende: " + member.getGenderOfMember() + "): ");
+            String input = scanner.nextLine().toUpperCase();
+            try {
+                Gender gender = Gender.valueOf(input);
+                member.setGenderOfMember(gender);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ugyldigt køn! Skriv venligst Male eller Female");
+            }
+        }
     }
 
     private void editDateOfBirth(Member member, Scanner scanner) {
@@ -397,13 +417,34 @@ public class Chairman {
     }
 
     private void editPhoneNumber(Member member, Scanner scanner) {
-        System.out.print("Indtast nyt telefonnummer (nuværende: " + member.getPhoneNumber() + "): ");
-        member.setPhoneNumber(Integer.parseInt(scanner.nextLine()));
+        while (true) {
+            System.out.print("Indtast nyt telefonnummer (nuværende: " + member.getPhoneNumber() + "): ");
+            String input = scanner.nextLine();
+            try {
+                validator.validatePhone(input);
+                int newnNumber = validator.validatePhoneNumberLength(input);
+                member.setPhoneNumber(newnNumber);
+                break;
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
     }
 
     private void editCompetitive(Member member, Scanner scanner) {
-        System.out.print("Er medlemmet konkurrencespiller? (true/false) (nuværende: " + member.getCompetitivePlayer() + "): ");
-        member.setCompetitivePlayer(Boolean.parseBoolean(scanner.nextLine()));
+        while (true) {
+            System.out.print("Er medlemmet konkurrencespiller?  (nuværende: " + member.getCompetitivePlayer() + "): ");
+            String input = scanner.nextLine();
+
+            try {
+                boolean value = validator.validateYesOrNo(input);
+                member.setCompetitivePlayer(value);
+                break;
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     private void editDiscipline(Member member, Scanner scanner) {
@@ -430,8 +471,18 @@ public class Chairman {
     }
 
     private void editActiveMembership(Member member, Scanner scanner) {
-        System.out.print("Er medlemskabet aktivt? (true/false) (nuværende: " + member.getActiveMembership() + "): ");
-        member.setActiveMembership(Boolean.parseBoolean(scanner.nextLine()));
+        while (true) {
+            System.out.print("Er medlemskabet aktivt?  (nuværende: " + member.getActiveMembership() + "): ");
+
+            String input = scanner.nextLine();
+            try {
+                boolean value = validator.validateYesOrNo(input);
+                member.setActiveMembership(value);
+                break;
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     private void recalcMembership(Member member) {
