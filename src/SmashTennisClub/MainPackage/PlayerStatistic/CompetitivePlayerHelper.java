@@ -273,4 +273,40 @@ public class CompetitivePlayerHelper {
         System.out.println("--------------------------------------------------------------------------");
     }
 
+
+
+   public void printAllCompetitivePlayerStats() {
+        ArrayList<CompetitivePlayerStats> statsList = cpsr.readFromFile();
+
+        if (statsList.isEmpty()) {
+            System.out.println("Ingen CompetitivePlayerStats fundet.");
+            return;
+        }
+
+        System.out.println("\n===== ALLE COMPETITIVE PLAYER STATS =====");
+
+        System.out.printf("%-5s | %-20s | %-10s | %-12s | %-12s | %-12s | %-12s | %-15s | %-15s | %-15s | %-15s%n",
+                "ID", "Navn", "Køn", "Medlemstype", "Disciplin", "Sets Spillet", "Sets Vundet",
+                "Set Winrate", "Turneringer", "Turneringssejre", "Genn. Placering");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+        for (CompetitivePlayerStats stats : statsList) {
+            System.out.printf("%-5d | %-20s | %-10s | %-12s | %-12s | %-12d | %-12d | %-15.2f | %-15d | %-15d | %-15.2f%n",
+                    stats.getMemberId(),
+                    stats.getMemberName(),
+                    stats.getGender(),
+                    stats.getMemberType(),
+                    stats.getDisciplineType(),
+                    stats.getTotalSetsPlayed(),
+                    stats.getTotalSetsWon(),
+                    stats.getSetWinRate(),
+                    stats.getTournamentCount(),
+                    stats.getTournamentWins(),
+                    stats.getAvgTournamentPlacement());
+        }
+
+
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    }
+
 }

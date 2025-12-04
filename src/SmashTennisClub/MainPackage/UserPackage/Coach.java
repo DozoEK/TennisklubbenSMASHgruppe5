@@ -41,15 +41,16 @@ ValidationInterface validator = new ValidationMethods();
             System.out.println("\n===== SMASH TENNIS CLUB | COACH MENU =====");
             System.out.println("1. Vis alle konkurrencespillere");
             System.out.println("2. Top 5 spillere");
+            System.out.println("3. Vis alt spillerstatistik");
             System.out.println();
-            System.out.println("3. Vis alle Kampregistreringer");
-            System.out.println("4. Søg Kampregistrering (via medlems ID / medlems navn)");
-            System.out.println("5. Søg Kampregistrering (via Kampregistrerings-ID)");
-            System.out.println("6. Opret Kampregistrering");
-            System.out.println("7. Redigér Kampregistrering");
-            System.out.println("8. Slet Kampregistrering");
+            System.out.println("4. Vis alle Kampregistreringer");
+            System.out.println("5. Søg Kampregistrering (via medlems ID / medlems navn)");
+            System.out.println("6. Søg Kampregistrering (via Kampregistrerings-ID)");
+            System.out.println("7. Opret Kampregistrering");
+            System.out.println("8. Redigér Kampregistrering");
+            System.out.println("9. Slet Kampregistrering");
             System.out.println();
-            System.out.println("9. Opret spiller statistik (for medlem)");
+            System.out.println("10. Opret spiller statistik (for medlem)");
             System.out.println();
             System.out.println("('x' for afslut menu || 'exit' for afslut program)");
             System.out.print("Vælg en funktion (1-9): ");
@@ -67,30 +68,34 @@ ValidationInterface validator = new ValidationMethods();
                     break;
 
                 case "3":
-                    showAllPlayerEntry();
+                    cph.printAllCompetitivePlayerStats();
                     break;
 
                 case "4":
-                    searchForPlayerEntryByMemberInfo();
+                    showAllPlayerEntry();
                     break;
 
                 case "5":
-                    searchForPlayerEntry();
+                    searchForPlayerEntryByMemberInfo();
                     break;
 
                 case "6":
-                    createPlayerEntry(scanner);
+                    searchForPlayerEntry();
                     break;
 
                 case "7":
-                    editPlayerEntry();
+                    createPlayerEntry(scanner);
                     break;
 
                 case "8":
-                    deletePlayerEntry();
+                    editPlayerEntry();
                     break;
 
                 case "9":
+                    deletePlayerEntry();
+                    break;
+
+                case "10":
                     Member member = uhc.searchForMember();
                     if (member != null) {
                         cph.createStatsForSingleCompetitiveMember(member);
