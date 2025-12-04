@@ -52,7 +52,7 @@ ValidationInterface validator = new ValidationMethods();
             System.out.println("('x' for afslut menu || 'exit' for afslut program)");
             System.out.print("Vælg en funktion (1-9): ");
 
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().trim();
 
             switch (choice) {
 

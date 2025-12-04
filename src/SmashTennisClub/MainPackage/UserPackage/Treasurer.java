@@ -257,10 +257,15 @@ public class Treasurer {
 
         System.out.println("\n --- Medlemmer der mangler at betale ---");
 
-        System.out.printf("%-10s | %-20s |   %-10s | %-12s%n", "MemberID", "Name", "Amount", "DueDate");
+        System.out.printf("%-10s | %-20s |   %-10s | %-12s%n", "MedlemsID", "Navn", "Beløb", "Forfaldsdato");
         System.out.println("---------------------------------------------------------------");
 
+        double totalAmount = 0;
+
         for (Quota quota : unpaidQuotas) {
+            double price = quota.getYearlyMembershipFee().getPrice();
+            totalAmount += price;
+
             System.out.printf(
                     "%-10d | %-20s | %-10.2f kr | %-12s%n",
                     quota.getMemberId(),
@@ -272,6 +277,7 @@ public class Treasurer {
 
         System.out.println();
         System.out.println("Total antal ubetalte kontingenter: " + unpaidQuotas.size());
+        System.out.printf("Total beløb: %.2f kr%n", totalAmount);
         System.out.println("---------------------------------------------------------------");
     }
 
@@ -289,10 +295,15 @@ public class Treasurer {
         System.out.println("\n --- Medlemmer i restance ---");
 
         System.out.printf("%-10s | %-20s | %-12s | %-15s | %-15s |%n",
-                "MemberID", "Name", "Amount", "DueDate", "PaymentDate");
+                "MedlemsID", "Navn", "Beløb", "Forfaldsdato", "Betalingsdato ");
         System.out.println("--------------------------------------------------------------------------------");
 
+        double totalAmount = 0;
+
         for (Quota quota : lateUnpaidQuotas) {
+            double price = quota.getYearlyMembershipFee().getPrice();
+            totalAmount += price;
+
             System.out.printf(
                     "%-10d | %-20s | %-10.2f kr | %-15s | %-15s |%n",
                     quota.getMemberId(),
@@ -305,6 +316,7 @@ public class Treasurer {
 
         System.out.println();
         System.out.println("Total antal ubetalte kontingenter: " + lateUnpaidQuotas.size());
+        System.out.printf("Total beløb: %.2f kr%n", totalAmount);
         System.out.println("--------------------------------------------------------------------------------");
     }
 
