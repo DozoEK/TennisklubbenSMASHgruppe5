@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Coach {
-ValidationInterface validator = new ValidationMethods();
+    ValidationInterface validator = new ValidationMethods();
 
     private ArrayList<Member> members;
 
@@ -25,6 +25,8 @@ ValidationInterface validator = new ValidationMethods();
         this.members = members;
     }
 
+    PlayerEntryReader playerEntryReader = new PlayerEntryReader();
+    ArrayList<PlayerEntry> playerEntries = playerEntryReader.readFromFile();
 
 
     public void coachMenu() {
@@ -53,7 +55,7 @@ ValidationInterface validator = new ValidationMethods();
             System.out.println("10. Opret spiller statistik (for medlem)");
             System.out.println();
             System.out.println("('x' for afslut menu || 'exit' for afslut program)");
-            System.out.print("Vælg en funktion (1-9): ");
+            System.out.print("Vælg en funktion (1-10): ");
 
             String choice = scanner.nextLine().trim();
 
@@ -119,9 +121,6 @@ ValidationInterface validator = new ValidationMethods();
     }
 
 
-
-
-
     public void showAllCompetetivePlayers() {
         MemberReader mr = new MemberReader();
         ArrayList<Member> members = mr.readFromFile();
@@ -142,10 +141,6 @@ ValidationInterface validator = new ValidationMethods();
             System.out.println("Ingen konkurrencespillere fundet.");
         }
     }
-
-
-
-
 
 
     public void deletePlayerEntry() {
@@ -194,7 +189,6 @@ ValidationInterface validator = new ValidationMethods();
     }
 
 
-
     public void editPlayerEntry() {
         PlayerEntryReader per = new PlayerEntryReader();
         PlayerEntryWriter pew = new PlayerEntryWriter();
@@ -222,119 +216,116 @@ ValidationInterface validator = new ValidationMethods();
         System.out.println("Følgende medlem er valgt til redigering: " + playerEntryToEdit);
 
 
-            boolean editingPlayerEntry = true;
-            while (editingPlayerEntry) {
-                System.out.println("\n--- Rediger PlayerEntry ---");
-                System.out.println("1. Skift kamp type (Træningskamp/Turnering)");
-                System.out.println("2. Spillede sets");
-                System.out.println("3. Vundne sets");
-                System.out.println("4. Turneringsplacering");
-                System.out.println("5. Dato for PlayerEntry");
-                System.out.println("0. Afslut og gem ændringer");
+        boolean editingPlayerEntry = true;
+        while (editingPlayerEntry) {
+            System.out.println("\n--- Rediger PlayerEntry ---");
+            System.out.println("1. Skift kamp type (Træningskamp/Turnering)");
+            System.out.println("2. Spillede sets");
+            System.out.println("3. Vundne sets");
+            System.out.println("4. Turneringsplacering");
+            System.out.println("5. Dato for PlayerEntry");
+            System.out.println("0. Afslut og gem ændringer");
 
-                System.out.print("Vælg venligst hvilken information du ønsker at ændre: ");
-                int choice = scanner.nextInt();
-                scanner.nextLine();
+            System.out.print("Vælg venligst hvilken information du ønsker at ændre: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
 
-                switch (choice) {
-                    case 1 -> {
-                        if (playerEntryToEdit.isTournamentMatch()) {
-                            System.out.println("Den nuværende kamp type er: Turnering");
-                        } else {
-                            System.out.println("Den nuværende kamp type er: Træningskamp");
-                        }
-                        boolean changeType;
+            switch (choice) {
+                case 1 -> {
+                    if (playerEntryToEdit.isTournamentMatch()) {
+                        System.out.println("Den nuværende kamp type er: Turnering");
+                    } else {
+                        System.out.println("Den nuværende kamp type er: Træningskamp");
+                    }
+                    boolean changeType;
 
-                        while (true) {
-                            System.out.print("Ønsker du at ændre kamptypen? (ja/nej): ");
-                            try {
-                                changeType = validator.validateYesOrNo(scanner.nextLine());
-                                break;
-                            } catch (SmashException e) {
-                                System.out.println(e.getMessage());
-                            }
-                        }
-
-                        if (changeType) {
-                            boolean newIsTournament = !playerEntryToEdit.isTournamentMatch();
-                            boolean newIsTraining = !playerEntryToEdit.isTrainingMatch();
-
-                            playerEntryToEdit.setTournamentMatch(newIsTournament);
-                            playerEntryToEdit.setTrainingMatch(newIsTraining);
-
-                            System.out.println("Kamptypen er nu ændret.");
-                        } else {
-                            System.out.println("Kamptypen forbliver uændret.");
+                    while (true) {
+                        System.out.print("Ønsker du at ændre kamptypen? (ja/nej): ");
+                        try {
+                            changeType = validator.validateYesOrNo(scanner.nextLine());
+                            break;
+                        } catch (SmashException e) {
+                            System.out.println(e.getMessage());
                         }
                     }
-                    case 2 -> {
-                        System.out.print("Indtast ny 'Sets Played': ");
-                        int setsPlayed = scanner.nextInt();
-                        scanner.nextLine();
-                        playerEntryToEdit.setSetsPlayed(setsPlayed);
 
-                        if (!playerEntryToEdit.isTournamentMatch()) {
-                            int maxWinningSets;
-                            if (setsPlayed == 3) {
-                                maxWinningSets = 2;
-                            } else {
-                                maxWinningSets = 3;
-                            }
-                            if (playerEntryToEdit.getSetsWon() > maxWinningSets) {
-                                playerEntryToEdit.setSetsWon(maxWinningSets);
-                            }
-                            playerEntryToEdit.setMatchWinner(playerEntryToEdit.getSetsWon() >= maxWinningSets);
-                        }
+                    if (changeType) {
+                        boolean newIsTournament = !playerEntryToEdit.isTournamentMatch();
+                        boolean newIsTraining = !playerEntryToEdit.isTrainingMatch();
+
+                        playerEntryToEdit.setTournamentMatch(newIsTournament);
+                        playerEntryToEdit.setTrainingMatch(newIsTraining);
+
+                        System.out.println("Kamptypen er nu ændret.");
+                    } else {
+                        System.out.println("Kamptypen forbliver uændret.");
                     }
-                    case 3 -> {
-                        int setsPlayed = playerEntryToEdit.getSetsPlayed();
-                        int maxWinningSets = (!playerEntryToEdit.isTournamentMatch()) ? ((setsPlayed == 3) ? 2 : 3) : setsPlayed;
-
-                        System.out.print("Indtast ny Sets Won (max " + maxWinningSets + "): ");
-                        int setsWon = scanner.nextInt();
-                        scanner.nextLine();
-
-                        if (setsWon > maxWinningSets) {
-                            System.out.println("Antal vundne sæt kan ikke overstige max (" + maxWinningSets + "). Sætter til max.");
-                            setsWon = maxWinningSets;
-                        }
-
-                        playerEntryToEdit.setSetsWon(setsWon);
-
-                        if (!playerEntryToEdit.isTournamentMatch()) {
-                            playerEntryToEdit.setMatchWinner(setsWon >= maxWinningSets);
-                        }
-                    }
-                    case 4 -> {
-                        System.out.print("Indtast ny turnerings rangering: ");
-                        int placement = scanner.nextInt();
-                        scanner.nextLine();
-                        playerEntryToEdit.setTournamentPlacement(placement);
-
-                        if (playerEntryToEdit.isTournamentMatch()) {
-                            if (placement == 1) {
-                                playerEntryToEdit.setMatchWinner(true);
-                            } else {
-                                playerEntryToEdit.setMatchWinner(false);
-                            }
-                        }
-                    }
-                    case 5 -> {
-                        System.out.print("Indtast ny PlayerEntry dato (Format: YYYY-MM-DD): ");
-                        String dateStr = scanner.nextLine();
-                        playerEntryToEdit.setPlayerEntryDate(java.time.LocalDate.parse(dateStr));
-                    }
-                    case 0 -> editingPlayerEntry = false;
-                    default -> System.out.println("Ugyldigt valg, prøv igen!");
                 }
-            }
+                case 2 -> {
+                    System.out.print("Indtast ny 'Sets Played': ");
+                    int setsPlayed = scanner.nextInt();
+                    scanner.nextLine();
+                    playerEntryToEdit.setSetsPlayed(setsPlayed);
 
-            pew.writeToFile(playerEntries);
-            System.out.println("Entry opdateret: " + playerEntryToEdit);
+                    if (!playerEntryToEdit.isTournamentMatch()) {
+                        int maxWinningSets;
+                        if (setsPlayed == 3) {
+                            maxWinningSets = 2;
+                        } else {
+                            maxWinningSets = 3;
+                        }
+                        if (playerEntryToEdit.getSetsWon() > maxWinningSets) {
+                            playerEntryToEdit.setSetsWon(maxWinningSets);
+                        }
+                        playerEntryToEdit.setMatchWinner(playerEntryToEdit.getSetsWon() >= maxWinningSets);
+                    }
+                }
+                case 3 -> {
+                    int setsPlayed = playerEntryToEdit.getSetsPlayed();
+                    int maxWinningSets = (!playerEntryToEdit.isTournamentMatch()) ? ((setsPlayed == 3) ? 2 : 3) : setsPlayed;
+
+                    System.out.print("Indtast ny Sets Won (max " + maxWinningSets + "): ");
+                    int setsWon = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (setsWon > maxWinningSets) {
+                        System.out.println("Antal vundne sæt kan ikke overstige max (" + maxWinningSets + "). Sætter til max.");
+                        setsWon = maxWinningSets;
+                    }
+
+                    playerEntryToEdit.setSetsWon(setsWon);
+
+                    if (!playerEntryToEdit.isTournamentMatch()) {
+                        playerEntryToEdit.setMatchWinner(setsWon >= maxWinningSets);
+                    }
+                }
+                case 4 -> {
+                    System.out.print("Indtast ny turnerings rangering: ");
+                    int placement = scanner.nextInt();
+                    scanner.nextLine();
+                    playerEntryToEdit.setTournamentPlacement(placement);
+
+                    if (playerEntryToEdit.isTournamentMatch()) {
+                        if (placement == 1) {
+                            playerEntryToEdit.setMatchWinner(true);
+                        } else {
+                            playerEntryToEdit.setMatchWinner(false);
+                        }
+                    }
+                }
+                case 5 -> {
+                    System.out.print("Indtast ny PlayerEntry dato (Format: YYYY-MM-DD): ");
+                    String dateStr = scanner.nextLine();
+                    playerEntryToEdit.setPlayerEntryDate(java.time.LocalDate.parse(dateStr));
+                }
+                case 0 -> editingPlayerEntry = false;
+                default -> System.out.println("Ugyldigt valg, prøv igen!");
+            }
         }
 
-
-
+        pew.writeToFile(playerEntries);
+        System.out.println("Entry opdateret: " + playerEntryToEdit);
+    }
 
 
     public void showAllPlayerEntry() {
@@ -386,7 +377,6 @@ ValidationInterface validator = new ValidationMethods();
     }
 
 
-
     public PlayerEntry searchForPlayerEntry() {
         PlayerEntryReader per = new PlayerEntryReader();
         Scanner input = new Scanner(System.in);
@@ -410,8 +400,6 @@ ValidationInterface validator = new ValidationMethods();
     public PlayerEntry createPlayerEntry(Scanner scanner) {
         ValidationInterface validator = new ValidationMethods();
         FileHandler fileHandler = new FileHandler();
-        PlayerEntryReader playerEntryReader = new PlayerEntryReader();
-        ArrayList<PlayerEntry> playerEntries = playerEntryReader.readFromFile();
         UserHelperClass userHelper = new UserHelperClass(members);
 
 
@@ -422,7 +410,6 @@ ValidationInterface validator = new ValidationMethods();
             }
         }
         int playerEntryId = lastUsedPlayerEntryId + 1;
-
 
 
         System.out.println("--- Opret PlayerEntry ---");
@@ -456,7 +443,7 @@ ValidationInterface validator = new ValidationMethods();
         if (isTournament) {
             while (true) {
                 System.out.println("Indtast medlemmets turnerings placeringen: ");
-                try{
+                try {
                     tournamentPlacement = validator.validateInt(scanner.nextLine());
                     matchWinner = (tournamentPlacement == 1);
                     break;
@@ -467,95 +454,79 @@ ValidationInterface validator = new ValidationMethods();
         }
 
 
-
         DisciplineType playerEntryDiscipline = null;
-      while (true) {
-          System.out.println("Indtast diciplin type:");
-          for (DisciplineType d : DisciplineType.values()) {
-              System.out.print(d + " - ");
-          }
-          System.out.println();
-          try{
-              playerEntryDiscipline = DisciplineType.valueOf(scanner.nextLine().toUpperCase());
-              break;
-          } catch (IllegalArgumentException e) {
-              System.out.println("Ugyldig diciplin type!");
-          }
-      }
+        while (true) {
+            System.out.println("Indtast diciplin type:");
+            for (DisciplineType d : DisciplineType.values()) {
+                System.out.print(d + " - ");
+            }
+            System.out.println();
+            try {
+                playerEntryDiscipline = DisciplineType.valueOf(scanner.nextLine().toUpperCase());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ugyldig diciplin type!");
+            }
+        }
 
-      LocalDate playerEntryDate;
-      while(true) {
-          System.out.print("Indtast session dato (ÅÅÅÅ-MM-DD): ");
-          try {
-              playerEntryDate = validator.validateNoFutureDate(scanner.nextLine());
-              break;
-          } catch (SmashException e) {
-              System.out.println(e.getMessage());
-          }
-      }
+        LocalDate playerEntryDate;
+        while (true) {
+            System.out.print("Indtast session dato (ÅÅÅÅ-MM-DD): ");
+            try {
+                playerEntryDate = validator.validateNoFutureDate(scanner.nextLine());
+                break;
+            } catch (SmashException e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
 
         int setsPlayed = 0;
-      if (!isTournament)
-       while (true) {
-          System.out.println("Indtast antal spillede sæt: ");
-          try {
-              setsPlayed = validator.validateSetCount(scanner.nextLine());
-              break;
-          } catch (SmashException e) {
-              System.out.println(e.getMessage());
-          }
-      }
-
-      int setsWon = 0;
-      while(true){
-          System.out.println("Indtast hvor mange sæt spilleren har vundet:  ");
-          try{
-              setsWon = validator.validateWonSets(scanner.nextLine(),setsPlayed);
-              break;
-          } catch (SmashException e) {
-              System.out.println(e.getMessage());
-          }
-      }
+        while (true) {
+            System.out.println("Indtast antal spillede sæt: ");
+            if (isTournament == true) {
+                try {
+                    setsPlayed = validator.validateSetCountTournament(scanner.nextLine());
+                    break;
+                } catch (SmashException e) {
+                    System.out.println(e.getMessage());
+                }
+            } else {
+                try {
+                    setsPlayed = validator.validateSetCount(scanner.nextLine());
+                    break;
+                } catch (SmashException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
 
 
+            int setsWon = 0;
+            while (true) {
+                System.out.println("Indtast hvor mange sæt spilleren har vundet:  ");
+                try {
+                    setsWon = validator.validateWonSets(scanner.nextLine(), setsPlayed);
+                    break;
+                } catch (SmashException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
 
-//        int maxWinningSets;
-//        if (setsPlayed == 3) {
-//            maxWinningSets = 2;
-//        } else {
-//            maxWinningSets = 3;
-//        }
-//
-//        int setsWon = -1;
-//        if (isTournament == true) {
-//            System.out.println("Indtast hvor mange sæt spilleren har vundet: ");
-//            setsWon = scanner.nextInt();
-//            scanner.nextLine();
-//
-//        } else while (setsWon < 0 || setsWon > maxWinningSets) {
-//            System.out.print("Indtast antal vundne sæt: ");
-//            setsWon = scanner.nextInt();
-//            scanner.nextLine();
-//
-//            if (setsWon < 0 || setsWon > maxWinningSets) {
-//                System.out.println("Antal vundne sæt kan ikke være negativt eller større end spillede sæt!");
-//            }
-//            matchWinner = setsWon >= maxWinningSets;
-//        }
+
+            PlayerEntry playerEntry = new PlayerEntry(playerEntryId, memberId, memberName, isTrainingMatch, isTournament,
+                    tournamentPlacement, playerEntryDiscipline, playerEntryDate, setsPlayed, setsWon, matchWinner);
+
+
+            playerEntries.add(playerEntry);
+            fileHandler.savePlayerEntries(playerEntries);
+
+            System.out.println("\nFølgende PlayerEntry er oprettet og gemt til CSV: ");
+            System.out.println(playerEntry);
+
+            return playerEntry;
 
 
 
-        PlayerEntry playerEntry = new PlayerEntry(playerEntryId, memberId, memberName, isTrainingMatch, isTournament,
-                tournamentPlacement, playerEntryDiscipline, playerEntryDate, setsPlayed, setsWon, matchWinner);
-
-
-        playerEntries.add(playerEntry);
-        fileHandler.savePlayerEntries(playerEntries);
-
-        System.out.println("\nFølgende PlayerEntry er oprettet og gemt til CSV: ");
-        System.out.println(playerEntry);
-
-        return playerEntry;
     }
 }

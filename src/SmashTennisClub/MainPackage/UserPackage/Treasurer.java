@@ -268,6 +268,12 @@ public class Treasurer {
             return;
         }
 
+        unpaidQuotas.sort((q1, q2) -> {
+            if (q1.getYearlyFeeDate() == null) return 1;
+            if (q2.getYearlyFeeDate() == null) return -1;
+            return q1.getYearlyFeeDate().compareTo(q2.getYearlyFeeDate());
+        });
+
         System.out.println("\n --- Medlemmer der mangler at betale ---");
 
         System.out.printf("%-10s | %-20s |   %-10s | %-12s%n", "MedlemsID", "Navn", "Beløb", "Forfaldsdato");

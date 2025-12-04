@@ -15,9 +15,11 @@ import java.util.Scanner;
 
 public class UserHelperClass {
     private ArrayList<Member> members;
+    private QuotaController qc;
 
     public UserHelperClass(ArrayList<Member> members) {
         this.members = members;
+        this.qc = new QuotaController(members);
     }
 
 
@@ -178,23 +180,18 @@ public class UserHelperClass {
 
 
     public void autoCheckAllQuotasForChangeInYearlyFeeDate() {
-        MemberReader memberReader = new MemberReader();
-        ArrayList<Member> members = memberReader.readFromFile();
 
         for (Member member : members) {
             checkForChangesInYearlyFeeDate(member.getMemberId());
         }
-        System.out.println("(No new quota needed for any members)");
+        System.out.println("(autoCheckAllQuotasForChangeInYearlyFeeDate: completed)");
     }
 
 
     public void checkForChangesInYearlyFeeDate(int memberId) {
-        QuotaReader qr = new QuotaReader();
-        ArrayList<Quota> quotas = qr.readFromFile();
-        QuotaController qc = new QuotaController(members);
-
         ArrayList<Quota> memberQuotas = new ArrayList<>();
-        for (Quota q : quotas) {
+
+        for (Quota q : qc.getAllPayments()) {
             if (q.getMemberId() == memberId) {
                 memberQuotas.add(q);
             }
@@ -202,9 +199,10 @@ public class UserHelperClass {
 
         if (memberQuotas.isEmpty()) {
             System.out.println("No quotas found for member " + memberId);
+            qc.logicForCreateQuotaForMember(memberId);
             return;
         }
-        memberQuotas.sort(Comparator.comparing(Quota::getActualDateOfPayment, Comparator.nullsFirst(Comparator.naturalOrder())).reversed());
+        memberQuotas.sort(Comparator.comparing(Quota::getActualDateOfPayment, Comparator.nullsLast(Comparator.naturalOrder())).reversed());
         Quota latest = memberQuotas.get(0);
 
 

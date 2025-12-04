@@ -27,6 +27,7 @@ public interface ValidationInterface {
  int validateInt (String input) throws SmashException;
 
  int validateSetCount(String input) throws SmashException;
+ int validateSetCountTournament(String input) throws SmashException;
  int validateWonSets (String input, int totalSets) throws SmashException;
 
 

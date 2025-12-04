@@ -12,15 +12,18 @@ import java.util.ArrayList;
 
 public class QuotaController {
 
+    LocalDate today = LocalDate.now();
 
     private ArrayList<Member> members;
+    private ArrayList<Quota> quotas;
 
     public QuotaController(ArrayList<Member> members) {
         this.members = members;
-    }
 
-    QuotaReader reader = new QuotaReader();
-    ArrayList<Quota> quotas = reader.readFromFile();
+
+        QuotaReader reader = new QuotaReader();
+        this.quotas = reader.readFromFile();
+    }
 
 
     public ArrayList<Quota> getAllPayments() {
@@ -30,7 +33,8 @@ public class QuotaController {
     public ArrayList<Quota> getUnpaidPayments() {
         ArrayList<Quota> paymentResult = new ArrayList<>();
         for (Quota quota : quotas) {
-            if (quota.getIsPaid() == false)  paymentResult.add(quota);
+            if (quota.getIsPaid() == false && quota.getActualDateOfPayment().isAfter(today))
+                paymentResult.add(quota);
         }
         return paymentResult;
     }
@@ -41,7 +45,6 @@ public class QuotaController {
         ArrayList<Quota> quotas = reader.readFromFile();
 
 
-        LocalDate today = LocalDate.now();
         for (Quota quota : quotas) {
             if (quota.getIsPaid() == false && quota.getActualDateOfPayment().isBefore(today) && (quota.getYearlyFeeDate() != quota.getActualDateOfPayment()))
                 lateUnpaidQuotas.add(quota);
@@ -61,9 +64,7 @@ public class QuotaController {
 
     public Quota logicForCreateQuotaForMember(int memberId) {
         FileHandler fh = new FileHandler();
-        QuotaReader qr = new QuotaReader();
         UserHelperClass uhc = new UserHelperClass(members);
-        ArrayList<Quota> quotas = qr.readFromFile();
 
         int lastUsedQuotaId = 0;
         for (Quota quota : quotas) {
@@ -81,19 +82,20 @@ public class QuotaController {
         boolean isPaid = false;
 
         LocalDate yearlyFeeDate = LocalDate.now().plusYears(1);
-        LocalDate actualDateOfPayment = yearlyFeeDate;
+        LocalDate actualDateOfPayment = null;
 
 
-        Quota quota = new Quota(quotaId, memberId, memberName, yearlyMembershipFee,
+        Quota newQuota = new Quota(quotaId, memberId, memberName, yearlyMembershipFee,
                 isPaid, yearlyFeeDate, actualDateOfPayment);
 
-        quotas.add(quota);
+        quotas.add(newQuota);
         fh.saveQuotas(quotas);
 
+        System.out.println();
         System.out.println("Følgende Kontingent er oprettet og gemt til CSV:");
-        System.out.println(quota);
+        System.out.println(newQuota);
 
-        return quota;
+        return newQuota;
     }
 
 

@@ -186,7 +186,7 @@ public class Chairman {
             //competitivePlayer
             boolean competitive = false;
             while (true) {
-                System.out.print("Er medlemmet konkurencespiller? (Indtast: true/false): ");
+                System.out.print("Er medlemmet konkurencespiller?: ");
                 String input = scanner.nextLine();
                 try {
                     competitive = validator.validateYesOrNo(input);

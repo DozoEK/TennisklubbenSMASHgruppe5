@@ -49,6 +49,17 @@ public class ValidationMethods implements ValidationInterface {
         }
     }
 
+
+    @Override
+    public int validateSetCountTournament(String input) throws SmashException {
+        int sets = validateInt(input);
+        if (sets <= 0 || sets > 1000) {
+            throw new SmashException("Antal sets må ikke være negativ eller over 1000!");
+        }
+        return sets;
+    }
+
+
     @Override
     public int validateSetCount(String input) throws SmashException {
         int sets = validateInt(input);
@@ -63,7 +74,7 @@ public class ValidationMethods implements ValidationInterface {
         int won = validateInt(input);
 
         if (won < 0) {
-            throw new SmashException("Vundne sæt kan ikke 0 eller negativt tal.");
+            throw new SmashException("Vundne sæt kan ikke være 0 eller et negativt tal.");
         }
         if (won > totalSets) {
             throw new SmashException("Vundne sæt kan ikke overstige spillet antal sæt!");
